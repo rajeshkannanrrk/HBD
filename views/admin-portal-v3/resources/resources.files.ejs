@@ -1,0 +1,135 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <script src="/resources/angularApps/admin-portal-v3/controllers/resources.files.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="resourcesCtrl as $resourcesCtrl" ng-init="$resourcesCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <button aria-label="add new file" class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %> ng-click="$resourcesCtrl.addNewResource()" <% } %>>
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Add"></i></span>
+                <span class="control-button-label">New</span>
+            </button>
+            <button aria-label="refresh files list" class="control-button" ng-click="$resourcesCtrl.loadData()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+        </div>
+        <div class="data-container">
+            <hb-page-header title="Files"
+                            sub-title-line1="Manage images and files that can be referenced from custom scenarios."
+                            learn-more="https://aka.ms/HealthBotDocs/files"></hb-page-header>
+            <div class="text-center" style="padding: 150px" ng-if="$resourcesCtrl.resources.length === 0">
+                No files were uploaded.
+                <% if (isSysAdmin || isAdmin || isEditor) { %>
+                    <button class="hb-btn hb-btn-link" style="padding: 0" ng-click="$resourcesCtrl.addNewResource()">Upload a new file</button>
+                <% } %>
+            </div>
+            <table aria-label="files"
+                   class="table table-striped table-bordered"
+                   ng-if="$resourcesCtrl.resources.length > 0">
+                <tr>
+                    <th>Name</th>
+                    <th>Preview</th>
+                    <th width="100px" style="width: 100px"></th>
+                </tr>
+                <tr ng-repeat="resource in $resourcesCtrl.resources">
+                    <td>
+                        {{resource.name}}
+                    </td>
+                    <td>
+                        <a aria-label="open file {{resource.name}}" href="{{resource.url}}" target="_blank" class="clickable-text">
+                            <i ng-if="resource.isCode" class="hb-icons hb-icons-FileCode" style="font-size: 40px; cursor: pointer"></i>
+                            <i ng-if="resource.isJS" class="hb-icons hb-icons-JSFile" style="font-size: 40px; cursor: pointer"></i>
+                            <i ng-if="resource.isExcel" class="hb-icons hb-icons-ExcelFile" style="font-size: 40px; cursor: pointer"></i>
+                            <i ng-if="resource.isWord" class="hb-icons hb-icons-WordFile" style="font-size: 40px; cursor: pointer"></i>
+                            <i ng-if="resource.isPdf" class="hb-icons hb-icons-PdfFile" style="font-size: 40px; cursor: pointer"></i>
+                            <img alt="resource image preview" ng-if="resource.isImg" ng-src="{{resource.url}}?ts=<%=new Date().getTime()%>" style="max-width: 40px; max-height: 40px; cursor: pointer">
+                        </a>
+                    </td>
+                    <td class="text-right" style="width: 240px;font-size: 12px">
+                        <% if (isSysAdmin || isAdmin || isEditor) { %>
+                            <button class="hb-btn hb-btn-action"
+                                    aria-label="delete {{resource.name}}"
+                                    title="Delete"
+                                    data-toggle="modal" data-target="#deleteResource" data-backdrop="static"
+                                    ng-click="$resourcesCtrl.showDelete(resource)">
+                                <i class="hb-icons hb-icons-Delete"></i> Delete
+                            </button>
+                        <% } %>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <% if (isAdmin || isSysAdmin || isEditor) { %>
+    <!-- Health Bot Portal New user Drawer -->
+    <div class="drawer" id="newResourceDrawer">
+        <div class="drawer-container">
+            <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$resourcesCtrl.addNewResource('cancel')">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4>Add New Resource</h4>
+            <div class="drawer-main-body">
+                <p class="ng-binding warning">The uploaded resource will have a publicly accessible URL. Do not upload resources that should not be publicly accessible.</p>
+                <div class="data-item">
+                    <div style="position:relative;">
+                        <input type="file" id="resourceToUpload" class='hb-file' name="file_source" size="40" onchange='$("#upload-file-info").html($(this).val().split("\\").pop());'>
+                        <button aria-label="select file" type="button" class='hb-btn hb-btn-primary' ng-click='$resourcesCtrl.browseFile()'>
+                            Browse
+                        </button>
+                        &nbsp;
+                        <span class='hb-file-label' id="upload-file-info"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-buttons">
+                <% if (isSysAdmin || isAdmin || isEditor) { %>
+                <button class="hb-btn hb-btn-primary drawer-button" ng-click="$resourcesCtrl.addNewResource('validate')">Create</button>
+                <% } %>
+                <button class="hb-btn hb-btn-secondary drawer-button" ng-click="$resourcesCtrl.addNewResource('cancel')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="portal-modal">
+        <div id="deleteResource" class="modal fade" role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content" >
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Delete resource
+                        </div>
+                        <div class="content">
+                            <span>Are you sure you want to delete this resource ?</span><br><br>
+                            <div>
+                                <i ng-if="$resourcesCtrl.resourceToDelete.isCode" class="hb-icons hb-icons-FileCode" style="font-size: 40px; cursor: pointer"></i>
+                                <i ng-if="$resourcesCtrl.resourceToDelete.isJS" class="hb-icons hb-icons-JSFile" style="font-size: 40px; cursor: pointer"></i>
+                                <i ng-if="$resourcesCtrl.resourceToDelete.isExcel" class="hb-icons hb-icons-ExcelFile" style="font-size: 40px; cursor: pointer"></i>
+                                <i ng-if="$resourcesCtrl.resourceToDelete.isWord" class="hb-icons hb-icons-WordFile" style="font-size: 40px; cursor: pointer"></i>
+                                <i ng-if="$resourcesCtrl.resourceToDelete.isPdf" class="hb-icons hb-icons-PdfFile" style="font-size: 40px; cursor: pointer"></i>
+                                <img alt="resource image preview" ng-if="$resourcesCtrl.resourceToDelete.isImg" ng-src="{{$resourcesCtrl.resourceToDelete.url}}?ts=<%=new Date().getTime()%>" style="width: 100px; max-height: 400px; cursor: pointer">
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" ng-click="$resourcesCtrl.executeDelete()" data-dismiss="modal">Delete</button>
+                            <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% } %>
+
+</section>
+</body>
+</html>

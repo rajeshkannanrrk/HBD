@@ -1,0 +1,114 @@
+.hb-config-table {
+    font-family: Segoe UI;
+    width: 100%;
+}
+
+.hb-toggle:before {
+    font-size: 13px;
+}
+
+.hb-config-table .hb-cell-1,
+.hb-config-table .hb-cell-2,
+.hb-config-table .hb-cell-3,
+.hb-config-table .hb-cell-4,
+.hb-config-table .hb-cell-5,
+.hb-config-table .hb-cell-6,
+.hb-config-table .hb-cell-7,
+.hb-config-table .hb-cell-8,
+.hb-config-table .hb-cell-9,
+.hb-config-table .hb-cell-10 {
+    display: table-cell;
+    padding: 0 5px;
+    overflow: inherit;
+}
+
+.lang-model-arrow {
+    vertical-align: text-bottom;
+    color: #4A4A4A;
+    width: 30px;
+}
+
+.hb-config-table-row {
+    height: auto !important;
+    border-top: 1px solid #ddd;
+    padding: 5px 0 !important;
+}
+
+.drawer .hb-config-table-row {
+    min-height: 35px !important;
+
+}
+
+.model-name {
+    font-weight: 600;
+    color: #0071c6;
+    margin-bottom: 3px;
+}
+
+.intent-mapping-title {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.intent-mapping-overwrite {
+    padding-left: 15px;
+    font-weight: 100;
+    color: red;
+}
+
+.no-intents-message {
+    font-weight: 200;
+    padding-top: 5px;
+}
+
+
+.intent-mapping span{
+    display: inline-block;
+    height: 25px;
+    float: left;
+}
+
+.intent-mapping .source {
+    width: 220px;
+    line-height: 25px;
+}
+
+.intent-mapping .control-button-icon {
+    width: 20px;
+    line-height: 25px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.intent-mapping .target {
+    width: calc(100% - 240px);
+
+}
+
+.rangeContainer {
+    position: relative;
+}
+
+.slider-value {
+    top: 17px;
+}
+
+.slider, .slider:focus {
+    width: 400px !important;
+}
+
+output {
+    width: auto;
+    margin-top: 5px;
+}
+
+
+.slider.perc:before {
+    content: attr(min) "%";
+
+}
+
+.slider.perc:after {
+    content: attr(max) "%";
+}

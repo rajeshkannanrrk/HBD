@@ -1,0 +1,11 @@
+<div role="option"
+     aria-label="{{match.label}}"
+     ng-if="match.model.stringId !== null" class="string"
+     ng-bind-html="match.label | uibTypeaheadHighlight:query"
+     ng-attr-title="{{match.label}}"></div>
+<div ng-if="match.model.stringId !== null" class="stringId"
+     ng-bind-html=" match.model.stringId | uibTypeaheadHighlight:query"
+     ng-attr-title="{{match.model.stringId }}"></div>
+<div role="option"
+     aria-label="this string doesn't exists yet, click here to add"
+     ng-if="match.model.stringId === null" class="new-string">Click here to add this string</div>

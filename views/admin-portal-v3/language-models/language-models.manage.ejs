@@ -1,0 +1,858 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <%- include('../common/configuration.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/configuration/configuration.common.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/configuration/configuration.hb-config-table.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/configuration/configuration.language-models.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/language-models.manage.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="languageModelsCtrl as $languageModelsCtrl" ng-init="$languageModelsCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <button role="button"
+                    aria-label="refresh language understanding models list"
+                    class="control-button"
+                    ng-click="$languageModelsCtrl.refresh()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+            <% if (isSysAdmin || isAdmin || isEditor) { %>
+            <button role="button"
+                    aria-label="create new language understanding model"
+                    class="control-button"
+                    ng-click="$languageModelsCtrl.openNewModelForm()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Add"></i></span>
+                <span class="control-button-label">New</span>
+            </button>
+            <button role="button"
+                    aria-label="reset language understanding models"
+                    class="control-button"
+                    ng-click="$languageModelsCtrl.reset()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Delete"></i></span>
+                <span class="control-button-label">Reset</span>
+            </button>
+            <% } %>
+        </div>
+        <div class="data-container">
+            <div class="application-data-container">
+                <hb-page-header title="Language models"
+                                sub-title-line1="Create and manage objects that recognize end user intents to trigger scenarios."
+                                learn-more="https://aka.ms/HealthBotDoc/language_models"
+                ></hb-page-header>
+                <div class="hb-config-table">
+                    <div class="hb-config-table-header">
+                        <div class="hb-cell-1">Active</div>
+                        <div class="hb-cell-5">
+                            Model
+                            <hb-info-button label="Language models process end user utterances and output the most likely intent. Each intent is mapped to a built-in or custom scenario that is triggered by the highest scoring intent."></hb-info-button>
+                        </div>
+                        <div class="hb-cell-1">
+                            Type
+                            <hb-info-button label="Builtin models are included with your bot and provide the default mapping to built-in scenarios. You can edit built-in models but they can't be deleted. Custom models are fully configurable models created specifically for your bot instance."></hb-info-button>
+                        </div>
+                        <div class="hb-cell-1">
+                            Method
+                            <hb-info-button label="The recognition method used to understand the end users intention. For natural language understanding use LUIS models. For improved response time use RegEx pattern matching with end user utterances. System language understanding uses proprietary methods that are not exposed or editable."></hb-info-button>
+                        </div>
+                        <div class="hb-cell-2"></div>
+                    </div>
+
+                    <div class="hb-config-table-row ng-scope"
+                         ng-repeat="model in $languageModelsCtrl.builtin_recognizers.list track by $index">
+                        <div class="hb-cell-1">
+                            <button role="switch"
+                                    aria-checked="{{model.enabled ? 'true' : 'false'}}"
+                                    aria-label="active state of model {{model['_convict_alternative'] || $languageModelsCtrl.builtin_recognizers.names[$index]}}"
+                                    class="hb-btn hb-btn-toggle" ng-click="$languageModelsCtrl.toggleEnabled(model, $languageModelsCtrl.builtin_recognizers.names[$index], 'builtin_recognizers')">
+                                    <div ng-class="model.enabled ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off"></div>
+                            </button>
+                        </div>
+                        <div class="hb-cell-5">
+                            <div class="model-name">{{model["_convict_alternative"] || $languageModelsCtrl.builtin_recognizers.names[$index]}}</div>
+                            <div class="intent-mapping" ng-repeat="intent in model.intents track by $index">
+                                <span class="source" title="{{intent}}">{{intent}}</span>
+                                <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                <span class="target">{{$languageModelsCtrl.intent_handler_map[intent].handler.replace('/scenarios/', '')}}</span>
+                            </div>
+                        </div>
+                        <div class="hb-cell-1">Built-in</div>
+                        <div class="hb-cell-1">System</div>
+                        <div class="hb-cell-2">
+                            <button aria-label="edit built-in recognizer {{model['_convict_alternative'] || $languageModelsCtrl.builtin_recognizers.names[$index]}}"
+                                    title="edit"
+                                    class="hb-btn hb-btn-action"
+                                    ng-click="$languageModelsCtrl.openEditModelForm(model, $languageModelsCtrl.builtin_recognizers.names[$index], 'builtin_recognizers')">
+                                <i class="hb-icons hb-icons-Edit"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hb-config-table-row ng-scope"
+                         ng-repeat="model in $languageModelsCtrl.luis_models.list track by $index">
+                        <div class="hb-cell-1">
+                            <button role="switch"
+                                    aria-checked="{{model.enabled ? 'true' : 'false'}}"
+                                    aria-label="active state of model {{$languageModelsCtrl.luis_models.names[$index]}}"
+                                    class="hb-btn hb-btn-toggle" ng-click="$languageModelsCtrl.toggleEnabled(model, $languageModelsCtrl.luis_models.names[$index], 'luis_models')">
+                                <div ng-class="model.enabled ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off"></div>
+                            </button>
+                        </div>
+                        <div class="hb-cell-5">
+                            <div class="model-name">{{$languageModelsCtrl.luis_models.names[$index]}}</div>
+                            <div class="intent-mapping" ng-repeat="intent in model.intents track by $index">
+                                <span class="source" title="{{intent}}">{{intent}}</span>
+                                <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                <span class="target">{{$languageModelsCtrl.intent_handler_map[intent].handler.replace('/scenarios/', '')}}</span>
+                            </div>
+                        </div>
+                        <div class="hb-cell-1">Custom</div>
+                        <div class="hb-cell-1">LUIS</div>
+                        <div class="hb-cell-2">
+                            <button class="hb-btn hb-btn-action"
+                                    aria-label="edit custom LUIS model {{$languageModelsCtrl.luis_models.names[$index]}}"
+                                    title="Edit"
+                                    ng-click="$languageModelsCtrl.openEditModelForm(model, $languageModelsCtrl.luis_models.names[$index], 'luis_models')">
+                                <i class="hb-icons hb-icons-Edit"></i>Edit
+                            </button>
+                            <button class="hb-btn hb-btn-action"
+                                    aria-label="delete custom luis model {{$languageModelsCtrl.luis_models.names[$index]}}"
+                                    title="Delete"
+                                    ng-click="$languageModelsCtrl.deleteModel(model, $languageModelsCtrl.luis_models.names[$index], 'luis_models')">
+                                <i class="hb-icons hb-icons-Delete"></i>Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hb-config-table-row ng-scope"
+                         ng-repeat="model in $languageModelsCtrl.builtin_regexp_recognizers.list track by $index">
+                        <div class="hb-cell-1">
+                            <button role="switch"
+                                    aria-checked="{{model.enabled ? 'true' : 'false'}}"
+                                    aria-label="active state of model {{$languageModelsCtrl.builtin_regexp_recognizers.names[$index]}}"
+                                    class="hb-btn hb-btn-toggle" ng-click="$languageModelsCtrl.toggleEnabled(model, $languageModelsCtrl.builtin_regexp_recognizers.names[$index], 'builtin_regexp_recognizers')">
+                                <div ng-class="model.enabled ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off"></div>
+                            </button>
+                        </div>
+                        <div class="hb-cell-5">
+                            <div class="model-name">{{$languageModelsCtrl.builtin_regexp_recognizers.names[$index]}}</div>
+                            <div class="intent-mapping">
+                                <span class="source" title="{{model.intent}}">{{model.intent}}</span>
+                                <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                <span class="target">{{$languageModelsCtrl.intent_handler_map[model.intent].handler.replace('/scenarios/', '')}}</span>
+                            </div>
+                        </div>
+                        <div class="hb-cell-1">Built-in</div>
+                        <div class="hb-cell-1">RegExp</div>
+                        <div class="hb-cell-2">
+                            <button class="hb-btn hb-btn-action"
+                                    aria-label="edit built-in regular expression model {{$languageModelsCtrl.builtin_regexp_recognizers.names[$index]}}"
+                                    ng-click="$languageModelsCtrl.openEditModelForm(model, $languageModelsCtrl.builtin_regexp_recognizers.names[$index], 'builtin_regexp_recognizers')">
+                                <i class="hb-icons hb-icons-Edit"></i>Edit
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hb-config-table-row ng-scope"
+                         ng-repeat="model in $languageModelsCtrl.custom_regexp_recognizers.list track by $index">
+                        <div class="hb-cell-1">
+                            <button role="switch"
+                                    aria-checked="{{model.enabled ? 'true' : 'false'}}"
+                                    aria-label="active state of model {{$languageModelsCtrl.custom_regexp_recognizers.names[$index]}}"
+                                    class="hb-btn hb-btn-toggle" ng-click="$languageModelsCtrl.toggleEnabled(model, $languageModelsCtrl.custom_regexp_recognizers.names[$index], 'custom_regexp_recognizers')">
+                                <div ng-class="model.enabled ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off"></div>
+                            </button>
+                        </div>
+                        <div class="hb-cell-5">
+                            <div class="model-name">{{$languageModelsCtrl.custom_regexp_recognizers.names[$index]}}</div>
+                            <div class="intent-mapping">
+                                <span class="source" title="{{model.intent}}">{{model.intent}}</span>
+                                <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                <span class="target">{{$languageModelsCtrl.intent_handler_map[model.intent].handler.replace('/scenarios/', '')}}</span>
+                            </div>
+                        </div>
+                        <div class="hb-cell-1">Custom</div>
+                        <div class="hb-cell-1">RegExp</div>
+                        <div class="hb-cell-2">
+                            <button class="hb-btn hb-btn-action"
+                                    aria-label="edit custom regular expression model {{$languageModelsCtrl.custom_regexp_recognizers.names[$index]}}"
+                                    title="Edit"
+                                    ng-click="$languageModelsCtrl.openEditModelForm(model, $languageModelsCtrl.custom_regexp_recognizers.names[$index], 'custom_regexp_recognizers')">
+                                <i class="hb-icons hb-icons-Edit"></i>Edit
+                            </button>
+                            <button class="hb-btn hb-btn-action"
+                                    aria-label="delete custom regular expression model {{$languageModelsCtrl.custom_regexp_recognizers.names[$index]}}"
+                                    title="Delete"
+                                    ng-click="$languageModelsCtrl.deleteModel(model, $languageModelsCtrl.custom_regexp_recognizers.names[$index], 'custom_regexp_recognizers')">
+                                <i class="hb-icons hb-icons-Delete"></i>Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hb-config-table-row ng-scope"
+                         ng-repeat="model in $languageModelsCtrl.qna_recognizers.list track by $index">
+                         <div class="hb-cell-1">
+                            <button role="switch"
+                                    aria-checked="{{model.enabled ? 'true' : 'false'}}"
+                                    aria-label="active state of model {{$languageModelsCtrl.qna_recognizers.names[$index]}}"
+                                    class="hb-btn hb-btn-toggle" ng-click="$languageModelsCtrl.toggleEnabled(model, $languageModelsCtrl.qna_recognizers.names[$index], 'qna_recognizers')">
+                                <div ng-class="model.enabled ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off"></div>
+                            </button>
+                        </div>
+                        <div class="hb-cell-5">
+                            <div class="model-name">{{$languageModelsCtrl.qna_recognizers.names[$index]}}</div>
+                            <div class="intent-mapping">
+                                <span class="source" title="{{model.intent}}">{{model.intent}}</span>
+                                <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                <span class="target">{{$languageModelsCtrl.intent_handler_map[model.intent].handler.replace('/scenarios/', '')}}</span>
+                            </div>
+                        </div>
+                        <div class="hb-cell-1">Custom</div>
+                        <div class="hb-cell-1">QnA Maker</div>
+                        <div class="hb-cell-2">
+                            <button class="hb-btn hb-btn-action"
+                                    aria-label="edit custom regular expression model {{$languageModelsCtrl.qna_recognizers.names[$index]}}"
+                                    title="Edit"
+                                    ng-click="$languageModelsCtrl.openEditModelForm(model, $languageModelsCtrl.qna_recognizers.names[$index], 'qna_recognizers')">
+                                <i class="hb-icons hb-icons-Edit"></i> Edit
+                            </button>
+                            <button class="hb-btn hb-btn-action"
+                                    aria-label="edit custom regular expression model {{$languageModelsCtrl.qna_recognizers.names[$index]}}"
+                                    title="Train and Publish QnA KB"
+                                    ng-if="model.api_key"
+                                    ng-click="$languageModelsCtrl.updateQnAModal(model, $languageModelsCtrl.qna_recognizers.names[$index], 'qna_recognizers')">
+                                <i class="hb-icons hb-icons-Train"></i> Update
+                            </button>
+                            <button class="hb-btn hb-btn-action"
+                                    aria-label="delete custom regular expression model {{$languageModelsCtrl.qna_recognizers.names[$index]}}"
+                                    title="Delete"
+                                    ng-click="$languageModelsCtrl.deleteModel(model, $languageModelsCtrl.qna_recognizers.names[$index], 'qna_recognizers')">
+                                <i class="hb-icons hb-icons-Delete"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal New Language Model Drawer -->
+    <div class="drawer" id="newModelDrawer">
+        <div class="drawer-container">
+            <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$languageModelsCtrl.closeNewModelForm()">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4>New model</h4>
+            <div class="drawer-main-body">
+                <div class="data-item">
+                    <label for="modelName" class="required">Name</label>
+                    <hb-info-button label="A unique internal name for your language model"></hb-info-button>
+                    <input aria-required="true" id="modelName" type="text" class="form-control"
+                           ng-model="$languageModelsCtrl.newModel.name"
+                           ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.name) ? 'red' : ''}">
+                    <span ng-if="$languageModelsCtrl.newModelValidation.name"
+                          role="alert"
+                          class="form-err-message">{{$languageModelsCtrl.newModelValidation.name}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="modelDescription" class="required">Description</label>
+                    <hb-info-button label="An internal description for the model"></hb-info-button>
+                    <input id="modelDescription" aria-required="true" type="text" class="form-control"
+                           ng-model="$languageModelsCtrl.newModel.description"
+                           ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.description) ? 'red' : ''}">
+                    <span ng-if="$languageModelsCtrl.newModelValidation.description"
+                          role="alert"
+                          class="form-err-message">{{$languageModelsCtrl.newModelValidation.description}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="modelMethod" class="required">Method</label>
+                    <hb-info-button label="The recognition method used to understand the end user intention for natural language understanding use LUIS or QnA Maker. For improved response time use RegEx pattern matching with end user utterances."></hb-info-button>
+                    <select id="modelMethod" aria-required="true" class="form-control" ng-model="$languageModelsCtrl.newModel.type" ng-change="$languageModelsCtrl.methodChanged('newModel')">
+                        <option value="luis">LUIS (NLP)</option>
+                        <option value="qna">QnA Maker</option>
+                        <option value="regex">RegEx</option>
+                    </select>
+                </div>
+                <section ng-show="$languageModelsCtrl.newModel.type === 'regex'">
+                    <div class="data-item">
+                        <label for="regularExpression" class="required">Regular Expression</label>
+                        <hb-info-button label="A standard JavaScript RegEx pattern that will be used to match user utterances"></hb-info-button>
+                        <input aria-required="true" id="regularExpression" ng-if="!$languageModelsCtrl.isLocalizationEnabled"
+                               type="text" class="form-control"
+                               placeholder="e.g. /^hello$/"
+                               ng-model="$languageModelsCtrl.newModel.expression['en-us']"
+                               ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.expression) ? 'red' : ''}">
+
+                        <input ng-if="$languageModelsCtrl.isLocalizationEnabled"
+                               type="text"
+                               class="form-control"
+                               id="regularExpression"
+                               placeholder="e.g. /^hello$/"
+                               ng-model="$languageModelsCtrl.newModel.expression"
+                               ng-blur="$languageModelsCtrl.localizedStringOnBlurHandler($languageModelsCtrl.newModel, 'expression')"
+                               uib-typeahead="e as e['en-us'] for e in $languageModelsCtrl.localizedStringSearch($viewValue)"
+                               typeahead-select-on-blur="true"
+                               typeahead-loading="true"
+                               typeahead-show-hint="false"
+                               typeahead-wait-ms="100"
+                               typeahead-editable="true"
+                               typeahead-template-url="/resources/templates/config/config-localized-string-picker.typeahead.html"
+                        ><loadingString class="hb-icons hb-icons-ProgressRing6 hb-icons-spin" ng-class="$languageModelsCtrl.loadingOptions ? 'loading' : ''"></loadingString>
+                        <span ng-if="$languageModelsCtrl.newModelValidation.expression"
+                              role="alert"
+                              class="form-err-message">{{$languageModelsCtrl.newModelValidation.expression}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label id="regexIntentMapping" class="required">Intent mapping</label>
+                        <hb-info-button label="A unique intent that is triggered when an utterance matched the RegEx pattern provided"></hb-info-button>
+                        <table aria-hidden="true" style="width: 100%">
+                            <tr>
+                                <td style="width:calc(50%-10px); padding: 0px !important">
+                                    <input aria-label="intent" id="regexIntent" type="text" class="form-control"
+                                    ng-model="$languageModelsCtrl.newModel.intent"
+                                    ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.intent) ? 'red' : ''}">
+                                </td>
+                                <td style="width:20px">
+                                    <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                </td>
+                                <td style="width:calc(50%-10px); padding: 0px !important">
+                                    <select aria-label="intent {{$languageModelsCtrl.newModel.intent}}, mapping to" class="form-control" ng-model="$languageModelsCtrl.newModel.target">
+                                            <option ng-repeat="target in $languageModelsCtrl.scenarioTriggers track by $index" value="{{$languageModelsCtrl.scenarioIds[$index]}}">{{target || "--- No scenario selected ---"}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <span ng-if="$languageModelsCtrl.newModelValidation.intent"
+                              role="alert"
+                              class="form-err-message">{{$languageModelsCtrl.newModelValidation.intent}}</span>
+                    </div>
+                </section>
+                <section ng-show="$languageModelsCtrl.newModel.type === 'luis'">
+                    <div class="data-item">
+                        <label for="luisRegion" class="required">Region</label>
+                        <hb-info-button label="The region where you LUIS model is located"></hb-info-button>
+                        <select id="luisRegion" aria-required="true" class="form-control" ng-model="$languageModelsCtrl.newModel.region">
+                            <option value="{{region.value}}" ng-repeat="region in $languageModelsCtrl.luisRegions">{{region.name}}</option>
+                        </select>
+                    </div>
+                    <div class="data-item">
+                        <label for="luisAppId" class="required">Application ID</label>
+                        <hb-info-button label="The application ID can be found in your LUIS.ai management portal and in the endpoint URL for your LUIS application"></hb-info-button>
+                        <input id="luisAppId" type="text" class="form-control"
+                               ng-model="$languageModelsCtrl.newModel.application_id"
+                               ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.application_id) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.newModelValidation.application_id"
+                              role="alert"
+                              class="form-err-message">{{$languageModelsCtrl.newModelValidation.application_id}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="luisSubscriptionKey" class="required">Subscription key</label>
+                        <hb-info-button label="The subscription key (also know as an authoring Key) can be found in your LUIS.ai management portal and in the endpoint URL for your LUIS application"></hb-info-button>
+                        <input id="luisSubscriptionKey" aria-required="true" type="text" class="form-control"
+                               ng-model="$languageModelsCtrl.newModel.subscription_key"
+                               ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.subscription_key) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.newModelValidation.subscription_key"
+                              role="alert"
+                              class="form-err-message">{{$languageModelsCtrl.newModelValidation.subscription_key}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="bingSpeller">Bing Speller subscription key</label>
+                        <input id="bingSpeller" type="text" class="form-control"
+                               ng-model="$languageModelsCtrl.newModel.bing_spell_check_subscription_key">
+                    </div>
+                    <div class="data-item">
+                        <label for="useStagingModel">Use staging model</label>
+                        <hb-info-button label="Use the staging version of your LUIS model. This will set the staging URL parameter in the application endpoint to true."></hb-info-button>
+                        <div>
+                            <button id="useStagingModel" role="switch" aria-checked="{{$languageModelsCtrl.newModel.staging}}" class="hb-btn hb-btn-toggle" ng-click="$languageModelsCtrl.newModel.staging = !$languageModelsCtrl.newModel.staging">
+                                <div ng-class="$languageModelsCtrl.newModel.staging ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off"></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <label for="luisVerbose">Verbose</label>
+                        <hb-info-button label="Use your LUIS model in verbose mode to receive all possible intents and their respective score."></hb-info-button>
+                        <div>
+                            <button id="luisVerbose" role="switch" aria-checked="{{$languageModelsCtrl.newModel.verbose}}" class="hb-btn hb-btn-toggle" ng-click="$languageModelsCtrl.newModel.verbose = !$languageModelsCtrl.newModel.verbose">
+                                <div ng-class="$languageModelsCtrl.newModel.verbose ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off"></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div class="intent-mapping-title">
+                            <span>
+                                <label class="required">Intent mapping</label>
+                                <hb-info-button label="Fetch the intents from your LUIS model. Intents must be unique across all models and each intent can be mapped to a single scenario. The highest scoring intent from all triggered models will invoke the mapped scenario."></hb-info-button>
+                            </span>
+                            <a href="#" ng-click="$languageModelsCtrl.fetchNewLuisModelIntents();">Fetch LUIS intents</a>
+                        </div>
+                        <div class="hb-config-table-row ng-scope"
+                             ng-repeat="intent in $languageModelsCtrl.newModel.intents track by $index">
+                            <div class="hb-cell-5">
+                                <div class="intent-mapping">
+                                    <span class="source" title="{{intent.intent}}">{{intent.intent}}</span>
+                                    <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                    <span class="target">
+                                        <select aria-label="intent {{intent.intent}}, mapping to" class="form-control" ng-model="$languageModelsCtrl.newModel.intents[$index].target.handler">
+                                            <option ng-repeat="scenario in $languageModelsCtrl.scenarioTriggers track by $index" value="{{$languageModelsCtrl.scenarioIds[$index]}}">{{scenario || "--- No scenario selected ---"}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="intent-mapping-overwrite" ng-if="intent.warning">
+                                    {{intent.warning}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="no-intents-message" ng-if="!$languageModelsCtrl.newModel.intents || $languageModelsCtrl.newModel.intents.length === 0">
+                            Fetch LUIS intents to map them to scenarios
+                        </div>
+                    </div>
+                </section>
+                <section ng-show="$languageModelsCtrl.newModel.type === 'qna'">
+                    <div class="data-item">
+                        <label for="QnAHost" class="required">QnA endpoint host</label>
+                        <hb-info-button label="The hostname of the QnA endpoint deployed in your Azure subscription (https://xxxxxxxxxxxxx/qnamaker). This is available on the Settings tab of your knowledge base. Slow responses from your QnA maker endpoint may be ignored."></hb-info-button>
+                        <input id="QnAHost" aria-required="true" type="text" class="form-control"
+                                ng-model="$languageModelsCtrl.newModel.qnaEndpoint"
+                                ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.qnaEndpoint) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.newModelValidation.qnaEndpoint"
+                                role="alert"
+                                class="form-err-message">{{$languageModelsCtrl.newModelValidation.qnaEndpoint}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="knowledgeBaseID" class="required">KnowledgeBase ID</label>
+                        <hb-info-button label="The GUID for your knowledge base."></hb-info-button>
+                        <input id="knowledgeBaseID" aria-required="true" type="text" class="form-control"
+                                ng-model="$languageModelsCtrl.newModel.kbId"
+                                ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.kbId) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.newModelValidation.kbId"
+                                role="alert"
+                                class="form-err-message">{{$languageModelsCtrl.newModelValidation.kbId}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="QnAKey" class="required">QnA endpoint key</label>
+                        <hb-info-button label="Your endpoint authorization key (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx). This is available on the Settings tab of your knowledge base."></hb-info-button>
+                        <input id="QnAKey" aria-required="true" type="text" class="form-control"
+                                ng-model="$languageModelsCtrl.newModel.subscription_key"
+                                ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.subscription_key) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.newModelValidation.subscription_key"
+                                role="alert"
+                                class="form-err-message">{{$languageModelsCtrl.newModelValidation.subscription_key}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label class="required">Confidence Threshold</label>
+                        <hb-info-button label="Your confidence score threshold for this specific model. Answers with confidence below this thershold will not be shown to the end use"></hb-info-button>
+                        <div class="rangeContainer">
+                            <input id="newQnaModelConfidenceThreshold"
+                                   role="range"
+                                   type="range"
+                                   aria-label="Your confidence score threshold"
+                                   class="slider perc"
+                                   min="0"
+                                   max="100"
+                                   ng-model="$languageModelsCtrl.newModel.threshold">
+                            <output class="slider-value" ng-style="{'padding-left': (374 * ($languageModelsCtrl.newModel.threshold - 0) / (100)) + 'px'}"
+                                    aria-hidden="true">{{$languageModelsCtrl.newModel.threshold}}%</output>
+                        </div>
+                        <span ng-if="$languageModelsCtrl.newModelValidation.threshold"
+                                role="alert"
+                                class="form-err-message">{{$languageModelsCtrl.newModelValidation.threshold}}</span>
+                        <span ng-if="($languageModelsCtrl.newModel.threshold - 0) < 20"
+                                role="alert"
+                                class="form-warn-message">Low thresholds may return irrelevant answers</span>
+                    </div>
+                    <div class="data-item">
+                        <a href="#" ng-click="$languageModelsCtrl.testNewQnAConnection();">Validate QnA Maker settings</a>
+                    </div>
+                    <div class="data-item">
+                        <label class="required">Intent mapping</label>
+                        <hb-info-button label="Set a unique intent name and define the triggered scenario. Use the built-in QnA scenario to simply return the top scoring answer. For more advanced flows, map to your custom scenario and receive the raw QnA response as a scenario input argument."></hb-info-button>
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="width:calc(50%-10px); padding: 0px !important">
+                                    <input aria-label="intent" id="QnAIntent" type="text" class="form-control"
+                                    ng-model="$languageModelsCtrl.newModel.intent"
+                                    ng-style="{'border-color': ($languageModelsCtrl.newModelValidation.intent) ? 'red' : ''}">
+                                </td>
+                                <td style="width:20px">
+                                    <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                </td>
+                                <td style="width:calc(50%-10px); padding: 0px !important">
+                                    <select aria-label="intent {{$languageModelsCtrl.newModel.intent}}, mapping to" class="form-control" ng-model="$languageModelsCtrl.defaultQNATarget">
+                                        <option ng-repeat="target in $languageModelsCtrl.scenarioQnaTriggers track by $index" value="{{$languageModelsCtrl.scenarioQnaIds[$index]}}">{{target || "--- No scenario selected ---"}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <span ng-if="$languageModelsCtrl.newModelValidation.intent"
+                                role="alert"
+                                class="form-err-message">{{$languageModelsCtrl.newModelValidation.intent}}</span>
+                    </div>
+                </section>
+            </div>
+            <div class="drawer-buttons">
+                <button class="hb-btn hb-btn-primary drawer-button" ng-click="$languageModelsCtrl.addNewModel()">Create</button>
+                <button class="hb-btn hb-btn-secondary drawer-button" ng-click="$languageModelsCtrl.closeNewModelForm()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal Edit Language Model Drawer -->
+    <div class="drawer" id="editModelDrawer">
+        <div class="drawer-container">
+            <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$languageModelsCtrl.closeEditModelForm()">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4>Edit model</h4>
+            <div class="drawer-main-body">
+                <div class="data-item">
+                    <label>Name</label>
+                    <hb-info-button label="A unique internal name for your language model"></hb-info-button>
+                    <div>{{$languageModelsCtrl.modelToEdit.model["_convict_alternative"] || $languageModelsCtrl.modelToEdit.model.name}}</div>
+                </div>
+                <div class="data-item">
+                    <label>Description</label>
+                    <hb-info-button label="An internal description for the model"></hb-info-button>
+                    <div>{{$languageModelsCtrl.modelToEdit.model.description}}</div>
+                </div>
+                <div class="data-item">
+                    <label>Method</label>
+                    <hb-info-button label="The recognition method used to understand the end users intention. For natural language understanding use LUIS models. For improved response time use RegEx pattern matching with end user utterances."></hb-info-button>
+                    <div>{{$languageModelsCtrl.typeToMethodMap[$languageModelsCtrl.modelToEdit.type]}}</div>
+                </div>
+                <section ng-show="$languageModelsCtrl.modelToEdit.type === 'custom_regexp_recognizers' || $languageModelsCtrl.modelToEdit.type === 'builtin_regexp_recognizers'">
+                    <div class="data-item">
+                        <label id="editRegex" class="required">Regular Expression</label>
+                        <hb-info-button label="A standard JavaScript RegEx pattern that will be used to match user utterances."></hb-info-button>
+                        <input aria-labelledby="editRegex" ng-if="!$languageModelsCtrl.isLocalizationEnabled"
+                               type="text" class="form-control"
+                               placeholder="e.g. /^hello$/"
+                               id="editModelRegex"
+                               ng-model="$languageModelsCtrl.modelToEdit.model.expression['en-us']"
+                               ng-style="{'border-color': ($languageModelsCtrl.existingModelValidation.expression) ? 'red' : ''}">
+                        <input aria-labelledby="editRegex" ng-if="$languageModelsCtrl.isLocalizationEnabled"
+                               type="text"
+                               class="form-control"
+                               placeholder="e.g. /^hello$/"
+                               id="editModelRegex"
+                               ng-model="$languageModelsCtrl.modelToEdit.model.expression"
+                               ng-blur="$languageModelsCtrl.localizedStringOnBlurHandler($languageModelsCtrl.modelToEdit.model, 'expression')"
+                               uib-typeahead="e as e['en-us'] for e in $languageModelsCtrl.localizedStringSearch($viewValue)"
+                               typeahead-select-on-blur="true"
+                               typeahead-loading="true"
+                               typeahead-show-hint="false"
+                               typeahead-wait-ms="100"
+                               typeahead-editable="true"
+                               typeahead-template-url="/resources/templates/config/config-localized-string-picker.typeahead.html"
+                        ><loadingString class="hb-icons hb-icons-ProgressRing6 hb-icons-spin" ng-class="$languageModelsCtrl.loadingOptions ? 'loading' : ''"></loadingString>
+                        <span ng-if="$languageModelsCtrl.existingModelValidation.expression"
+                              role="alert"
+                              class="form-err-message">{{$languageModelsCtrl.existingModelValidation.expression}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label class="required">Intent Mapping</label>
+                        <hb-info-button label="A unique intent that is triggered when an utterance matched the RegEx pattern provided"></hb-info-button>
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="width:calc(50%-10px); padding: 0px !important">
+                                    <div ng-if="$languageModelsCtrl.modelToEdit.type === 'builtin_regexp_recognizers'">{{$languageModelsCtrl.modelToEdit.model.intent}}</div>
+                                    <input type="text" class="form-control" id='editRegexIntent'
+                                    ng-if="$languageModelsCtrl.modelToEdit.type === 'custom_regexp_recognizers'"
+                                    ng-model="$languageModelsCtrl.modelToEdit.model.intent"
+                                    ng-style="{'border-color': ($languageModelsCtrl.existingModelValidation.intent) ? 'red' : ''}">
+                                </td>
+                                <td style="width:20px">
+                                    <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                </td>
+                                <td style="width:calc(50%-10px); padding: 0px !important">
+                                    <select aria-label="intent {{$languageModelsCtrl.modelToEdit.model.intent}}, mapping to" class="form-control" ng-model="$languageModelsCtrl.modelToEdit.model.target">
+                                            <option ng-repeat="target in $languageModelsCtrl.scenarioTriggers track by $index" value="{{$languageModelsCtrl.scenarioIds[$index]}}">{{target || "--- No scenario selected ---"}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <span ng-if="$languageModelsCtrl.existingModelValidation.intent"
+                              role="alert"
+                              class="form-err-message">{{$languageModelsCtrl.existingModelValidation.intent}}</span>
+                    </div>
+                </section>
+                <section ng-show="$languageModelsCtrl.modelToEdit.type === 'luis_models'">
+                    <div class="data-item">
+                        <label for="editLuidRegion">Region</label>
+                        <hb-info-button label="The region where your LUIS model is located"></hb-info-button>
+                        <select id="editLuidRegion" class="form-control" ng-model="$languageModelsCtrl.modelToEdit.model.region">
+                            <option value="{{region.value}}" ng-repeat="region in $languageModelsCtrl.luisRegions">{{region.name}}</option>
+                        </select>
+                    </div>
+                    <div class="data-item">
+                        <label for="editAppId">Application ID</label>
+                        <hb-info-button label="The application ID can be found in your LUIS.ai management portal and in the endpoint URL for your LUIS application"></hb-info-button>
+                        <input id="editAppId" disabled type="text" class="form-control"
+                               ng-model="$languageModelsCtrl.modelToEdit.model.application_id"
+                               ng-style="{'border-color': ($languageModelsCtrl.existingModelValidation.application_id) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.existingModelValidation.application_id"
+                              role="alert"
+                              class="form-err-message">{{$languageModelsCtrl.existingModelValidation.application_id}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="editSubscriptionId">Subscription key</label>
+                        <hb-info-button label="The subscription key (also know as an authoring Key) can be found in your LUIS.ai management portal and in the endpoint URL for your LUIS application"></hb-info-button>
+                        <input id="editSubscriptionId" type="text" class="form-control"
+                               ng-model="$languageModelsCtrl.modelToEdit.model.subscription_key"
+                               ng-style="{'border-color': ($languageModelsCtrl.existingModelValidation.subscription_key) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.existingModelValidation.subscription_key"
+                              role="alert"
+                              class="form-err-message">{{$languageModelsCtrl.existingModelValidation.subscription_key}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="editBingSpeller">Bing Speller subscription key</label>
+                        <input id="editBingSpeller" type="text" class="form-control"
+                               ng-model="$languageModelsCtrl.modelToEdit.model.bing_spell_check_subscription_key">
+                    </div>
+                    <div class="data-item">
+                        <label for="editLuisStaging">Use staging model</label>
+                        <hb-info-button label="Use the staging version of your LUIS model. This will set the staging URL parameter in the application endpoint to true."></hb-info-button>
+                        <div>
+                            <button id="editLuisStaging" role="switch" aria-checked="{{$languageModelsCtrl.modelToEdit.model.staging}}" class="hb-btn hb-btn-toggle" ng-click="$languageModelsCtrl.modelToEdit.model.staging = !$languageModelsCtrl.modelToEdit.model.staging">
+                                <div ng-class="$languageModelsCtrl.modelToEdit.model.staging ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <label for="editLuisVerbose">Verbose</label>
+                        <hb-info-button label="Use your LUIS model in verbose mode to receive all possible intents and their respective score."></hb-info-button>
+                        <div>
+                            <button id="editLuisVerbose" role="switch" aria-checked="{{$languageModelsCtrl.modelToEdit.model.verbose}}" class="hb-btn hb-btn-toggle" ng-click="$languageModelsCtrl.modelToEdit.model.verbose = !$languageModelsCtrl.modelToEdit.model.verbose">
+                                <div ng-class="$languageModelsCtrl.modelToEdit.model.verbose ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div class="intent-mapping-title">
+                            <span>
+                                <label class="required">Intent mapping</label>
+                                <hb-info-button label="Fetch the intents from your LUIS model. Intents must be unique across all models and each intent can be mapped to a single scenario. The highest scoring intent from all triggered models will invoke the mapped scenario."></hb-info-button>
+                            </span>
+                            <a href="#" ng-click="$languageModelsCtrl.fetchExistingLuisModelIntents();">Fetch LUIS intents</a>
+                        </div>
+                        <div class="hb-config-table-row ng-scope"
+                             ng-repeat="intent in $languageModelsCtrl.modelToEdit.model.intents track by $index">
+                            <div class="hb-cell-5">
+                                <div class="intent-mapping">
+                                    <span class="source" title="{{intent.intent}}">{{intent.intent}}</span>
+                                    <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                    <span class="target">
+                                        <select aria-label="intent {{intent.intent}}, mapping to" class="form-control" ng-model="$languageModelsCtrl.modelToEdit.model.intents[$index].target">
+                                            <option ng-repeat="scenario in $languageModelsCtrl.scenarioTriggers track by $index" value="{{$languageModelsCtrl.scenarioIds[$index]}}">{{scenario || "--- No scenario selected ---"}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="intent-mapping-overwrite" ng-if="intent.warning">
+                                    {{intent.warning}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section ng-show="$languageModelsCtrl.modelToEdit.type === 'builtin_recognizers'">
+                    <div class="data-item">
+                        <div class="intent-mapping-title">
+                            <span>
+                                <label class="required">Intent mapping</label>
+                                <hb-info-button label="The highest scoring intent produced by the model will invoke the mapped scenario. Intents must be unique across all models and each intent can be mapped to a single scenario."></hb-info-button>
+                            </span>
+                        </div>
+                        <div class="hb-config-table-row ng-scope"
+                             ng-repeat="intent in $languageModelsCtrl.modelToEdit.model.intents track by $index">
+                            <div class="hb-cell-5">
+                                <div class="intent-mapping">
+                                    <span class="source" title="{{intent.intent}}">{{intent.intent}}</span>
+                                    <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                    <span class="target">
+                                        <select aria-label="intent {{intent.intent}}, mapping to" class="form-control" ng-model="$languageModelsCtrl.modelToEdit.model.intents[$index].target">
+                                            <option ng-repeat="scenario in $languageModelsCtrl.scenarioTriggers track by $index" value="{{$languageModelsCtrl.scenarioIds[$index]}}">{{scenario || "--- No scenario selected ---"}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="intent-mapping-overwrite" ng-if="intent.warning">
+                                    {{intent.warning}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section ng-show="$languageModelsCtrl.modelToEdit.type === 'qna_recognizers'">
+                    <div class="data-item">
+                        <label for="editQnAHost" class="required">QnA endpoint host</label>
+                        <hb-info-button label="The hostname of the QnA endpoint deployed in your Azure subscription (https://xxxxxxxxxxxxx/qnamaker). This is available on the Settings tab of your knowledge base. Slow responses from your QnA maker endpoint may be ignored."></hb-info-button>
+                        <input id="editQnAHost" type="text" class="form-control"
+                                ng-model="$languageModelsCtrl.modelToEdit.model.qnaEndpoint"
+                                ng-style="{'border-color': ($languageModelsCtrl.existingModelValidation.qnaEndpoint) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.existingModelValidation.qnaEndpoint"
+                            role="alert"
+                            class="form-err-message">{{$languageModelsCtrl.existingModelValidation.qnaEndpoint}}
+                        </span>
+                    </div>
+                    <div class="data-item">
+                        <label for="editKnowledgeBaseID" class="required">KnowledgeBase ID</label>
+                        <hb-info-button label="The GUID for your knowledge base."></hb-info-button>
+                        <input id="editKnowledgeBaseID" type="text" class="form-control"
+                                ng-model="$languageModelsCtrl.modelToEdit.model.kbId"
+                                ng-style="{'border-color': ($languageModelsCtrl.existingModelValidation.kbId) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.existingModelValidation.kbId"
+                                role="alert"
+                                class="form-err-message">{{$languageModelsCtrl.existingModelValidation.kbId}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="editQnAKey">QnA endpoint key</label>
+                        <hb-info-button label="Your endpoint authorization key (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx). This is available on the Settings tab of your knowledge base."></hb-info-button>
+                        <input id="editQnAKey" type="text" class="form-control"
+                                ng-model="$languageModelsCtrl.modelToEdit.model.subscription_key"
+                                ng-style="{'border-color': ($languageModelsCtrl.existingModelValidation.subscription_key) ? 'red' : ''}">
+                        <span ng-if="$languageModelsCtrl.existingModelValidation.subscription_key"
+                                role="alert"
+                                class="form-err-message">{{$languageModelsCtrl.existingModelValidation.subscription_key}}</span>
+                    </div>
+                    <div class="data-item" ng-if="$languageModelsCtrl.modelToEdit.model.api_key !== undefined">
+                        <label>QnA subscription key</label>
+                        <hb-info-button label="Your Azure QnA service subscription key. This key will be used to manage a QnA KB"></hb-info-button>
+                        <input type="text" class="form-control"
+                                ng-model="$languageModelsCtrl.modelToEdit.model.api_key"
+                                ng-style="{'border-color': ($languageModelsCtrl.existingModelValidation.api_key) ? 'red' : ''}">
+                    </div>
+                    <div class="data-item">
+                        <label class="required">Confidence Threshold</label>
+                        <hb-info-button label="Your confidence score threshold for this specific model. Answers with confidence below this thershold will not be shown to the end use"></hb-info-button>
+                        <div class="rangeContainer">
+                            <input id="newQnaModelConfidenceThreshold"
+                                   role="range"
+                                   type="range"
+                                   aria-label="Your confidence score threshold"
+                                   class="slider perc"
+                                   min="0"
+                                   max="100"
+                                   ng-model="$languageModelsCtrl.modelToEdit.model.threshold">
+                            <output class="slider-value" ng-style="{'padding-left': (374 * ($languageModelsCtrl.modelToEdit.model.threshold - 0) / (100)) + 'px'}"
+                                    aria-hidden="true">{{$languageModelsCtrl.modelToEdit.model.threshold}}%</output>
+                            <span ng-if="($languageModelsCtrl.modelToEdit.model.threshold - 0) < 20"
+                                    role="alert"
+                                    class="form-warn-message">Low thresholds may return irrelevant answers</span>
+                        </div>
+                        <span ng-if="$languageModelsCtrl.existingModelValidationValidation.threshold"
+                                role="alert"
+                                class="form-err-message">{{$languageModelsCtrl.existingModelValidationValidation.threshold}}</span>
+                    </div>
+                    <div class="data-item">
+                        <a href="#" ng-click="$languageModelsCtrl.testExistingQnAConnection();">Validate QnA Maker settings</a>
+                    </div>
+                    <div class="data-item">
+                        <a ng-href="https://www.qnamaker.ai/Edit/KnowledgeBase?kbId={{$languageModelsCtrl.modelToEdit.model.kbId}}" target="_blank">Open QnA Maker</a>
+                    </div>
+                    <div class="data-item">
+                        <label class="required">Intent mapping</label>
+                        <hb-info-button label="Set a unique intent name and define the triggered scenario. Use the built-in QnA scenario to simply return the top scoring answer. For more advanced flows, map to your custom scenario and receive the raw QnA response as a scenario input argument."></hb-info-button>
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="width:calc(50%-10px); padding: 0px !important">
+                                    <input type="text" class="form-control" id="editQnAIntent"
+                                    ng-model="$languageModelsCtrl.modelToEdit.model.intent"
+                                    ng-style="{'border-color': ($languageModelsCtrl.existingModelValidation.intent) ? 'red' : ''}">
+                                </td>
+                                <td style="width:20px">
+                                    <span class="control-button-icon"><i class="hb-icons hb-icons-arrow lang-model-arrow"></i></span>
+                                </td>
+                                <td style="width:calc(50%-10px); padding: 0px !important">
+                                    <select aria-label="intent {{$languageModelsCtrl.modelToEdit.model.intent}}, mapping to" class="form-control" ng-model="$languageModelsCtrl.modelToEdit.model.target">
+                                        <option ng-repeat="target in $languageModelsCtrl.scenarioQnaTriggers track by $index" value="{{$languageModelsCtrl.scenarioQnaIds[$index]}}">{{target || "--- No scenario selected ---"}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <span ng-if="$languageModelsCtrl.existingModelValidation.intent"
+                            role="alert"
+                            class="form-err-message">{{$languageModelsCtrl.existingModelValidation.intent}}</span>
+
+                    </div>
+                </section>
+            </div>
+            <div class="drawer-buttons">
+                <button class="hb-btn hb-btn-primary drawer-button" ng-click="$languageModelsCtrl.editModel()">Save</button>
+                <button type="button" class="hb-btn hb-btn-secondary drawer-button" ng-click="$languageModelsCtrl.closeEditModelForm()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal Delete model warning -->
+    <div class="portal-modal">
+        <div id="updateQnAModal" class="modal fade" role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content" >
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Are you sure you want to update the "{{$languageModelsCtrl.qnaModelToUpdate.model.name}}" QnA model?
+                        </div>
+                        <div class="content">
+                            <span>Any custom made changes may be lost.</span><br><br>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" ng-click="$languageModelsCtrl.executeUpdateQnAModel()" data-dismiss="modal">Update</button>
+                            <button id="dismissReset" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal Delete model warning -->
+    <div class="portal-modal">
+        <div id="deleteModelModal" class="modal fade" role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content" >
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Are you sure you want to delete this model?
+                        </div>
+                        <div class="content">
+                            <span>All intent mappings will be lost. This action cannot be undone.</span><br><br>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" ng-click="$languageModelsCtrl.executeDeleteModel()" data-dismiss="modal">Delete</button>
+                            <button id="dismissReset" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Health Bot Portal Reset Language Models warning -->
+    <div class="portal-modal">
+        <div id="resetModelsModal" class="modal fade" role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content" >
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Are you sure you want to reset the page?
+                        </div>
+                        <div class="content">
+                            <span>All custom models will be removed and all built-in models changes will be reverted. This action cannot be undone.</span><br><br>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" ng-click="$languageModelsCtrl.executeReset()" data-dismiss="modal">Reset</button>
+                            <button id="dismissReset" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

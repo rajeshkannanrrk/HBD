@@ -1,0 +1,85 @@
+<div class="data-container">
+    <div class="application-data-container">
+        <hb-page-header title="Skill Consumer"
+                        sub-title-line1="A skill consumer is a bot that can call one or more skills."
+                        learn-more="https://docs.microsoft.com/en-us/HealthBot/skills_howto">
+        </hb-page-header>
+
+        <table class="table table-striped table-bordered" aria-label="information">
+            <tr>
+                <td width="250px">
+                    Application ID
+                    <button role="tooltip" aria-label="Application ID - info" class="info-button">
+                        <div class="hb-hover-info" style="vertical-align: top">Share the application ID so your bot can be authorized to call the skill. </div>
+                    </button>
+                </td>
+                <td>
+                    {{$skillsCtrl.appId}}
+                </td>
+                <td  width="250px">
+                    <button aria-label="copy {{$skillsCtrl.appId}} to clipboard"
+                            class="hb-btn hb-btn-icon hb-btn-secondary"
+                            ng-click="$app.copyToClipboard($skillsCtrl.appId)">
+                        <i class="hb-icons hb-icons-ClipboardSolid" aria-hidden="true" ng-click="$app.copyToClipboard($skillsCtrl.appId)"></i> Copy to clipboard
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <h4>Registered Skills</h4>
+        <div class="sub-title">
+            <p style="display: inline-block; font-size: 16px">List of registered skills that your bot can call</p>
+        </div>
+        <table aria-label="skills"
+               class="table table-striped table-bordered"
+               ng-if="$skillsCtrl.skills.length > 0">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Publisher Name</th>
+                <th>Manifest URL</th>
+                <th width="100px" style="width: 100px"></th>
+            </tr>
+            <tr ng-repeat="skill in $skillsCtrl.skills">
+                <td>
+                    {{skill.name}}
+                </td>
+                <td>
+                    {{skill.description}}
+                </td>
+                <td>
+                    {{skill.publisherName}}
+                </td>
+                <td>
+                    {{skill.manifestUrl}}
+                </td>
+                <td class="text-right" style="width: 240px;font-size: 12px">
+                    <% if (isSysAdmin || isAdmin || isEditor) { %>
+                        <button class="hb-btn hb-btn-action"
+                                aria-label="Refresh {{skill.name}}"
+                                title="Refresh"
+                                data-toggle="modal" data-target="#deleteResource" data-backdrop="static"
+                                ng-click="$skillsCtrl.RefreshRegisteredSkill(skill)">
+                            <i class="hb-icons hb-icons-Refresh"></i> Refresh
+                        </button>
+                        <button class="hb-btn hb-btn-action"
+                                aria-label="delete {{skill.name}}"
+                                title="Delete"
+                                data-toggle="modal" data-target="#deleteResource" data-backdrop="static"
+                                ng-click="$skillsCtrl.deleteRegisteredSkill(skill)">
+                            <i class="hb-icons hb-icons-Delete"></i> Delete
+                        </button>
+                    <% } %>
+                </td>
+            </tr>
+        </table>
+        <div class="text-left" ng-if="$skillsCtrl.skills.length === 0">
+            No skills were added.
+            <% if (isSysAdmin || isAdmin || isEditor) { %>
+                <button class="hb-btn hb-btn-link" style="padding: 0" ng-click="$skillsCtrl.openNewSkillForm()">Add a new skill</button>
+            <% } %>
+        </div>
+        <% if (isSysAdmin || isAdmin || isEditor) { %>
+            <button class="hb-btn hb-btn-link" ng-if="$skillsCtrl.skills.length !== 0" style="padding: 0" ng-click="$skillsCtrl.openNewSkillForm()">Add new skill</button>
+        <% } %>
+    </div>
+</div>

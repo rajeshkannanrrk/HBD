@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-scenarios.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/scenarios.search.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/directives/readfile.directive.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="searchInScenariosCtrl as $searchInScenariosCtrl">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+        </div>
+        <div class="data-container">
+            <div class="application-data-container" >
+                <hb-page-header title="Search in scenarios"
+                                sub-title-line1="This tool will help you search for text contained in your custom scenarios."
+                                sub-title-line2='Provide a string input to see a list of all the scenarios that contain a full or partial match to the string provided. For example, to see all the scenarios that contain the word "patient" simply type the word "patient" and press enter to begin the search.'></hb-page-header>
+                <hr>
+                <label for="searchString" class="required" style="font-weight: bold">Search string</label>
+                <hb-info-button label='Provide a string input to see a list of all the scenarios that contain a full or partial match to the string provided. For example, to see all the scenarios that contain the word "patient" simply type the word "patient" and press enter to begin the search.'></hb-info-button>
+                <input type="text" id="searchString" class="form-control" ng-model="$searchInScenariosCtrl.term" ng-keypress="$event.charCode === 13 && $searchInScenariosCtrl.search()" placeholder="string to search in scenarios. for example: ''Hi''">
+                <hr>
+                <div id="results" class="scenarios-search-results"></div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

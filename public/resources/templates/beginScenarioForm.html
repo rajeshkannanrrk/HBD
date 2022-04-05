@@ -1,0 +1,30 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header">
+        <input ng-if="!uibCtrl._labledTitle_" value={{uibCtrl._defaultTitle}} name="label" type="text" class="form-control label-editor-field label-editor-field-disabled">
+        <span   ng-if="!uibCtrl._labledTitle_" class="fa fa-pencil label-editor-field-icon" ng-click="uibCtrl._activateLabeledTitle(element, uibCtrl._defaultTitle)"></span>
+
+        <input ng-if="uibCtrl._labledTitle_" ng-model="element.label" name="label" id="label-input-box" type="text" class="form-control label-editor-field">
+        <span  ng-if="uibCtrl._labledTitle_" class="fa fa-eraser label-editor-field-icon" ng-click="uibCtrl._disableLabeledTitle(element, uibCtrl._defaultTitle)"></span>
+    </div>
+    <div class="modal-body">
+        <!-- Text input-->
+         <div class="form-group">
+            <label for="scenario">Scenario trigger:</label>
+               <select class="form-control" id="scenario" ng-model="element.scenario" name="scenario">
+                 <option ng-repeat="s in scenarios">{{s}}</option>
+               </select>
+        </div>
+         <div class="form-group">
+            <label for="args">Arguments (to pass to the scenario):</label>
+            <div class="MonacoEditor-Large" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="element.args" id="args" name="args"></div>
+        </div>
+        <div class="form-group" ng-show="element.type == 'beginScenario'">
+            <label for="variable">Variable name (for the scenario result):</label>
+            <input id="variable" ng-model="element.variable" name="variable" type="text" placeholder="Variable" class="form-control">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

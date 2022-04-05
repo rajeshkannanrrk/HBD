@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <%- include('../common/configuration.ejs'); %>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="configurationCommonController as $configCtrl" ng-init="$configCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <div style="float: right; margin-right: 10px">
+                <button class="control-button" ng-click="$configCtrl.loadData()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                    <span class="control-button-label">Refresh</span>
+                </button>
+                <button class="control-button" <% if (isSysAdmin || isAdmin || isEditor) { %>ng-disabled="$root.activeChanges === 0" ng-click="$configCtrl.save()"<%} else {%>disabled<% } %> >
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Save"></i></span>
+                    <span class="control-button-label">Save</span>
+                </button>
+                <button class="control-button" ng-disabled="$root.activeChanges === 0" ng-click="$configCtrl.cancel()" >
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Cancel"></i></span>
+                    <span class="control-button-label">Cancel changes</span>
+                </button>
+                <button class="control-button" <% if (isSysAdmin || isAdmin || isEditor) { %>ng-click="$configCtrl.reset()"<%} else {%>disabled<% } %>>
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Delete"></i></span>
+                    <span class="control-button-label">Clear</span>
+                </button>
+            </div>
+        </div>
+        <div class="data-container">
+            <div class="application-data-container">
+                <hb-page-header title="Environment variables"
+                                sub-title-line1="Create static variables for environment-specific configurations."
+                                learn-more="https://aka.ms/environment_variables"></hb-page-header>
+                <config-table ctrl="$configCtrl"
+                              variable="$configCtrl.data.environment_variables"
+                              table-id="envVar"
+                              fields="[['Name', 'name', 2, 'text', 'Enter variable name'], ['Value', 'value', 7, 'text', 'Enter value']]"
+                ></config-table>
+            </div>
+        </div>
+    </div>
+    <%- include('../common/configuration-reset-warning.ejs') %>
+</section>
+</body>
+</html>

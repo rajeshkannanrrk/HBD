@@ -1,0 +1,26 @@
+<div class="drawer" id="directLineChannelDrawer">
+    <div class="drawer-container">
+        <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$channelsCtrl.cancelEdit('directLineChannelDrawer')">
+            <i class="hb-icons hb-icons-Cancel"></i>
+        </button>
+        <img alt ng-src="/resources/images/directline.png" style="width: 30px; position: relative; top: -3px">
+        <h3 style="display: inline">DirectLine</h3>
+        <div style="margin-top: 15px">
+            Enable your own client application to communicate with your Healthcare Bot instance by using the Direct Line channel. <a href="https://aka.ms/HBSDirectLine" target="_blank">Learn how.</a>
+        </div>
+        <div class="drawer-main-body">
+            <div class="data-item">
+                <label for="ap-webchatsecret">DirectLine Secret</label>
+                <div>
+                    {{$channelsCtrl.webchat_secret}}
+                    <button aria-label="copy directLine secret to clipboard" style="position: relative; background-color: transparent;" ng-click="$app.copyToClipboard($channelsCtrl.webchat_secret)">
+                        <i class="hb-icons hb-icons-ClipboardSolid"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="drawer-buttons">
+        <button type="button" aria-label="close drawer" class="hb-btn hb-btn-secondary drawer-button" ng-click="$channelsCtrl.cancelEdit('directLineChannelDrawer')">Close</button>
+    </div>
+</div>

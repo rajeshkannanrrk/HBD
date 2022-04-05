@@ -1,0 +1,99 @@
+[
+  {
+    "name": "Read",
+    "description": "The read interaction accesses the current contents of a resource.",
+    "method": "GET",
+    "structure": ["$base", "$type", "$id"],
+    "params": {
+      "_format": {
+        "value": "application/json",
+        "required": true
+      },
+      "_summary": {
+        "value": null,
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "VRead",
+    "description": "he vread interaction preforms a version specific read of the resource.",
+    "method": "GET",
+    "structure": ["$base", "$type", "$id", "_history", "$vid"],
+    "params": {
+      "_format": {
+        "value": "application/json",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "Update",
+    "description": "The update interaction creates a new current version for an existing resource or creates an initial version if no resource already exists for the given id.",
+    "method": "PUT",
+    "structure": ["$base", "$type", "$id"],
+    "params": {
+      "_format": {
+        "value": "application/json",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "Conditional Update",
+    "description": "The conditional update interaction allows a client to update an existing resource based on some identification criteria, rather than by logical id.",
+    "method": "PUT",
+    "structure": ["$base", "$type"],
+    "params": {}
+  },
+  {
+    "name": "Patch",
+    "description": "The conditional update interaction allows a client to update an existing resource based on some identification criteria, rather than by logical id.",
+    "method": "PATCH",
+    "structure": ["$base", "$type", "$id"],
+    "params": {
+      "_format": {
+        "value": "application/json",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "Delete",
+    "description": "The delete interaction removes an existing resource.",
+    "method": "DELETE",
+    "structure": ["$base", "$type", "$id"],
+    "params": {}
+  },
+  {
+    "name": "Conditional Delete",
+    "description": "The conditional delete interaction allows a client to delete an existing resource based on some selection criteria, rather than by a specific logical id.",
+    "method": "DELETE",
+    "structure": ["$base", "$type", "$id"],
+    "params": {}
+  },
+  {
+    "name": "Create",
+    "description": "The create interaction creates a new resource in a server-assigned location. If the client wishes to have control over the id of a newly submitted resource, it should use the update interaction instead.",
+    "method": "POST",
+    "structure": ["$base", "$type"],
+    "params": {
+      "_format": {
+        "value": "application/json",
+        "required": true
+      }
+    }
+  },
+  {
+    "name": "Search",
+    "description": "This interaction searches a set of resources based on some filter criteria.",
+    "method": "GET",
+    "structure": ["$base", "$type"],
+    "params": {
+      "_format": {
+        "value": "application/json",
+        "required": true
+      }
+    }
+  }
+]

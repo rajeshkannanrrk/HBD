@@ -1,0 +1,34 @@
+<!-- session manager initialization -->
+<section ng-controller="sessionManagerCtrl as $sessionManagerCtrl" ng-init="$sessionManagerCtrl.init()"></section>
+<!-- Loading spinner element -->
+<div class="spinner">
+    <div class="spinner-container">
+        <div class="spinner-icon"></div>
+        <div class="spinner-label">Loading</div>
+    </div>
+</div>
+<!-- Loading spinner code -->
+<script>
+    var SpinnerElements = document.querySelectorAll(".ms-Spinner");
+    for (var i = 0; i < SpinnerElements.length; i++) {
+        new fabric['Spinner'](SpinnerElements[i]);
+    }
+</script>
+<!-- showing the screen on page load -->
+<script>
+    $(document).ready(function(){
+        createProfileMenu();
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    function createProfileMenu() {
+        var ContextualMenuElements = document.querySelectorAll(".ms-ContextualMenuExample");
+        for (var i = 0; i < ContextualMenuElements.length; i++) {
+            var ButtonElement = ContextualMenuElements[i].querySelector(".ms-Button");
+            var ContextualMenuElement = ContextualMenuElements[i].querySelector(".ms-ContextualMenu");
+            new fabric['ContextualMenu'](ContextualMenuElement, ButtonElement);
+        }
+    }
+</script>
+<input type="hidden" id="socketioRoomName" value="<%=socketioRoomName%>">
+<input type="hidden" id="socketioUser" value="<%=user.displayName%> (<%=user.email%>)">

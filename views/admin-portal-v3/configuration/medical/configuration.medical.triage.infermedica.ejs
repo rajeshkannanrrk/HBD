@@ -1,0 +1,437 @@
+<section class="config-section" id="Pregnancy">
+    <div class="config-section-title">
+        <h4 class="section-name">Multilingual Triage</h4>
+    </div>
+
+    <config-boolean ctrl="$configCtrl"
+                    label="Support triage in multiple languages"
+                    link="https://aka.ms/HealthBotDocs/MultiLanguageTriage"
+                    link-text="Learn more"
+                    info="Provide triage conversation in languages other than English."
+                    variable="$configCtrl.data.infermedica.multilingual.enable"></config-boolean>
+</section>
+
+<section class="config-section" id="general-triage">
+    <div class="config-section-title">
+        <h4 class="section-name">General</h4>
+
+    </div>
+
+    <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-boolean ctrl="$configCtrl"
+                            label="Interruptible scenario"
+                            info="Whether triage can be interrupted by global dialogs."
+                            variable="$configCtrl.data.infermedica.general.interruptible"></config-boolean>
+        </section>
+    <% } %>
+    <config-textbox ctrl="$configCtrl"
+                    label="Message when returning to triage from an interrupting scenario"
+                    info="Sets the message displayed before returning to the triage scenario (when the triage is interrupted)."
+                    variable="$configCtrl.data.infermedica.general.returning_message"></config-textbox>
+    <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label="Something went wrong triage text"
+                            info="Text to display when an error occurred during triage."
+                            variable="$configCtrl.data.infermedica.general.something_went_wrong_triage_text"></config-textbox>
+
+            <config-string-list ctrl="$configCtrl"
+                                label="Concepts to not present to the user"
+                                list-id="conceptsNotPresent"
+                                info="An array of concept IDs. Concepts listed here will not be presented to the user."
+                                col-name="concept id"
+                                variable="$configCtrl.data.infermedica.general.ignore_concepts"></config-string-list>
+        </section>
+    <% } %>
+
+    <config-boolean ctrl="$configCtrl"
+                label="Request customer feedback at the end of the triage flow"
+                info="At the end of the built-in triage scenario a prompt for feedback will be shown and the response will be stored in the feedback report"
+                variable="$configCtrl.data.infermedica.general.enable_feedback"></config-boolean>
+
+</section>
+
+
+<section class="config-section" id="Pregnancy">
+    <div class="config-section-title">
+        <h4 class="section-name">Pregnancy</h4>
+    </div>
+
+    <config-boolean ctrl="$configCtrl"
+                    label="Allow prompts for pregnancy status"
+                    info="Allows the triage scenario to ask the end user for their pregnancy status."
+                    variable="$configCtrl.data.infermedica.pregnancy.ask_for_pregnancy_status"></config-boolean>
+    <div class="config-item"
+         ng-class="($configCtrl.data.infermedica.pregnancy.minimum_age_to_ask_about_pregnancy._changed || $configCtrl.data.infermedica.pregnancy.maximum_age_to_ask_about_pregnancy._changed ? 'not-saved' :  '') + ($configCtrl.data.infermedica.pregnancy.minimum_age_to_ask_about_pregnancy._default || $configCtrl.data.infermedica.pregnancy.maximum_age_to_ask_about_pregnancy._default ? ' default-value ' :  '')">
+        <div class="config-item-name">
+            Age range to ask about pregnancy
+            <button title="Age range to ask about pregnancy" class="info-button">
+                <div class="hb-hover-info">
+                    Sets the minimum and the maximum age to ask end users about their pregnancy status.
+                </div>
+            </button>
+        </div>
+        <input style="display: none" type="number" id="pregnancyAgeRangeIMMin"
+               ng-model="$configCtrl.data.infermedica.pregnancy.minimum_age_to_ask_about_pregnancy._tenant"
+               ng-change="$configCtrl.changeHandler($configCtrl.data.infermedica.pregnancy.minimum_age_to_ask_about_pregnancy)">
+        <input style="display: none" type="number" id="pregnancyAgeRangeIMMax"
+               ng-model="$configCtrl.data.infermedica.pregnancy.maximum_age_to_ask_about_pregnancy._tenant"
+               ng-change="$configCtrl.changeHandler($configCtrl.data.infermedica.pregnancy.maximum_age_to_ask_about_pregnancy)">
+        <div id="pregnancyAgeRangeIM" min="0" max="120"></div>
+    </div>
+</section>
+<section class="config-section" id="Gender">
+    <div class="config-section-title">
+        <h4 class="section-name">Gender</h4>
+    </div>
+    <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label="Biological sex prompt text - second person addressing"
+                            info="Text for display when prompting for biological sex (in second person)."
+                            variable="$configCtrl.data.infermedica.gender.gender_prompt_text.second_person"></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label="Biological sex prompt text - third person addressing"
+                            info="Text for display when prompting for biological sex (in third person)."
+                            variable="$configCtrl.data.infermedica.gender.gender_prompt_text.third_person"></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label="Biological sex reprompt text - second person addressing"
+                            info="Text for display when reprompting the biological sex question, if user failed to select either options (in second person)."
+                            variable="$configCtrl.data.infermedica.gender.gender_reprompt_text.second_person"></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label="Biological sex reprompt text - third person addressing"
+                            info="Text for display when reprompting the biological sex question, if user failed to select either options (in third person)."
+                            variable="$configCtrl.data.infermedica.gender.gender_reprompt_text.third_person"></config-textbox>
+        </section>
+    <% } %>
+    <config-textbox ctrl="$configCtrl"
+                    label="Male option"
+                    info="Sets the male choice displayed when prompting the end user for their biological sex."
+                    variable="$configCtrl.data.infermedica.gender.gender_prompt_choice.male"></config-textbox>
+    <config-textbox ctrl="$configCtrl"
+                    label="Female option"
+                    info="Sets the female choice displayed when prompting the end user for their biological sex."
+                    variable="$configCtrl.data.infermedica.gender.gender_prompt_choice.female"></config-textbox>
+</section>
+
+<% if (isSysAdmin) { %>
+    <section class="config-section system-admin-field" id="Age">
+        <div class="config-section-title">
+            <h4 class="section-name">Age</h4>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age prompt text - male, second person"
+                        info="Text for prompting a male user for his age (in second person)."
+                        variable="$configCtrl.data.infermedica.age.age_prompt_text.male.second_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age prompt text - male, third person"
+                        info="Text for prompting a male user for his age (in third person)."
+                        variable="$configCtrl.data.infermedica.age.age_prompt_text.male.third_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age prompt text - female, second person"
+                        info="Text for prompting a female user for her age (in second person)."
+                        variable="$configCtrl.data.infermedica.age.age_prompt_text.female.second_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age prompt text - female, third person"
+                        info="Text for prompting a female user for her age (in third person)."
+                        variable="$configCtrl.data.infermedica.age.age_prompt_text.female.third_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Invalid age prompt text"
+                        info="Text for re-prompting the user for her/his age."
+                        variable="$configCtrl.data.infermedica.age.invalid_age_prompt_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Minimum age self use text"
+                        info="The minimum age must be 16 years or older (COPPA)."
+                        variable="$configCtrl.data.infermedica.age.minimum_age_self_use_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age approval text"
+                        info="Ask the user for confirmation that this is indeed his/her age (in case age was written textually)."
+                        variable="$configCtrl.data.infermedica.age.age_approval_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age reenter text - male, second person"
+                        info="Ask a male user to re-enter his age (in second person)."
+                        variable="$configCtrl.data.infermedica.age.age_reenter_text.male.second_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age reenter text - male, third person"
+                        info="Ask a male user to re-enter his age (in third person)."
+                        variable="$configCtrl.data.infermedica.age.age_reenter_text.male.third_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age reenter text - female, second person"
+                        info="Ask a female user to re-enter her age (in second person)."
+                        variable="$configCtrl.data.infermedica.age.age_reenter_text.female.second_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age reenter text - female, third person"
+                        info="Ask a female user to re-enter her age (in third person)."
+                        variable="$configCtrl.data.infermedica.age.age_reenter_text.female.third_person"></config-textbox>
+    </section>
+<% } %>
+
+<section class="config-section" id="Collect Evidence">
+    <div class="config-section-title">
+        <h4 class="section-name">Preassessment (symptom collection questions)</h4>
+    </div>
+    <config-boolean ctrl="$configCtrl"
+                    label="Suggest related symptoms"
+                    info="An indication whether to suggest statistically related symptoms"
+                    variable="$configCtrl.data.infermedica.suggest.propose_suggest_symptoms"></config-boolean>
+    <section class="config-section-nested">
+        <config-textbox ctrl="$configCtrl"
+                        label="Suggest related symptoms text"
+                        info="Prompt the user to select additional symptoms that might be related to the initial evidence"
+                        variable="$configCtrl.data.infermedica.suggest.suggest_prompt_text"
+                        enabled="$configCtrl.data.infermedica.suggest.propose_suggest_symptoms"></config-textbox>
+                <config-textbox ctrl="$configCtrl"
+                                label="Suggest related symptoms third person text"
+                                info="Prompt the user to select additional symptoms that might be related to the initial evidence"
+                                variable="$configCtrl.data.infermedica.suggest.suggest_prompt_text_third_person"
+                                enabled="$configCtrl.data.infermedica.suggest.propose_suggest_symptoms"></config-textbox>
+    </section>
+    <config-boolean ctrl="$configCtrl"
+                    label="Suggest red flag symptoms"
+                    info="An indication whether to suggest possible red flag symptoms that might be related to potentially life-threatening conditions"
+                    variable="$configCtrl.data.infermedica.red_flags.propose_red_flag_symptoms"></config-boolean>
+    <section class="config-section-nested">
+        <config-textbox ctrl="$configCtrl"
+                        label="Suggest red flag symptoms text"
+                        info="Prompt the user to select additional red flag symptoms that might be related to potentially life-threatening conditions"
+                        variable="$configCtrl.data.infermedica.red_flags.red_flags_prompt_text"
+                        enabled="$configCtrl.data.infermedica.red_flags.propose_red_flag_symptoms"></config-textbox>
+                <config-textbox ctrl="$configCtrl"
+                                label="Suggest red flag symptoms third person text"
+                                info="Prompt the user to select additional red flag symptoms that might be related to potentially life-threatening conditions"
+                                variable="$configCtrl.data.infermedica.red_flags.red_flags_prompt_text_third_person"
+                                enabled="$configCtrl.data.infermedica.red_flags.propose_red_flag_symptoms"></config-textbox>
+    </section>
+    <config-boolean ctrl="$configCtrl"
+                    label="Echo registered symptoms"
+                    info="Display the symptoms extracted from user complaints."
+                    variable="$configCtrl.data.infermedica.preassessment.echo_registered_symptoms"></config-boolean>
+    <section class="config-section-nested">
+
+        <config-textbox ctrl="$configCtrl"
+                        label="Echo registered symptoms text (initial symptoms registered)"
+                        info="Title for displaying registered symptoms after additional symptoms were successfully extracted from user utterance."
+                        variable="$configCtrl.data.infermedica.preassessment.echo_registered_symptoms_text_initial"
+                        enabled="$configCtrl.data.infermedica.preassessment.echo_registered_symptoms"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Echo registered symptoms text (additional symptoms registered)"
+                        info="Title for displaying registered symptoms after additional symptoms were successfully extracted from user utterance."
+                        variable="$configCtrl.data.infermedica.preassessment.echo_registered_symptoms_text_additional"
+                        enabled="$configCtrl.data.infermedica.preassessment.echo_registered_symptoms"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Echo registered symptoms text (no additional symptoms registered) "
+                        info="Title for displaying registered symptoms after user rejected additional symptoms extracted from their utterance."
+                        variable="$configCtrl.data.infermedica.preassessment.echo_registered_symptoms_text_no_symptoms_added"
+                        enabled="$configCtrl.data.infermedica.preassessment.echo_registered_symptoms"></config-textbox>
+
+    </section>
+    <config-boolean ctrl="$configCtrl"
+                    label="Verify symptoms (low confidence understanding)"
+                    info="Ask the user to confirm the symptoms extracted from their complaint in case of uncertainty"
+                    variable="$configCtrl.data.infermedica.preassessment.verify_extracted_symptoms"></config-boolean>
+    <section class="config-section-nested">
+        <config-textbox ctrl="$configCtrl"
+                        label="Verify symptom list text"
+                        info="Text for the extracted symptoms verification prompt."
+                        variable="$configCtrl.data.infermedica.preassessment.verify_extracted_symptoms_list_text"
+                        enabled="$configCtrl.data.infermedica.preassessment.verify_extracted_symptoms"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Verify symptom confirmation text"
+                        info="Text for the extracted symptoms verification prompt."
+                        variable="$configCtrl.data.infermedica.preassessment.verify_extracted_symptoms_confirmation_text"
+                        enabled="$configCtrl.data.infermedica.preassessment.verify_extracted_symptoms"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Unconfirmed symptoms message on initial complaint"
+                        info="Text to show after user did not confirm the symptoms extracted from the initial utterance."
+                        variable="$configCtrl.data.infermedica.preassessment.unconfirmed_extracted_symptoms_initial_message"
+                        enabled="$configCtrl.data.infermedica.preassessment.verify_extracted_symptoms"></config-textbox>
+    </section>
+    <config-natural-number ctrl="$configCtrl"
+                           label="Recommended count of symptoms to collect"
+                           info="Recommended number of symptoms required to start symptoms assessment."
+                           variable="$configCtrl.data.infermedica.preassessment.minimum_recommended_positive_symptoms"></config-natural-number>
+    <config-textbox ctrl="$configCtrl"
+                    label="Initial prompt for additional symptoms"
+                    info="Prompt the user to report additional medical symptoms after their first complaint has been processed."
+                    variable="$configCtrl.data.infermedica.preassessment.report_additional_symptoms_strong_prompt"></config-textbox>
+    <config-textbox ctrl="$configCtrl"
+                    label="Subsequent prompts for additional symptoms (recommended count not collected)"
+                    info="Prompt the user to report additional medical symptoms until recommended number of initial symptoms is reached."
+                    variable="$configCtrl.data.infermedica.preassessment.report_additional_symptoms_weak_prompt"></config-textbox>
+    <config-boolean ctrl="$configCtrl"
+                    label="Display a final prompt for additional symptoms"
+                    info="Do not begin assessment automatically after the recommended number of initial symptoms have been reported."
+                    variable="$configCtrl.data.infermedica.preassessment.display_final_prompt_for_additional_symptoms"></config-boolean>
+    <section class="config-section-nested">
+        <config-textbox ctrl="$configCtrl"
+                        label="Final prompt for additional symptoms (recommended count collected)"
+                        info="Ask the user whether they would like to report additional medical symptoms, after the recommended number of initial symptoms is reached."
+                        variable="$configCtrl.data.infermedica.preassessment.report_additional_symptoms_yes_no_prompt"
+                        enabled="$configCtrl.data.infermedica.preassessment.display_final_prompt_for_additional_symptoms">
+        </config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label='Report additional symptoms (user answerd "Yes")'
+                        info="Prompt the user to report additional medical symptoms after they've said they would like to report additional symptoms."
+                        variable="$configCtrl.data.infermedica.preassessment.report_additional_symptoms_what_prompt"
+                        enabled="$configCtrl.data.infermedica.preassessment.display_final_prompt_for_additional_symptoms">
+        </config-textbox>
+    </section>
+    <config-textbox ctrl="$configCtrl"
+                    label="Default reply for utterances that are not understood"
+                    info="Text to show user when no medical symptoms could be extracted from their message"
+                    variable="$configCtrl.data.infermedica.preassessment.rephrase_symptoms_prompt"></config-textbox>
+    <config-textbox ctrl="$configCtrl"
+                    label="Default reply for consecutive utterances that are not understood"
+                    info="Text to show user when no medical symptoms could be extracted from their message, for multiple times"
+                    variable="$configCtrl.data.infermedica.preassessment.rephrase_symptoms_or_skip_prompt"></config-textbox>
+    <config-textbox ctrl="$configCtrl"
+                    label="More information required message"
+                    info="Text to show when information extracted is not sufficient to begin assessment"
+                    variable="$configCtrl.data.infermedica.preassessment.need_more_information"></config-textbox>
+    <config-boolean ctrl="$configCtrl"
+                    label="Display assessment transition message "
+                    info="Whether to show a message before beginning the assessment for the reported symptoms"
+                    variable="$configCtrl.data.infermedica.preassessment.display_begin_assessment_message"></config-boolean>
+    <section class="config-section-nested">
+        <config-textbox ctrl="$configCtrl"
+                        label="Assessment transition message text "
+                        info="Message to display before beginning the assessment for the reported symptoms."
+                        variable="$configCtrl.data.infermedica.preassessment.begin_assessment_message"
+                        enabled="$configCtrl.data.infermedica.preassessment.display_begin_assessment_message"
+        ></config-textbox>
+    </section>
+    <config-boolean ctrl="$configCtrl"
+                    label="Display additional information transition message "
+                    info="Whether to show a message before beginning the collection of additional information such as age, gender and suggested symptoms"
+                    variable="$configCtrl.data.infermedica.preassessment.display_begin_additional_information_message"></config-boolean>
+    <section class="config-section-nested">
+
+        <config-textbox ctrl="$configCtrl"
+                        label="Additional information transition message text "
+                        info="Message to display before beginning the collection of additional information such as age, gender and suggested symptoms."
+                        variable="$configCtrl.data.infermedica.preassessment.begin_additional_information_message"
+                        enabled="$configCtrl.data.infermedica.preassessment.display_begin_additional_information_message"
+        ></config-textbox>
+    </section>
+
+    <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label='Nothing else to report regexp'
+                            info='utterances that match this regex during preassessment will end the preassessment'
+                            variable='$configCtrl.data.infermedica.preassessment.nothing_else_to_report_regexp'></config-textbox>
+        </section>
+    <% } %>
+</section>
+
+
+<section class="config-section" id="Interview">
+    <div class="config-section-title">
+        <h4 class="section-name">Assessment (symptom checking and triage questions)</h4>
+    </div>
+    <config-option-buttons ctrl="$configCtrl"
+                           label="Interview mode"
+                           info="triage: interview is shorter and optimized for the assessment of the correct triage level. possible causes: provides the right balance between the duration of the interview and accuracy."
+                           variable="$configCtrl.data.infermedica.interview.interview_mode"></config-option-buttons>
+    <config-boolean ctrl="$configCtrl"
+                    label="Disable multiple choice questions"
+                    info="Use only Yes/No/Don't know questions to ask about symptoms (not recommended)"
+                    variable="$configCtrl.data.infermedica.interview.disable_groups"></config-boolean>
+</section>
+
+<section class="config-section" id="Triage results">
+    <div class="config-section-title">
+        <h4 class="section-name">Triage results</h4>
+    </div>
+    <config-boolean ctrl="$configCtrl"
+                    label="Show summary"
+                    info="Sets the triage results to include a summary of the end users symptoms and collected information"
+                    variable="$configCtrl.data.infermedica.triage_results.symptom_summary.show_summary"></config-boolean>
+    <% if (isSysAdmin) { %>
+
+        <section class="config-section-nested system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary title text'
+                            info='Title for the symptom summary.'
+                            variable='$configCtrl.data.infermedica.triage_results.symptom_summary.title_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary initial complaint singular text'
+                            info='Title for a single initial complaint.'
+                            variable='$configCtrl.data.infermedica.triage_results.symptom_summary.initial_complaint_singular_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary initial complaint plural text'
+                            info='Title for multiple initial complaints.'
+                            variable='$configCtrl.data.infermedica.triage_results.symptom_summary.initial_complaint_plural_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary present concepts text'
+                            info='Title for additional present concepts.'
+                            variable='$configCtrl.data.infermedica.triage_results.symptom_summary.additional_present_concepts_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary user details'
+                            info='User details.'
+                            variable='$configCtrl.data.infermedica.triage_results.symptom_summary.user_details'></config-textbox>
+        </section>
+    <% } %>
+    <config-boolean ctrl="$configCtrl"
+                    label="Show suggested care (triage disposition)"
+                    info="Sets the triage results to include a description of the suggested care based on the triage disposition"
+                    variable="$configCtrl.data.infermedica.triage_results.show_triage"></config-boolean>
+    <section class="config-section-nested">
+        <config-textbox ctrl="$configCtrl"
+                        label="Title text for the suggested care (triage disposition)"
+                        info="Sets the title for the suggested care in the triage results"
+                        variable="$configCtrl.data.infermedica.triage_results.title_text"
+                        enabled="$configCtrl.data.infermedica.triage_results.show_triage">
+
+        </config-textbox>
+        <% if (isSysAdmin) { %>
+            <section class="system-admin-field">
+                <config-table ctrl="$configCtrl"
+                              label="Triage categories"
+                              table-id="infermedicaTriageCat"
+                              info="The triage recommendation text to display for each of Infermedica's five triage levels"
+                              variable="$configCtrl.data.infermedica.triage_results.categories"
+                              fields="[['triage level', 'triageLevelId', 2, 'label', '...'], ['recommendation', 'recommendation', 8, 'localizedText', 'Enter recommendation text']]"
+                              immutable=true></config-table>
+            </section>
+
+        <% } %>
+    </section>
+
+    <% if (!forceDisableTriagePossibleCauses) { %>
+        <config-boolean ctrl="$configCtrl"
+                        label="Show possible causes"
+                        info="Sets the triage results to include the possible causes for the end users symptoms"
+                        variable="$configCtrl.data.infermedica.triage_results.causes.show_causes"></config-boolean>
+        <section class="config-section-nested">
+            <config-textbox ctrl="$configCtrl"
+                            label="Title for the possible causes"
+                            info="Sets the title for the possible causes in the triage results"
+                            variable="$configCtrl.data.infermedica.triage_results.causes.title_text"
+                            enabled="$configCtrl.data.infermedica.triage_results.causes.show_causes">
+
+            </config-textbox>
+            <config-boolean ctrl="$configCtrl"
+                            label="Show cause frequency"
+                            info="Displays the cause frequency next to each possible cause in the triage results"
+                            variable="$configCtrl.data.infermedica.triage_results.causes.display_cause_frequency_rating"></config-boolean>
+            <config-range ctrl="$configCtrl"
+                          label="Maximum number of causes to display in results"
+                          info="Sets the maximal number of possible causes to display in the triage results"
+                          variable="$configCtrl.data.infermedica.triage_results.causes.maximal_cause_count"
+                          id="maximalCauseCount"
+                          min="0"
+                          max="20"></config-range>
+            <config-textbox ctrl="$configCtrl"
+                            label='No causes found text'
+                            info='Text to display in case no possible causes were found.'
+                            variable='$configCtrl.data.infermedica.triage_results.causes.no_causes_found_text'
+                            enabled="$configCtrl.data.infermedica.triage_results.causes.show_causes">
+            </config-textbox>
+
+        </section>
+
+    <% } %>
+
+</section>

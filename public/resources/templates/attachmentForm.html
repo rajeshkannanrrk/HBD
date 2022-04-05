@@ -1,0 +1,85 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header">
+        <h3 class="modal-title">Card</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="dataType">Card Type:</label>
+            <select ng-options="atype as atype for atype in attachmentTypes" required ng-model="selectedAttachmentType" class="form-control"></select>
+        </div>
+        <div class="form-group" ng-show="selectedAttachmentType =='AdaptiveCard'">
+            <a target="_blank" href="http://adaptivecards.io/visualizer/" >Design your own Adaptive Card</a>
+            <div class="MonacoEditor-XLarge" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptionsLines" autocomplete="variables" ui-refresh="selectedAttachmentType" ng-model="cardCode" id="buttonaction" name="buttonaction" class="form-control"></div>                        
+        </div>
+        <div class="form-group" ng-show="selectedAttachmentType =='Dynamic Cards'">
+            <div><b>Create and return an array of cards</b></div>
+            <div class="MonacoEditor-XLarge" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptionsLines" autocomplete="variables" ui-refresh="selectedAttachmentType" ng-model="carouselCode" id="buttonaction" name="buttonaction" class="form-control"></div>                        
+        </div>
+        <div class="form-group" ng-show="selectedAttachmentType !='None' && selectedAttachmentType !='AdaptiveCard' && selectedAttachmentType !='Dynamic Cards'">
+            <label for="dataType">Image Url:</label>
+            <div class="row">
+                <div class="col-lg-11"> 
+                    <div class="MonacoEditor-Inline" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="image" id="image" name="image" class="form-control"></div>
+                </div>                
+                <div class="col-lg-1" style="margin-left: -23px;" id="resourseUploadButton"> 
+                    <img ng-src="{{getImage()}}" style="width:65px;cursor:pointer;border: 1px solid lightgrey" title="Upload and use image" onclick="$('#resourceToUpload').trigger('click')">
+                        <i style="position: absolute; left: 35px; top:25px;" class='fa fa-spinner fa-spin' ng-show="loadingImage"></i>
+                        <input type="file" style="display:none" id="resourceToUpload" name="image" onchange="angular.element(this).scope().uploadSingleImage(this)">
+                    </img>
+                </div>   
+            </div>
+        </div>
+        <div ng-show="selectedAttachmentType=='HeroCard' || selectedAttachmentType =='ThumbnailCard'">
+        <div ng-show="!loclizationSettings.isLocalizationEnabled" class="form-group">
+            <label for="title">Title:</label>
+            <input id="title" ng-model="title"  name="title" type="text"  class="form-control">            
+        </div>
+        <div ng-show="loclizationSettings.isLocalizationEnabled" class="form-group">
+            <label for="title">Title:</label>
+            <dynamic-dropdown selected-string="selectedLocalizedStrings.title" localized-strings="localizedStrings" on-select="localizedStringSelected('title')" refresh-strings="refreshStrings(partOfString)" save-string="saveNewString(selectObject, 'title')"></dynamic-dropdown>
+        </div>
+        <div ng-show="!loclizationSettings.isLocalizationEnabled"  class="form-group">
+            <label for="subtitle">Sub Title:</label>
+            <input id="subtitle" ng-model="subtitle"  name="subtitle" type="text" class="form-control">            
+        </div>
+        <div ng-show="loclizationSettings.isLocalizationEnabled" class="form-group">
+            <label for="subtitle">Sub Title:</label>
+            <dynamic-dropdown selected-string="selectedLocalizedStrings.subtitle" localized-strings="localizedStrings" on-select="localizedStringSelected('subtitle')" refresh-strings="refreshStrings(partOfString)" save-string="saveNewString(selectObject, 'subtitle')"></dynamic-dropdown>
+        </div>
+        <div class="form-group" ng-show="oldActionsUI">
+            <label for="button">Buttons Action Expression:</label>
+            <div class="MonacoEditor-Inline" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="buttons" id="buttonaction" name="buttonaction" class="form-control"></div>
+        </div>
+        <div><label>Actions</label></div>
+        <div ng-repeat="action in actions track by $index">
+            <div class="row form-group">
+                <div class="col-lg-2"> <label>Action type</label>
+                    <select ng-options="actiontype as actiontype for actiontype in actionTypes" required ng-model="action.type" class="form-control"></select>
+                </div>
+                <div class="col-lg-6"> <label>Action value</label>
+                    <div class="MonacoEditor-Inline" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="action.parameter" class="form-control" placeholder="Action target"></div>
+                    <!--<input id="value" uib-typeahead="v for v in variables | limitTo:8" typeahead-focus-first='false' ng-model="action.parameter" name="type" type="text" placeholder="{{getHint(action.type)}}" class="form-control">-->
+                </div>
+                <div class="col-lg-3"> <label>Action title</label>
+                    <div ng-show="!loclizationSettings.isLocalizationEnabled" class="MonacoEditor-Inline" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="action.caption" class="form-control" placeholder="Action title"></div>
+                    <div ng-show="loclizationSettings.isLocalizationEnabled" class="form-group">
+                        <dynamic-dropdown selected-string="selectedLocalizedStrings.actions[$index]" localized-strings="localizedStrings" on-select="localizedStringSelected('caption', $index)" refresh-strings="refreshStrings(partOfString)" save-string="saveNewString(selectObject, 'caption', $index)"></dynamic-dropdown>
+                    </div>
+                    <!--<input id="value" uib-typeahead="v for v in variables | limitTo:8" typeahead-focus-first='false' ng-model="action.caption" name="type" type="text" placeholder="caption" class="form-control">-->
+                </div>
+                <div class="col-lg-1" style="margin-left:-20px;"> 
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        <button type="button" class="btn btn-danger fa fa-remove" ng-click="removeAction($index)"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" ng-click="addAction()">Add Action</button>
+        </div>
+        
+    </div>
+    <div class="modal-footer">
+        <button id="attachment-form-ok-btn" type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button id="attachment-form-cancel-btn" type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

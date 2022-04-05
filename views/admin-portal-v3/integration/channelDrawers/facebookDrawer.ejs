@@ -1,0 +1,103 @@
+<div class="drawer" id="facebookChannelDrawer">
+    <div class="drawer-container">
+        <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$channelsCtrl.cancelEdit('facebookChannelDrawer')">
+            <i class="hb-icons hb-icons-Cancel"></i>
+        </button>
+        <img alt ng-src="/resources/images/facebook.png" style="width: 30px; position: relative;top: -3px">
+        <h3 style="display: inline;">Facebook</h3>
+        <div class="drawer-main-body">
+            <div class="data-item">
+                <span>Configure your Healthcare Bot to communicate with people using Facebook Messenger. <a href="https://aka.ms/HBSFacebook" target="_blank">Learn how</a></span>
+            </div>
+            <div class="data-item">
+                <span><b><br>1. Provide Facebook credentials:</b></span>
+            </div>    
+            <div class="data-item">
+                <label class="required" for="ap-appsecret">Facebook App Id</label>
+                <input aria-label="facebook app id"
+                    placeholder="Found in Facebook account settings"
+                    aria-required="false"
+                    type="text"
+                    id="ap-facebookappid"
+                    name="ap-facebookappid"
+                    class="form-control"
+                    ng-model="$channelsCtrl.facebookAppId">
+                <span ng-if="$channelsCtrl.newValidateFacebook.facebookAppId"
+                    role="alert"
+                    class="form-err-message">{{$channelsCtrl.newValidateFacebook.facebookAppId}}</span>                
+            </div>
+    
+            <div class="data-item">
+                <label class="required" for="ap-appsecret">Facebook App Secret</label>
+                <input aria-label="facebook app secret"
+                    aria-required="false"
+                    placeholder="Found in Facebook account settings"
+                    type="text"
+                    id="ap-facebookappsecret"
+                    name="ap-facebookappsecret"
+                    class="form-control"
+                    ng-model="$channelsCtrl.facebookAppSecret">
+                <span ng-if="$channelsCtrl.newValidateFacebook.facebookAppSecret"
+                    role="alert"
+                    class="form-err-message">{{$channelsCtrl.newValidateFacebook.facebookAppSecret}}</span>
+            </div>
+            <div class="data-item">
+                <label class="required" for="ap-appsecret">Page Id</label>
+                <input aria-label="facebook page id"
+                    aria-required="false"
+                    placeholder="Found in Facebook account settings"
+                    type="text"
+                    id="ap-facebookpageid"
+                    name="ap-facebookpageid"
+                    class="form-control"
+                    ng-model="$channelsCtrl.facebookPageId">
+                <span ng-if="$channelsCtrl.newValidateFacebook.facebookPageId"
+                    role="alert"
+                    class="form-err-message">{{$channelsCtrl.newValidateFacebook.facebookPageId}}</span>
+            </div>
+            <div class="data-item">
+                <label class="required" for="ap-appsecret">Page Access Token</label>
+                <input aria-label="facebook page access token"
+                    aria-required="false"
+                    placeholder="Found in Facebook account settings"
+                    type="text"
+                    id="ap-facebookpageaccesstoken"
+                    name="ap-facebookpageaccesstoken"
+                    class="form-control"
+                    ng-model="$channelsCtrl.facebookAccessToken">
+                <span ng-if="$channelsCtrl.newValidateFacebook.facebookAccessToken"
+                    role="alert"
+                    class="form-err-message">{{$channelsCtrl.newValidateFacebook.facebookAccessToken}}</span>
+            </div>
+            <div class="data-item">
+                <span><b><br>2. Use the following details to connect your bot to Facebook:</b></span>
+            </div>
+
+            <div class="data-item">
+                <label>Callback URL</label>
+                <div>
+                    {{$channelsCtrl.callbackUrl}}
+                    <button aria-label="copy callback url to clipboard" style="position: relative; background-color: transparent;" ng-click="$app.copyToClipboard($channelsCtrl.callbackUrl)">
+                        <i class="hb-icons hb-icons-ClipboardSolid"></i>
+                    </button>
+                </div>
+            </div>
+    
+            <div class="data-item">
+                <label>Verify Token</label>
+                <div>
+                    {{$channelsCtrl.verifyToken}}
+                    <button aria-label="copy token to clipboard" style="position: relative; background-color: transparent;" ng-click="$app.copyToClipboard($channelsCtrl.verifyToken)">
+                        <i class="hb-icons hb-icons-ClipboardSolid"></i>
+                    </button>
+                    <i ng-show="$channelsCtrl.generatingToken" class="hb-icons hb-icons-spin hb-icons-Process verifyToken"></i>
+                </div> 
+            </div>
+
+        </div>
+    </div>
+    <div class="drawer-buttons">
+        <button class="hb-btn hb-btn-primary drawer-button" <% if (isSysAdmin || isAdmin) { %> ng-click="$channelsCtrl.createFacebookChannel()" <% } else { %> disabled <% } %>>Save</button>
+        <button type="button" aria-label="close drawer" class="hb-btn hb-btn-secondary drawer-button" ng-click="$channelsCtrl.cancelEdit('facebookChannelDrawer')">Cancel</button>
+    </div>
+</div>

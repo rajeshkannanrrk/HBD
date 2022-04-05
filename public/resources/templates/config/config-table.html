@@ -1,0 +1,118 @@
+<div class="config-item" ng-class="variable._changed ? 'not-saved' :  ''">
+    <div ng-if="label !== undefined" class="config-item-name">
+        {{label}}
+        <button aria-label="{{label}} - {{info}}"
+                ng-if="info !== undefined" class="info-button">
+            <div class="hb-hover-info">{{info}}
+                <span ng-if="learnMore !== undefined">
+                    <br>
+                    <a href="{{learnMore}}" target="_blank" class="clickable-text">Learn more</a>
+                </span>
+            </div>
+        </button>
+    </div>
+    <div role="table" id="{{tableId}}"
+         aria-label="{{label}}"
+         class="hb-config-table">
+        <div role="rowgroup">
+            <div role="row" ng-if="!noTitle" class="hb-config-table-header">
+                <div role="columnheader" aria-label="{{field[0]}}" ng-repeat="field in fields" ng-class="'hb-cell-' + field[2]">{{field[0]}}</div>
+                <div role="columnheader" aria-label="remove item" class="hb-cell-1" ng-if="!(immutable === true)"></div>
+            </div>
+        </div>
+        <div role="rowgroup"
+             aria-label="{{label}} rows">
+            <div role="row"
+                 ng-repeat="item in variable._tenant track by $index"
+                 ng-init="rowIndex = $index + 1; rowsCount = variable._tenant.length"
+                 class="hb-config-table-row">
+                <div role="cell"
+                     ng-repeat="field in fields track by $index" ng-class="'hb-cell-' + field[2]">
+                    <div ng-if="field[3] === 'label'">{{item[field[1]]}}</div>
+                    <input aria-label="row {{rowIndex}} of {{rowsCount}} - {{field[0]}}"
+                           ng-if="field[3] === 'text'"
+                           type="text"
+                           placeholder="{{field[4]}}"
+                           ng-model="item[field[1]]"
+                           ng-change="ctrl.changeHandler(variable)">
+                    <input aria-label="row {{rowIndex}} of {{rowsCount}} - {{field[0]}}"
+                           ng-if="field[3] === 'number'"
+                           type="number"
+                           placeholder="{{field[4]}}"
+                           ng-model="item[field[1]]"
+                           ng-change="ctrl.changeHandler(variable)">
+                    <button aria-label="row {{rowIndex}} of {{rowsCount}} - {{field[0]}}"
+                            role="switch"
+                            aria-checked="{{item[field[1]] ? 'true' : 'false'}}"
+                            ng-if="field[3] === 'boolean'"
+                            class="hb-btn hb-btn-toggle"
+                            ng-click="ctrl.toggleBooleanArrayItemField(item, field[1], variable)">
+                        <div ng-class="item[field[1]] ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'"
+                             hb-on="On"
+                             hb-off="Off"></div>
+                    </button>
+                    <div ng-if="field[3] === 'localizedText'">
+                        <input aria-label="row {{rowIndex}} of {{rowsCount}} - {{field[0]}}"
+                               placeholder="{{field[4]}}"
+                               ng-if="!ctrl.isLocalizationEnabled"
+                               type="text"
+                               ng-model="item[field[1]]['en-us']"
+                               ng-change="ctrl.changeHandler(variable)">
+                        <input aria-label="row {{rowIndex}} of {{rowsCount}} - {{field[0]}}"
+                               ng-if="ctrl.isLocalizationEnabled"
+                               type="text"
+                               class="form-control"
+                               placeholder="{{field[4] || 'start typing your string'}}"
+                               ng-model="item[field[1]]"
+                               ng-blur="ctrl.localizedStringOnBlurHandler(item, field[1], variable)"
+                               typeahead-on-select="ctrl.changeHandler(variable)"
+                               uib-typeahead="e as e['en-us'] for e in ctrl.localizedStringSearch($viewValue, variable, field[1])"
+                               typeahead-select-on-blur="true"
+                               typeahead-loading="true"
+                               typeahead-show-hint="false"
+                               typeahead-wait-ms="100"
+                               typeahead-editable="true"
+                               typeahead-template-url="/resources/templates/config/config-localized-string-picker.typeahead.html"
+                        >
+                    </div>
+                    <div ng-if="field[3] === 'label'">
+
+                    </div>
+                </div>
+                <div role="cell" class="hb-cell-1" ng-if="!(immutable === true)">
+                    <button aria-label="row {{rowIndex}} of {{rowsCount}} - remove item"
+                            class="clickable-text"
+                            ng-click="ctrl.removeArrayItem(variable, $index)">Remove item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button class="clickable-text"
+        aria-label="{{label}} - add new item"
+        ng-if="!(immutable === true)"
+        ng-click="ctrl.addArrayObject(variable, fields, tableId)">Add new item</button>
+
+
+<script>
+    function createEmpyObject(fields) {
+        var result = {};
+        console.log(fields);
+        return result;
+
+        switch (type) {
+            case "text":
+                target[key] = "";
+                break;
+            case "number":
+                target[key] = 0;
+                break;
+            case "boolean":
+                target[key] = false;
+                break;
+            case "localizedText":
+                target[key] = {"stringId": null, "en-us": ""};
+                break;
+        }
+    }
+</script>

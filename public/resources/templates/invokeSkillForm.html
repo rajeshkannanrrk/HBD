@@ -1,0 +1,29 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header">
+        <input ng-if="!uibCtrl._labledTitle_" value="Skill" name="label" type="text" class="form-control label-editor-field label-editor-field-disabled">
+        <span   ng-if="!uibCtrl._labledTitle_" class="fa fa-pencil label-editor-field-icon" ng-click="uibCtrl._activateLabeledTitle(element, 'Invoke Skill')"></span>
+
+        <input ng-if="uibCtrl._labledTitle_" ng-model="element.label" name="label" id="label-input-box" type="text" class="form-control label-editor-field">
+        <span  ng-if="uibCtrl._labledTitle_" class="fa fa-eraser label-editor-field-icon" ng-click="uibCtrl._disableLabeledTitle(element, 'Invoke Skill')"></span>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Existing skills</label>
+            <select autocomplete="off" required ng-model="element.skillManifestUrl" id="modelname" name="skillManifestUrl" class="form-control">
+                <option id="noskill" value="">Select Skill name... </option>
+                <option id="skill-manifestUrl-{{skill.manifestUrl}}" ng-repeat="skill in skills" value="{{skill.manifestUrl}}">{{skill.name}}  ({{skill.manifestUrl}})</option>
+            </select> 
+        </div>
+        <div class="form-group">
+            <label for="utterance">Utterance:</label>
+            <span class="fa fa-info-circle" data-toggle="tooltip" title="The message that will be sent to the Skill"></span>
+            <div class="MonacoEditor-Inline" autocomplete="variables"
+                ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" required ng-model="element.utterance" id="utterance" name="utterance">
+            </div>
+        </div>
+    </div>    
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

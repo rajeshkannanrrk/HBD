@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <%- include('../common/configuration.ejs'); %>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="configurationCommonController as $configCtrl" ng-init="$configCtrl.initTabsView()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel" role="tablist" aria-label="conversation configuration tabs">
+            <button role="tab"
+                    aria-selected="{{$configCtrl.selectedTab === 'interactions' ? 'true' : 'false'}}"
+                    id="interactions" class="tab-selector" ng-click="$configCtrl.selectTab('interactions')">
+                Interactions
+            </button>
+            <button role="tab"
+                    aria-selected="{{$configCtrl.selectedTab === 'navigation' ? 'true' : 'false'}}"
+                    id="navigation" class="tab-selector" ng-click="$configCtrl.selectTab('navigation')">
+                Navigation
+            </button>
+                <button role="tab"
+                        aria-selected="{{$configCtrl.selectedTab === 'spelling' ? 'true' : 'false'}}"
+                        id="spelling" class="tab-selector" ng-click="$configCtrl.selectTab('spelling')">
+                    Spelling
+                </button>
+            <button role="tab"
+                    aria-selected="{{$configCtrl.selectedTab === 'handoff' ? 'true' : 'false'}}"
+                    id="handoff" class="tab-selector" ng-click="$configCtrl.selectTab('handoff')">
+                Human Handoff
+            </button>
+            <div style="float: right; margin-right: 10px">
+                <% if (isSysAdmin) { %>
+                <button class="control-button" ng-click="$configCtrl.toggleSysAdminView()">
+                    <span class="control-button-icon"><i class="hb-icons" ng-class="$configCtrl.showSysAdminFields ? 'hb-icons-CheckMark' : 'hb-icons-CheckBox'"></i></span>
+                    <span class="control-button-label">System admin fields</span>
+                </button>
+                <% } %>
+                <button class="control-button" ng-click="$configCtrl.loadData()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                    <span class="control-button-label">Refresh</span>
+                </button>
+                <% if (isSysAdmin || isAdmin || isEditor) { %>
+                <button class="control-button" ng-disabled="$root.activeChanges === 0" ng-click="$configCtrl.save()" >
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Save"></i></span>
+                    <span class="control-button-label">Save</span>
+                </button>
+                <button class="control-button" ng-disabled="$root.activeChanges === 0" ng-click="$configCtrl.cancel()" >
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Cancel"></i></span>
+                    <span class="control-button-label">Cancel changes</span>
+                </button>
+                <button class="control-button" ng-click="$configCtrl.reset()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Delete"></i></span>
+                    <span class="control-button-label">Reset</span>
+                </button>
+                <% } %>
+            </div>
+
+        </div>
+        <div class="data-container">
+            <div id="interactions" class="application-data-container data-container-tab">
+                <%- include('./conversation/configuration.conversation.interactions.ejs'); %>
+            </div>
+            <div id="navigation" class="application-data-container data-container-tab">
+                <%- include('./conversation/configuration.conversation.navigation.ejs'); %>
+            </div>
+            <div id="spelling" class="application-data-container data-container-tab">
+                <%- include('./conversation/configuration.conversation.spelling.ejs'); %>
+            </div>
+            <div id="handoff" class="application-data-container data-container-tab">
+                <%- include('./conversation/configuration.conversation.handoff.ejs'); %>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../common/configuration-reset-warning.ejs'); %>
+
+</section>
+</body>
+</html>

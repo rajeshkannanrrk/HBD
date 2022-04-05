@@ -1,0 +1,16 @@
+<div class="config-item" ng-class="variable._changed ? 'not-saved' :  ''">
+
+    <div class="hb-option-group-stylized" role="listbox" aria-label="options of {{label}}">
+        <button role="option"
+                ng-repeat="opt in (options ? options : variable._scheme.format) track by $index"
+                aria-selected="{{variable._tenant === opt ? 'true' : 'false'}}"
+                aria-label="{{opt}}"
+                class="hb-btn"
+                ng-class="variable._tenant === opt ? 'hb-btn-primary'+' '+opt : 'hb-btn-secondary'+' '+opt"
+                ng-click="ctrl.selectOption(variable, opt)"></button>
+    </div>
+    <div style="color: red; height: 12px; margin-bottom:10px">{{variable._changed ? changedWarnings[variable._tenant] : " "}}</div>
+    <div class="config-item-name">
+        I'm not sure what content provider to choose. <a href="https://aka.ms/HealthcareBotDocs/triage_content_providers" target="_blank">Learn more about the different providers</a>
+    </div>
+</div>

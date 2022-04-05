@@ -1,0 +1,15 @@
+<ui-select ng-model="selectedString._tenant"
+           on-select="onSelect()"
+           spinner-enabled="true"
+           title="{{$select.selected['en-us']}}">
+    <ui-select-match placeholder="Search for a Localized String...">{{$select.selected["en-us"]}}</ui-select-match>
+    <ui-select-choices repeat="localizedString in localizedStrings track by localizedString.stringId"
+                       refresh="refreshStrings({partOfString: $select.search, selectObject: $select})"
+                       refresh-delay="0">
+        <div title="{{localizedString['en-us']}}" ng-bind-html="localizedString['en-us'] | highlight: $select.search"></div>
+        <small title="{{localizedString['en-us']}}" ng-bind-html="localizedString.stringId | highlight: $select.search"></small>
+    </ui-select-choices>
+    <ui-select-no-choice>
+        <div class="new-string-button" ng-click="saveString({selectObject: $select})">Localized String not found. Click here to add as new Localized String.</div>
+    </ui-select-no-choice>
+</ui-select>

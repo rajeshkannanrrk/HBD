@@ -1,0 +1,150 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header">
+        <input ng-if="!uibCtrl._labledTitle_" value="Data Connection Call" name="label" type="text" class="form-control label-editor-field label-editor-field-disabled">
+        <span   ng-if="!uibCtrl._labledTitle_" class="fa fa-pencil label-editor-field-icon" ng-click="uibCtrl._activateLabeledTitle(element, 'Data Connection Call')"></span>
+
+        <input ng-if="uibCtrl._labledTitle_" ng-model="element.label" name="label" id="label-input-box" type="text" class="form-control label-editor-field">
+        <span  ng-if="uibCtrl._labledTitle_" class="fa fa-eraser label-editor-field-icon" ng-click="uibCtrl._disableLabeledTitle(element, 'Data Connection Call')"></span>
+    </div>
+    <div class="modal-body">
+        <!-- Text input-->
+        <div class="row">
+            <div class="form-group col-lg-6" id="field-data-connection" style="user-select: none">
+                <span class="label-span">Data Connection:</span>
+                <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="Select a reusable data connection object or provide specific connection details for this step."></i>
+                <a href="https://docs.microsoft.com/en-us/HealthBot/integrations/data_connections" target="_blank" style="float: right" class="learn-more">Learn more</a>
+                <script>$('[data-toggle="tooltip"]').tooltip();</script>
+                <select ng-model="element.dataConnection" class="form-control" ng-change="dataConnectionSelectionChanged()">
+                    <option ng-repeat="dataConnection in dataConnections track by $index" value="{{dataConnection.name}}">{{dataConnection.title}}</option>
+                </select>
+            </div>
+            <div class="form-group col-lg-6" id="field-authentication-provider" style="user-select: none">
+                <span class="label-span">Authentication provider:</span>
+                <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="Select a provider for authenticating end-users or servers before calling this data connection."></i>
+                <a href="https://aka.ms/authentication_providers" target="_blank" style="float: right" class="learn-more">Learn more</a>
+                <select id="authProvider" ng-model="element.authenticationProvider" class="form-control">
+                    <option ng-repeat="authenticationProviderName in authenticationProviders track by $index">{{authenticationProviderName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" id="field-method" style="user-select: none">
+            <div ng-if="connectionType === 'custom'" class="form-group col-lg-3">
+                <span class="label-span">HTTPS Method:</span>
+                <div class="hb-onoff">
+                    <div ng-class="element.method === 'GET' ? 'hb-btn-onoff-selected' : 'hb-btn-onoff-unselected'" ng-click="methodSelectionChanged('GET')" class="hb-btn-onoff-selected">GET</div>
+                    <div ng-class="element.method === 'PUT' ? 'hb-btn-onoff-selected' : 'hb-btn-onoff-unselected'" ng-click="methodSelectionChanged('PUT')" class="hb-btn-onoff-selected">PUT</div>
+                    <div ng-class="element.method === 'POST' ? 'hb-btn-onoff-selected' : 'hb-btn-onoff-unselected'" ng-click="methodSelectionChanged('POST')" class="hb-btn-onoff-selected">POST</div>
+                    <div ng-class="element.method === 'PATCH' ? 'hb-btn-onoff-selected' : 'hb-btn-onoff-unselected'" ng-click="methodSelectionChanged('PATCH')" class="hb-btn-onoff-selected">PATCH</div>
+                    <div ng-class="element.method === 'DELETE' ? 'hb-btn-onoff-selected' : 'hb-btn-onoff-unselected'" ng-click="methodSelectionChanged('DELETE')" class="hb-btn-onoff-selected">DELETE</div>
+                </div>
+            </div>
+            <div ng-if="connectionType === 'custom'" class="form-group col-lg-3" id="field-content-type">
+                <span class="label-span">Content Type:</span>
+                <select id="contentType" ng-model="element.contentType" class="form-control">
+                    <option ng-repeat="contentType in contentTypes track by $index">{{contentType}}</option>
+                </select>
+            </div>
+            <div ng-if="connectionType === 'fhir'" class="form-group col-lg-3" id="field-fhir-resource">
+                <span class="label-span">Resource Type: <a href="https://www.hl7.org/fhir/{{element.fhirResource.toLowerCase()}}.html" class="clickable-text" target="_blank">read more</a></span>
+                <select ng-model="element.fhirResource" class="form-control" ng-change="fhirResourceSelectionChanged()">
+                    <option ng-repeat="fhirResource in fhirResources track by $index">{{fhirResource}}</option>
+                </select>
+            </div>
+            <div ng-if="connectionType === 'fhir'" class="form-group col-lg-3">
+                <span class="label-span">Action <a href="https://www.hl7.org/fhir/http.html#{{element.fhirAction.toLowerCase()}}" class="clickable-text" target="_blank">read more</a></span>
+                <select ng-model="element.fhirAction" class="form-control" ng-change="fhirActionSelectionChanged()">
+                    <option ng-repeat="fhirAction in fhirActions track by $index">{{fhirAction.name}}</option>
+                </select>
+            </div>
+            <div class="form-group col-lg-6">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <span class="label-span">Options:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-check" style="float: left; margin-left: 10px; margin-right: 10px;user-select: none;">
+                                <input type="checkbox" class="form-check-input" id="opJson" ng-model="element.opJson">
+                                <span class="form-check-label" for="opJson" style="cursor:pointer;font-weight: normal" ng-click="element.opJson = !element.opJson"> JSON</span>
+                                <i class="fa fa-info-circle data-item-info-icon" style="cursor:pointer" data-toggle="tooltip" data-placement="right" title="sets body to JSON representation of value and adds Content-type: application/json header. Additionally, parses the response body as JSON."></i>
+                            </div>
+                            <div class="form-check" style="float: left; margin-left: 10px; margin-right: 10px;user-select: none;">
+                                <input type="checkbox" class="form-check-input" id="opResolveWithFullResponse" ng-model="element.opResolveWithFullResponse" style="cursor:pointer">
+                                <span class="form-check-label" for="opResolveWithFullResponse" style="cursor:pointer; font-weight: normal" ng-click="element.opResolveWithFullResponse = !element.opResolveWithFullResponse">Resolve with full response</span>
+                                <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="Set whether the promise should be resolved with the full response or just the response body."></i>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="uib-modal-section-separator"></div>
+
+        <div class="form-group" id="field-url">
+            <table width="100%">
+                <tr>
+                    <td width="200px">
+                        <span class="label-span">Base URL:</span>
+                        <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="Must include the HTTPS protocol."></i>
+                    </td>
+                    <td id="field-url-base">
+                        <div id="url-base" name="url-base" class="MonacoEditor-OneLine-Tall" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="element.urlBase" class="form-control"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="200px">
+                        <span class="label-span">Path:</span>
+                    </td>
+                    <td id="field-url-path">
+                        <div id="url-path" name="url-path" class="MonacoEditor-OneLine-Tall" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="element.urlPath" class="form-control"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="200px">
+                        <span class="label-span">Query Parameters:</span>
+                    </td>
+                    <td id="field-url-query-parameters">
+                        <div id="url-parameters" name="url-parameters" class="MonacoEditor-OneLine-Tall" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="element.urlParams" class="form-control"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="uib-modal-section-separator"></div>
+
+        <div class="row">
+            <div class="form-group col-lg-6">
+                <div class="form-group" id="field-headers" style="font-weight: 400">
+                    <span class="label-span">Headers</span> <span class="label-span-light">(object):</span>
+                    <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="Provide a JSON or JavaScript object."></i>
+                    <div id="headers" name="headers" class="MonacoEditor-Med-DS" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" ui-refresh="element.method" autocomplete="variables" ng-model="element.headers"></div>
+                </div>
+            </div>
+            <div class="form-group col-lg-6">
+                <div class="form-group" id="field-payload">
+                    <span class="label-span">Payload</span> <span class="label-span-light" ng-if="connectionType !== 'fhir'">(object):</span><span class="label-span-light" ng-if="connectionType === 'fhir'">(FHIR expression):</span>
+                    <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="Provide a JSON or JavaScript object."></i>
+                    <div id="payload" name="payload" class="MonacoEditor-Med-DS" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptionsPayload" ui-refresh="element.method" autocomplete="variables" ng-model="element.payload" ></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="uib-modal-section-separator"></div>
+        <div class="row">
+            <div class="form-group col-lg-6" id="field-response">
+                <span class="label-span">Response variable name:</span>
+                <span style="font-size: 14px">(requests timeout after approximately 10s):</span>
+                <input id="response" ng-model="element.response" required name="response" type="text" class="form-control">
+            </div>        
+            <div class="form-group col-lg-6" id="field-error">
+                <span class="label-span">Error variable name:</span>
+                <input id="error" ng-model="element.error" name="error" type="text" class="form-control">
+            </div>        
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

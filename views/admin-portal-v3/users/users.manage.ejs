@@ -1,0 +1,141 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <script src="/resources/angularApps/admin-portal-v3/controllers/users.manage.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="usersCtrl as $usersCtrl" ng-init="$usersCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <button aria-label="add new user"
+                    class="control-button" <% if (!isSysAdmin && !isAdmin) { %> disabled <% } else { %> ng-click="$usersCtrl.addNewUser()" <% } %>>
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Add"></i></span>
+                <span class="control-button-label">New</span>
+            </button>
+            <button aria-label="refresh user list"
+                    class="control-button"
+                    ng-click="$usersCtrl.loadData()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+        </div>
+        <div class="data-container">
+            <hb-page-header title="Management portal users management"
+                            sub-title-line1="Create and manage portal users with role based access."
+                            learn-more="https://aka.ms/HealthcareBotDocs/users"></hb-page-header>
+            <table aria-label="users"
+                   class="table table-striped table-bordered">
+                <tr>
+                    <th>Email</th>
+                    <th width="100px" class="text-center">Role</th>
+                    <% if (isAdmin) { %>
+                    <th style="width: 100px">Actions</th>
+                    <% } %>
+                </tr>
+                <tr ng-repeat="user in $usersCtrl.users track by $index">
+                    <td>
+                        {{user.email}}
+                    </td>
+                    <td class="text-center">
+                        <select aria-label="{{user.email}} role"
+                                <% if (!isAdmin) { %>disabled<%}%>
+                                ng-model="user.role"
+                                ng-change="$usersCtrl.changeRole(user)">">
+                            <option value="4">Admin</option>
+                            <option value="3">Editor</option>
+                            <option value="2">Reader</option>
+                        </select>
+
+                    </td>
+                    <% if (isAdmin) { %>
+                    <td class="text-right">
+                        <button class="hb-btn hb-btn-action"
+                                aria-label="Delete user {{user.email}}"
+                                title="Delete user {{user.email}}"
+                                ng-click="$usersCtrl.showDelete(user)" data-toggle="modal" data-target="#deleteUser" data-backdrop="static">
+                            <i class="hb-icons hb-icons-Delete"></i> Delete
+                        </button>
+                    </td>
+                    <% } %>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal New user Drawer -->
+    <div class="drawer" id="newUserDrawer">
+        <div class="drawer-container">
+            <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$usersCtrl.addNewUser('cancel')">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <% if (directoryPermissions) { %>
+                <h4>New User/Group</h4>
+            <% } else { %>
+                <h4>New User</h4>
+            <% } %>
+                <div class="drawer-main-body">
+                    <div class="data-item">
+                        <% if (directoryPermissions) { %>
+                            <label for="email" class="required">Email or Group</label>
+                            <img ng-show="loadingmembers" src='/resources/images/ajax-loader.gif' style='padding-left:10px'>                               
+                            <input type="text" class="form-control" id="email" name="email" ng-model="$usersCtrl.newUser.email" 
+                                placeholder="Search users and groups"
+                                ng-style="{'border-color': ($usersCtrl.validation.email) ? 'red' : ''}"
+                                uib-typeahead="member as member.mail for member in $usersCtrl.getMembers($viewValue)"
+                                typeahead-loading="loadingmembers"
+                                typeahead-wait-ms="100"
+                                typeahead-editable="true"
+                                typeahead-template-url="/resources/templates/typeahead.html">
+                        <% } else { %> 
+                            <label for="email" class="required">Email</label>
+                            <input type="text" placeholder="Email" class="form-control" id="email" name="email" ng-model="$usersCtrl.newUser.email" ng-style="{'border-color': ($usersCtrl.validation.email) ? 'red' : ''}">
+                        <% } %>                                
+                        <span ng-if="$usersCtrl.validation.email"
+                              role="alert"
+                              class="form-err-message">{{$usersCtrl.validation.email}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="userRole" class="required">Role</label>
+                        <select id="userRole" class="form-control" ng-model="$usersCtrl.newUser.role" style="width: 100%">
+                            <option value="4">Administrator</option>
+                            <option value="3">Editor</option>
+                            <option value="2">Reader</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="drawer-buttons">
+                    <button class="hb-btn hb-btn-primary drawer-button" ng-click="$usersCtrl.addNewUser('validate')">Create</button>
+                    <button class="hb-btn hb-btn-secondary drawer-button" ng-click="$usersCtrl.addNewUser('cancel')">Cancel</button>
+                </div>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal delete user modal-->
+    <div class="portal-modal">
+        <div id="deleteUser" class="modal fade" role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content" >
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Delete user
+                        </div>
+                        <div class="content">
+                            <span>Are you sure you want to delete this user ?</span>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" ng-click="$usersCtrl.executeDelete()" data-dismiss="modal">Delete</button>
+                            <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

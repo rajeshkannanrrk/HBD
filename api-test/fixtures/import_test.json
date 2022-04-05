@@ -1,0 +1,10 @@
+{
+ "name": "Import Test",
+ "id": "adfd94bd-69ab-465a-8592-59e794d6e2da",
+ "scenario_trigger": "ImportTest",
+ "description": "Import Test description",
+ "active": true,
+ "updated": "2021-10-11T13:17:36.8010000Z",
+ "userDisplayName": "Guy Epshtein",
+ "code": "{\"version\":3,\"steps\":[{\"id\":\"aa1d4e9f91b3-b24becbf11076870-23dd\",\"type\":\"statement\",\"designer\":{\"xLocation\":580,\"yLocation\":156},\"text\":\"Hello, I'm a test scenario.\",\"stringId\":\"stringId_6ed5dbd7bce92554\"}],\"interrupting\":false,\"breaking\":false,\"returningMessage\":\"\"}"
+}

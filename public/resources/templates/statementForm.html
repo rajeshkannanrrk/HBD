@@ -1,0 +1,32 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header">
+        <input ng-if="!uibCtrl._labledTitle_" value="Statement" name="label" type="text" class="form-control label-editor-field label-editor-field-disabled">
+        <span   ng-if="!uibCtrl._labledTitle_" class="fa fa-pencil label-editor-field-icon" ng-click="uibCtrl._activateLabeledTitle(element, 'Statement')"></span>
+
+        <input ng-if="uibCtrl._labledTitle_" ng-model="element.label" name="label" id="label-input-box" type="text" class="form-control label-editor-field">
+        <span  ng-if="uibCtrl._labledTitle_" class="fa fa-eraser label-editor-field-icon" ng-click="uibCtrl._disableLabeledTitle(element, 'Statement')"></span>
+    </div>
+    <div class="modal-body">
+        <!-- Text input-->
+         <div ng-show="!loclizationSettings.isLocalizationEnabled" class="form-group">
+            <label for="text">Display text (either JavaScript string expression or plain Markdown):</label>
+             <hb-info-button disabled="true" label="JavaScript expressions are evaluated as strings and then parsed as Markdown. Write code that returns a literal string expression with &quot;Double Quotes&quot; to prevent conflicts between JavaScript and Markdown syntax."></hb-info-button>
+             <div class="MonacoEditor-Inline" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="element.text" id="text" name="text"></div>
+        </div>
+        <div ng-show="loclizationSettings.isLocalizationEnabled" class="form-group">
+            <label for="text">Display text (either JavaScript string expression or plain Markdown):</label>
+            <hb-info-button disabled="true" label="JavaScript expressions are evaluated as strings and then parsed as Markdown. Write code that returns a literal string expression with &quot;Double Quotes&quot; to prevent conflicts between JavaScript and Markdown syntax."></hb-info-button>
+            <dynamic-dropdown selected-string="localizedString" localized-strings="localizedStrings" on-select="localizedStringSelected()" refresh-strings="refreshStrings(partOfString)" save-string="saveNewString(selectObject)"></dynamic-dropdown>
+        </div>
+        <div class="form-group">
+            <label for="visible">Is Active (javascript boolean expression, if empty will evaulate to true):</label>
+            <div class="MonacoEditor-Inline" id="is-active-text-area" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" ng-model="element.visible" id="visible" name="visible"></div>            
+        </div>
+        <button id="cards-btn" type="button" class="hb-btn hb-btn-secondary" style="width: 150px" ng-click="openAttachmentPopup()">{{attachmentButton()}}</button>
+        <button id="metadata-btn" type="button" class="hb-btn hb-btn-secondary" style="width: 150px" ng-click="openEntityPopup()">{{entityButton()}}</button>
+    </div>
+    <div class="modal-footer">
+        <button id="statement-form-ok-btn" type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button id="statement-form-cancel-btn" type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

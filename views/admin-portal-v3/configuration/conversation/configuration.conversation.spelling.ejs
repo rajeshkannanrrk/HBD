@@ -1,0 +1,48 @@
+<hb-page-header title="Spelling"
+                sub-title-line1="Configure the built-in spelling correction available in your bot."
+></hb-page-header>
+<div class="hb-section-details">
+    <section class="config-section" id="builtinSpeller">
+        <div class="config-section-title">
+            <h4 class="section-name">Built-in Speller</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Spelling correction</h3>
+                        <div class="preview-text">End user utterances are spell checked using an open source spelling
+                        correction package if they are not understood by the bot in their original spelling.
+                        </div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/speller.png">
+                    </div>
+                </button>
+            </div>
+            <config-section-enable-toggle ctrl="$configCtrl"
+                                          variable="$configCtrl.data.speller.enable">
+            </config-section-enable-toggle>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Spelling corrected but intent was not understood "
+                        info="The message displayed when the speller has corrected the utterance, but the bot is still not able to understand the end user's intent"
+                        variable="$configCtrl.data.speller.corrected_but_not_supported_reply"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Strong spelling verification rejected"
+                        info="The message displayed when the end user rejects the strong spelling verification"
+                        variable="$configCtrl.data.speller.correction_rejected_reply"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Weak spelling verification"
+                        info="The message displayed when the speller has corrected an utterance with medium certainty. The end user is not prompted to confirm the new spelling."
+                        variable="$configCtrl.data.speller.assuming_you_mean"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Strong spelling verification"
+                        info="The message displayed when the speller has corrected an utterance with low certainty. The end user is promted to confirm the new spelling."
+                        variable="$configCtrl.data.speller.did_you_mean"></config-textbox>
+        <% if (isSysAdmin) { %>
+            <section class="system-admin-field">
+                <config-textbox ctrl="$configCtrl"
+                                label="conversation.speller.speller_locale"
+                                variable="$configCtrl.data.speller.speller_locale"></config-textbox>
+            </section>
+        <% } %>
+    </section>
+</div>

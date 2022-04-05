@@ -1,0 +1,300 @@
+<div id="application-navbar" class="hb-navigation-panel-minimized">
+    <button class="hamburger"
+            onclick="toggleNavBar()"
+            aria-label="open and close navigation bar (close)"
+            role="button">
+        <i class="hb-icons hb-icons-GlobalNavButton"></i>
+    </button>
+    <div class="left-menu-buttons">
+        <nav role="navigation">
+            <ul role="menu">
+                <li role="menuitem" class="<% if (navigationPath[0] === 'scenarios') { %>active <% } else { %>inactive<% } %>">
+                    <a class="left-menu-button"
+                       href="/account/<%=accountName%>/scenarios/manage"
+                       aria-roledescription="scenarios section - 3 links">
+                        <i class="header-button-icon hb-icons hb-icons-scenarios" aria-hidden="true"></i>
+                        <span class="section-title">Scenarios</span>
+                    </a>
+                    <ul role="menu" class="dropdown">
+                        <span class="section-title">Scenarios</span>
+                        <li role="menuitem">
+                            <a href="/account/<%=accountName%>/scenarios/manage"
+                               aria-label="1 - manage"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'scenarios' && navigationPath[1] === 'manage') { %>active<% } %>">
+                                Manage
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="/account/<%=accountName%>/scenarios/catalog"
+                               aria-label="2 - template catalog"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'scenarios' && navigationPath[1] === 'catalog') { %>active<% } %>">
+                                Template catalog
+                            </a>
+                        </li>
+                        <% if (scenarioSearchAvailable) { %>
+                        <li role="menuitem">
+                            <a href="/account/<%=accountName%>/scenarios/search"
+                               aria-label="3 - search"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'scenarios' && navigationPath[1] === 'search') { %>active<% } %>">
+                                Search
+                            </a>
+                        </li>
+                        <% } %>
+                        <% if (isSysAdmin) { %>
+                        <li role="menuitem">
+                            <a href="/account/<%=accountName%>/scenarios/catalogEditor"
+                               aria-label="hidden - catalog editor"
+                               class="left-menu-sub-button red-text <% if (navigationPath[0] === 'scenarios' && navigationPath[1] === 'catalogEditor') { %>active<% } %>">
+                                Catalog Editor
+                            </a>
+                        </li>
+                        <% } %>
+                    </ul>
+                </li>
+                <li role="menuitem" class="<% if (navigationPath[0] === 'language-models') { %>active <% } else { %>inactive<% } %>">
+                    <a class="left-menu-button"
+                       href="/account/<%=accountName%>/language-models/manage"
+                       aria-roledescription="language section - 2 items">
+                        <i class="header-button-icon hb-icons hb-icons-language-models" aria-hidden="true"></i>
+                        <span class="section-title">Language</span>
+                    </a>
+                    <ul role="menu" class="dropdown">
+                        <span class="section-title">Language</span>
+                        <li role="menuitem">
+                            <a aria-label="1 - models"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'language-models' && navigationPath[1] === 'manage') { %>active<% } %>"
+                               href="/account/<%=accountName%>/language-models/manage">
+                                Models
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="2 - localization"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'language-models' && navigationPath[1] === 'localization') { %>active<% } %>"
+                               href="/account/<%=accountName%>/language-models/localization">
+                                Localization
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li role="menuitem" class="<% if (navigationPath[0] === 'configuration') { %>active <% } else { %>inactive<% } %>">
+                    <a aria-roledescription="configuration section - 3 items"
+                       class="left-menu-button" href="/account/<%=accountName%>/configuration/medical">
+                        <i class="header-button-icon hb-icons hb-icons-configuration" aria-hidden="true"></i>
+                        <span class="section-title">Configuration</span>
+                    </a>
+                    <ul role="menu" class="dropdown">
+                        <span class="section-title">Configuration</span>
+                        <li role="menuitem">
+                            <a aria-label="1 - medical"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'configuration' && navigationPath[1] === 'medical') { %>active<% } %>"
+                               href="/account/<%=accountName%>/configuration/medical">
+                                Medical
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="2 - compliance"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'configuration' && navigationPath[1] === 'compliance') { %>active<% } %>"
+                               href="/account/<%=accountName%>/configuration/compliance">
+                                Compliance
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="3 - conversation"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'configuration' && navigationPath[1] === 'conversation') { %>active<% } %>"
+                               href="/account/<%=accountName%>/configuration/conversation">
+                                Conversation
+                            </a>
+                        </li>
+                        <% if (isSysAdmin) { %>
+                        <li role="menuitem">
+                            <a aria-label="hidden - system admin"
+                               class="left-menu-sub-button red-text <% if (navigationPath[0] === 'configuration' && navigationPath[1] === 'system-admin') { %>active<% } %>"
+                               href="/account/<%=accountName%>/configuration/system-admin">
+                                System admin
+                            </a>
+                        </li>
+                        <% } %>
+                    </ul>
+                </li>
+                <li role="menuitem" class="<% if (navigationPath[0] === 'integration') { %>active <% } else { %>inactive<% } %>">
+                    <a aria-roledescription="integration section - 4 items"
+                       class="left-menu-button" href="/account/<%=accountName%>/integration/data-connections">
+                        <i class="header-button-icon hb-icons hb-icons-integration" aria-hidden="true"></i>
+                        <span class="section-title">Integration</span>
+                    </a>
+                    <ul role="menu" class="dropdown">
+                        <span class="section-title">Integration</span>
+                        <li role="menuitem">
+                            <a aria-label="1 - data connections"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'integration' && navigationPath[1] === 'data-connections') { %>active<% } %>"
+                               href="/account/<%=accountName%>/integration/data-connections">
+                                Data connections
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="2 - authentication"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'integration' && navigationPath[1] === 'authentication') { %>active<% } %>"
+                               href="/account/<%=accountName%>/integration/authentication">
+                                Authentication
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="3 - skills"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'integration' && navigationPath[1] === 'skills') { %>active<% } %>"
+                               href="/account/<%=accountName%>/integration/skills">
+                                Skills
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="4 - secrets"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'integration' && navigationPath[1] === 'secrets') { %>active<% } %>"
+                               href="/account/<%=accountName%>/integration/secrets">
+                                Secrets
+                            </a>
+                        </li>
+                        <% if (botName) { %>
+                        <li role="menuitem">
+                            <a aria-label="5 - channels"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'integration' && navigationPath[1] === 'channels') { %>active<% } %>"
+                               href="/account/<%=accountName%>/integration/channels">
+                                Channels
+                            </a>
+                        </li>
+                        <% } %>
+                    </ul>
+                </li>
+                <li role="menuitem" class="<% if (navigationPath[0] === 'analytics') { %>active <% } else { %>inactive<% } %>">
+                    <a aria-roledescription="analytics section - 3 items"
+                       class="left-menu-button" href="/account/<%=accountName%>/analytics/reports">
+                        <i class="header-button-icon hb-icons hb-icons-analytics" aria-hidden="true"></i>
+                        <span class="section-title">Analytics</span>
+                    </a>
+                    <ul role="menu" class="dropdown">
+                        <span class="section-title">Analytics</span>
+                        <li role="menuitem">
+                            <a aria-label="1 - reports"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'analytics' && navigationPath[1] === 'reports') { %>active<% } %>"
+                               href="/account/<%=accountName%>/analytics/reports">
+                                Reports
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="2 - feedback"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'analytics' && navigationPath[1] === 'feedback') { %>active<% } %>"
+                               href="/account/<%=accountName%>/analytics/feedback">
+                                Feedback
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="3 - unrecognized utterances"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'analytics' && navigationPath[1] === 'unrecognized-utterances') { %>active<% } %>"
+                               href="/account/<%=accountName%>/analytics/unrecognized-utterances">
+                                Unrecognized utterances
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="4 - conversation logs"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'analytics' && navigationPath[1] === 'conversation-logs') { %>active<% } %>"
+                               href="/account/<%=accountName%>/analytics/conversation-logs">
+                                Conversation logs
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li role="menuitem" class="<% if (navigationPath[0] === 'users') { %>active <% } else { %>inactive<% } %>">
+                    <a aria-roledescription="users section - 2 items"
+                       class="left-menu-button" href="/account/<%=accountName%>/users/manage">
+                        <i class="header-button-icon hb-icons hb-icons-users" aria-hidden="true"></i>
+                        <span class="section-title">Users</span>
+                    </a>
+                    <ul role="menu" class="dropdown">
+                        <span class="section-title">Users</span>
+                        <li role="menuitem">
+                            <a aria-label="1 - manage"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'users' && navigationPath[1] === 'manage') { %>active<% } %>"
+                               href="/account/<%=accountName%>/users/manage">
+                                Manage
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="2 - audit trails"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'users' && navigationPath[1] === 'audit-trails') { %>active<% } %>"
+                               href="/account/<%=accountName%>/users/audit-trails">
+                                Audit trails
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li role="menuitem" class="<% if (navigationPath[0] === 'resources') { %>active <% } else { %>inactive<% } %>">
+                    <a aria-roledescription="resources section - 2 items"
+                       class="left-menu-button" href="/account/<%=accountName%>/resources/files">
+                        <i class="header-button-icon hb-icons hb-icons-resources" aria-hidden="true"></i>
+                        <span class="section-title">Resources</span>
+                    </a>
+                    <ul role="menu" class="dropdown">
+                        <span class="section-title">Resources</span>
+                        <li role="menuitem">
+                            <a aria-label="1 - files"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'resources' && navigationPath[1] === 'files') { %>active<% } %>"
+                               href="/account/<%=accountName%>/resources/files">
+                                Files
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a aria-label="2 - environment variables"
+                               class="left-menu-sub-button <% if (navigationPath[0] === 'resources' && navigationPath[1] === 'environment-variables') { %>active<% } %>"
+                               href="/account/<%=accountName%>/resources/environment-variables">
+                                Environment variables
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<script>
+    function openNavBar() {
+        $('#application-navbar').removeClass('hb-navigation-panel-minimized');
+        $('#application-navbar').addClass('hb-navigation-panel');
+        $('.application-body').addClass('navbar-maximized');
+        $('.application-navbar').removeClass('navbar-minimized');
+        $('.spinner').removeClass('maxi');
+        $('.spinner').addClass('mini');
+        $('.hamburger').attr('aria-label', 'open and close navigation bar (opened)');
+
+    }
+
+    function closeNavBar() {
+        $('#application-navbar').addClass('hb-navigation-panel-minimized');
+        $('#application-navbar').removeClass('hb-navigation-panel');
+        $('.application-body').removeClass('navbar-maximized');
+        $('.application-navbar').addClass('navbar-minimized');
+        $('.spinner').removeClass('mini');
+        $('.spinner').addClass('maxi');
+        $('.hamburger').attr('aria-label', 'open and close navigation bar (closed)');
+    }
+
+    function toggleNavBar() {
+        navBarOpened = localStorage["mshtenants.navbar"] === 'large' ? 'small' : 'large';
+        localStorage["mshtenants.navbar"] = navBarOpened;
+        (navBarOpened === 'large') ? openNavBar() : closeNavBar();
+        var event = new Event('resize');
+        window.dispatchEvent(event);
+    }
+
+    function navigationButtonClickHandler(el, route) {
+        if (route) {
+            if (!$(el).hasClass("active")) {
+                location.href = '/account/<%= tenantName %>/' + route;
+            }
+        } else {
+            $(el.parentElement).find('.left-menu-sub-button')[0].click();
+        }
+    }
+
+    $(document).ready(function () {
+        (localStorage["mshtenants.navbar"] === 'large') ? openNavBar() : closeNavBar();
+    });
+
+</script>

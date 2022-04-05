@@ -1,0 +1,46 @@
+<div class="config-item" ng-class="variable._changed ? 'not-saved' :  ''">
+    <div ng-if="label !== undefined" class="config-item-name">
+        {{label}}
+        <button aria-label="{{label}} - {{info}}"
+                ng-if="info !== undefined" class="info-button">
+            <div class="hb-hover-info">{{info}}
+                <span ng-if="learnMore !== undefined">
+                    <br>
+                    <a href="{{learnMore}}" target="_blank" class="clickable-text">Learn more</a>
+                </span>
+            </div>
+        </button>
+    </div>
+
+    <!--not LocalizedString-->
+    <textarea aria-label="{{label}}" ng-if="variable._scheme.format !== 'LocalizedString'"
+              type="text"
+              ng-model="variable._tenant"
+              ng-change="ctrl.changeHandler(variable)"></textarea>
+    <!-- LocalizedString-->
+    <section style="position: relative" ng-if="variable._scheme.format === 'LocalizedString'">
+        <textarea aria-label="{{label}}"
+                  aria-multiline="true"
+                  ng-if="!ctrl.isLocalizationEnabled"
+                  type="text"
+                  ng-model="variable._tenant['en-us']"
+                  ng-change="ctrl.changeHandler(variable)"></textarea>
+        <textarea aria-label="{{label}}"
+                  aria-multiline="true"
+                  ng-if="ctrl.isLocalizationEnabled"
+                  type="text"
+                  class="form-control"
+                  placeholder="{{placeholder || 'start typing your string'}}"
+                  ng-model="variable._tenant"
+                  ng-blur="ctrl.localizedStringOnBlurHandler(variable, '_tenant')"
+                  typeahead-on-select="ctrl.changeHandler(variable)"
+                  uib-typeahead="e as e['en-us'] for e in ctrl.localizedStringSearch($viewValue, variable)"
+                  typeahead-select-on-blur="true"
+                  typeahead-loading="true"
+                  typeahead-show-hint="false"
+                  typeahead-wait-ms="100"
+                  typeahead-editable="true"
+                  typeahead-template-url="/resources/templates/config/config-localized-string-picker.typeahead.html"
+        ></textarea><loadingString class="hb-icons hb-icons-ProgressRing6 hb-icons-spin" ng-class="ctrl.loadingOptions ? 'loading' : ''"></loadingString>
+    </section>
+</div>

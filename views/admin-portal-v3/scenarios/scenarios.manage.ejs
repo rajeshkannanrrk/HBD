@@ -1,0 +1,898 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-scenarios.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/scenarios.manage.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/directives/readfile.directive.js?build=#{Build.BuildNumber}#"></script>
+    <script>var require = { paths: { 'vs': '/node_modules/monaco-editor/min/vs' } };</script>
+    <script src="/node_modules/monaco-editor/min/vs/loader.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/monaco-editor/min/vs/editor/editor.main.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/directives/dynamic-dropdown.directive.js?build=#{Build.BuildNumber}#"></script>
+
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="scenariosCtrl as $scenariosCtrl" ng-init="$scenariosCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <button aria-label="create new scenario"
+                    role="button"
+                    class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %> ng-click="$scenariosCtrl.addNewScenario()" <% } %>>
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Add"></i></span>
+                <span class="control-button-label">New</span>
+            </button>
+            <button aria-label="refresh scenarios list"
+                    role="button"
+                    class="control-button" ng-click="$scenariosCtrl.loadData()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+            <button aria-label="import scenarios"
+                    role="button"
+                    class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else  { %> ng-click="$scenariosCtrl.pickFilesToImport()" <% } %>>
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Upload"></i></span>
+                <span class="control-button-label">Import</span>
+            </button>
+            <button aria-label="export selected scenarios"
+                    role="button"
+                    class="control-button" ng-disabled="$scenariosCtrl.selectedCounter === 0" ng-click="$scenariosCtrl.exportScenarios('begin')">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Download"></i></span>
+                <span class="control-button-label">Export</span>
+            </button>
+            <button aria-label="delete selected scenarios"
+                    role="button"
+                    class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %>  ng-disabled="$scenariosCtrl.selectedCounter === 0" ng-click="$scenariosCtrl.showDelete()" <% } %>>
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Delete"></i></span>
+                <span class="control-button-label">Delete</span>
+            </button>
+        </div>
+        <div id="scenarios-welcome" class="data-container scenarios-welcome-page d-none">
+            <img class="image" src="/resources/images/logo-white.png" alt="logo"/>
+                <div class="title"> Welcome to your Health Bot Instance </div>
+                <div class="sub-title" role=""> To get started select one of the following: </div>
+            <div class = "welcome-options">
+                <div class = "welcome-option" id = "select">
+                    <i class="icon hb-icons-ShowAllFilesLegacy"></i>
+                    <div class = "title"> Select a template scenario <br>
+                        <div class = "sub-title"> These are pre-built scenarios that provide examples for common healthcare use cases. </div> <br>
+                        <button class="hb-btn hb-btn-welcome-link " ng-click="$root.redirectURL('./catalog')" role="link">Open scenarios template catalog</button>
+                    </div>
+                </div>
+                <div class = "welcome-option" id="create">
+                    <i class="icon hb-icons-scenarios"></i>
+                    <div class = "title"> Create a new scenario <br>
+                        <div class = "sub-title"> You can author a custom conversation flow tailored to your specific needs. </div> <br>
+                        <button class="hb-btn hb-btn-welcome-link " ng-click="$scenariosCtrl.addNewScenario()" style="padding-bottom: 17px" role="button">Create new scenario</button>
+                    </div>
+                </div>
+                <div class = "welcome-option" id="configure">
+                    <i class="icon hb-icons-Settings"></i>
+                    <div class = "title"> Configure built-in capabilities <br>
+                        <div class = "sub-title"> Your Healthcare Bot comes with built-in healthcare AI, compliance constructs and navigational controls that you can fully configure. </div> <br>
+                        <button class="hb-btn hb-btn-welcome-link " ng-click="$root.redirectURL('../configuration/medical')" role="link">Manage from configuration section</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="scenarios-list" class="data-container d-none">
+            <hb-page-header title="Scenario Management"
+                            sub-title-line1="Create and manage custom scenarios for your bot instance."
+                            learn-more="https://aka.ms/HealthcareBotDocs/scenario_management"></hb-page-header>
+            <table class="scenario-table">
+                <tr>
+                    <td class="scenario-table-selected-column">
+                        <button role="checkbox"
+                                aria-checked="{{$scenariosCtrl.allSelected ? 'true' : 'false'}}"
+                                aria-label="all scenarios selected"
+                                class="hb-btn hb-btn-checkbox" ng-click="$scenariosCtrl.selectAll()">
+                            <i ng-class="$scenariosCtrl.allSelected ? 'hb-icons hb-icons-CheckboxComposite' : 'hb-icons hb-icons-Checkbox'" aria-hidden="true" style="cursor: pointer"></i>
+                        </button>
+                    </td>
+                    <th class="scenario-table-active-column">
+                        Active
+                    </th>
+                    <th class="scenario-table-name-column">
+                        <button role="button"
+                                aria-label="scenario name column - sortable - {{$scenariosCtrl.texts.scenariosTableColumnSortState.name}}"
+                                class="hb-btn hb-btn-column-sort" ng-click="$scenariosCtrl.update('name')">
+                            Name
+                            <i ng-if="$scenariosCtrl.selectedColumn === 'name'" ng-class="($scenariosCtrl.orderDescending) ? 'hb-icons hb-icons-SortLinesDown' : 'hb-icons hb-icons-SortLinesUp'" aria-hidden="true"></i>
+                        </button>
+                    </th>
+                    <th class="scenario-table-id-column">
+                        <button role="button"
+                                aria-label="scenario ID column - sortable - {{$scenariosCtrl.texts.scenariosTableColumnSortState.scenario_trigger}}"
+                                class="hb-btn hb-btn-column-sort" ng-click="$scenariosCtrl.update('scenario_trigger')">
+                            Scenario ID
+                            <i ng-if="$scenariosCtrl.selectedColumn === 'scenario_trigger'" ng-class="($scenariosCtrl.orderDescending) ? 'hb-icons hb-icons-SortLinesDown' : 'hb-icons hb-icons-SortLinesUp'" aria-hidden="true"></i>
+                        </button>
+                    </th>
+                    <th class="scenario-table-description-column">
+                        <button role="button"
+                                aria-label="scenario description column - sortable - {{$scenariosCtrl.texts.scenariosTableColumnSortState.description}}"
+                                class="hb-btn hb-btn-column-sort" ng-click="$scenariosCtrl.update('description')">
+                            Description
+                            <i ng-if="$scenariosCtrl.selectedColumn === 'description'" ng-class="($scenariosCtrl.orderDescending) ? 'hb-icons hb-icons-SortLinesDown' : 'hb-icons hb-icons-SortLinesUp'" aria-hidden="true"></i>
+                        </button>
+                    </th>
+                    <th class="scenario-table-last-modified-column">
+                        <button role="button"
+                                aria-label="last modified column - sortable - {{$scenariosCtrl.texts.scenariosTableColumnSortState.time}}"
+                                class="hb-btn hb-btn-column-sort" ng-click="$scenariosCtrl.update('time')">
+                            Last Modified
+                            <i ng-if="$scenariosCtrl.selectedColumn === 'time'" ng-class="($scenariosCtrl.orderDescending) ? 'hb-icons hb-icons-SortLinesDown' : 'hb-icons hb-icons-SortLinesUp'" aria-hidden="true"></i>
+                        </button>
+                    </th>
+                    <th class="scenario-table-action-column">Actions</th>
+                </tr>
+                <tr ng-repeat="scenario in $scenariosCtrl.scenarios track by $index" ng-class="scenario.selected ? 'selected' : ''">
+                    <td class="scenario-table-checkbox-column">
+                        <button id="checkbox-{{scenario.scenario_trigger}}" role="checkbox" aria-label="scenario {{scenario.name}} selection state" 
+                                aria-checked="{{scenario.selected ? 'true' : 'false'}}" class="hb-btn hb-btn-checkbox" ng-click="$scenariosCtrl.select(scenario)" >
+                            <i ng-class="scenario.selected ? 'hb-icons hb-icons-CheckboxComposite' : 'hb-icons hb-icons-Checkbox'" aria-hidden="true" style="cursor: pointer"></i>
+                        </button>
+                    </td>
+                    <td class="scenario-table-active-column">
+                        <button id="switch-{{scenario.scenario_trigger}}" class="hb-btn hb-btn-toggle" role="switch"
+                                aria-checked="{{scenario.active ? 'true' : 'false'}}" aria-label="scenario active state" ng-click="$scenariosCtrl.activeToggle(scenario)">
+                            <div ng-class="scenario.active ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                        </button>
+                    </td>
+                    <td class="scenario-table-name-column">
+                        <a ng-href="/account/<%=accountName%>/scenario-editor/{{scenario.RowKey}}"
+                           role="link"
+                           aria-label="open {{scenario.name}}"
+                           title="{{scenario.name}}">
+                            <span ng-href="/account/<%=accountName%>/scenario-editor/{{scenario.RowKey}}"
+                                  ng-class="(scenario.currentUser && scenario.currentUser.length > 0) ? 'scenariosLinkConfirm' : 'scenariosLinkNonConfirm'">
+                                <span title="{{scenario.currentUser}} has this scenario open" class="hb-icons hb-icons-Lock" ng-if="scenario.currentUser && scenario.currentUser.length > 0"></span>
+                                {{scenario.name}}
+                            </span>
+                        </a>
+                    </td>
+                    <td class="scenario-table-id-column" title="{{scenario.scenario_trigger}}">
+                        <span>
+                            {{scenario.scenario_trigger}}
+                        </span>
+                    </td>
+                    <td class="scenario-table-description-column">
+                        <span title="{{scenario.description}}">
+                            {{scenario.description}}
+                        </span>
+                    </td>
+                    <td class="scenario-table-last-modified-column">
+                        <span title="{{scenario.TimestampString}} {{(scenario.userDisplayName && scenario.userDisplayName.length > 0) ? '(' + scenario.userDisplayName + ')' : ''}}">
+                            {{scenario.TimestampString}} {{(scenario.userDisplayName && scenario.userDisplayName.length > 0) ? '(' + scenario.userDisplayName + ')' : ''}}
+                        </span>
+                    </td>
+                    <td class="scenario-table-action-column">
+                        <button title="Edit metadata"
+                                role="button"
+                                aria-label="edit {{scenario.name}} scenario metadata"
+                                class="hb-btn hb-btn-action"
+                                ng-click="$scenariosCtrl.editScenario('begin', scenario.RowKey)">
+                            <i class="hb-icons hb-icons-Edit"></i>
+                        </button>
+                        <button title="Clone"
+                                role="button"
+                                aria-label="clone {{scenario.name}} scenario"
+                                class="hb-btn hb-btn-action"
+                                <% if (isEditor || isAdmin || isSysAdmin) { %>
+                                ng-click="$scenariosCtrl.cloneScenario('begin', scenario.RowKey)"
+                                <% } else { %>
+                                disabled
+                                <% } %>
+                                >
+
+                            <i class="hb-icons hb-icons-Clone"></i>
+                        </button>
+                        <button title="Delete"
+                                role="button"
+                                aria-label="delete {{scenario.name}} scenario"
+                                <% if (isSysAdmin || isAdmin || isEditor) { %>
+                                ng-click="$scenariosCtrl.showDelete(scenario)"
+                                <% } else { %>
+                                disabled
+                                <% } %>
+                                class="hb-btn hb-btn-action">
+                            <i class="hb-icons hb-icons-Delete"></i>
+                        </button>
+                        <button title="Manage snapshots"
+                                aria-label="manage {{scenario.name}} scenario snapshots"
+                                role="button"
+                                class="hb-btn hb-btn-action"
+                                ng-show="scenario.snapshots > 0"
+                                ng-click="$scenariosCtrl.manageSnapshots(scenario)">
+                            <i class="hb-icons hb-icons-History"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="manageSnapshotsModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog" style="width: 50%; max-height: 80%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Manage Scenario Snapshots</h4>
+                </div>
+                <div class="modal-body" style="max-height: 80%; overflow: auto;">
+                    <div>
+                        <b>Scenario Name:</b> {{$scenariosCtrl.managedScenarioSnapshots.name}}
+                    </div>
+                    <div>
+                        <b>Scenario Id:</b> {{$scenariosCtrl.managedScenarioSnapshots.scenario_trigger}}
+                    </div>
+                    <div>
+                        <b>Last Modified:</b> {{$scenariosCtrl.managedScenarioSnapshots.TimestampString}} {{($scenariosCtrl.managedScenarioSnapshots.userDisplayName && $scenariosCtrl.managedScenarioSnapshots.userDisplayName.length > 0) ? '(' + $scenariosCtrl.managedScenarioSnapshots.userDisplayName + ')' : ''}}
+                    </div>
+                    <table width="100%" class="table table-condense table-hover" style="margin-top: 20px;">
+                        <tr style="background-color: rgb(234, 234, 234)">
+                            <th>Select</th>
+                            <th>
+                                Creation Date
+                            </th>
+                            <th width="5%">
+                                Actions
+                            </th>
+                            <% if (isEditor || isAdmin || isSysAdmin) { %>
+                            <th width="5%">
+                            </th>
+                            <% } %>
+                            <% if (isEditor || isAdmin || isSysAdmin) { %>
+                            <th width="5%">
+                            </th>
+                            <% } %>
+                        </tr>
+                        <tr ng-repeat="snapshotItem in $scenariosCtrl.snapshotItems">
+                            <td>
+                                <button role="checkbox" aria-label="scenario {{scenario.name}} selection state" 
+                                        aria-checked="{{scenario.selected ? 'true' : 'false'}}" class="hb-btn hb-btn-checkbox" ng-click="$scenariosCtrl.selectForCompare(snapshotItem)" >
+                                <i ng-class="snapshotItem.selected ? 'hb-icons hb-icons-CheckboxComposite' : 'hb-icons hb-icons-Checkbox'" aria-hidden="true" style="cursor: pointer"></i>
+                                </button>
+                            </td>
+                            <td>                                
+                                {{snapshotItem.localTime}}
+                            </td>
+                            <td style="display:none">
+                                {{snapshotItem.utcTime}}
+                            </td>
+                            <td>
+                                <button  type="button" class="hb-btn hb-btn-action" title="View Version"
+                                    ng-click="$scenariosCtrl.viewSnapshot($scenariosCtrl.managedScenarioSnapshots, snapshotItem.utcTime)">
+                                    <i class="hb-icons hb-icons-View"></i>
+                                    View
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="hb-btn hb-btn-action" title="Compare with current version"
+                                    ng-click="$scenariosCtrl.compareSnapshotWithBase($scenariosCtrl.managedScenarioSnapshots, snapshotItem.utcTime)">
+                                    <i class="hb-icons hb-icons-Version"></i>
+                                    Compare
+                                </button>
+                            </td>
+                            <% if (isEditor || isAdmin || isSysAdmin) { %>
+                            <td>
+                                <button  ng-hide="!snapshotItem.utcTime" type="button" class="hb-btn hb-btn-action" title="Promote to current version"
+                                    ng-click="$scenariosCtrl.promoteSnapshot(snapshotItem.utcTime)">
+                                    <i class="hb-icons hb-icons-PromoteSnapshot"></i>
+                                    Promote
+                                </button>
+                            </td>
+                            <% } %>
+                            <% if (isEditor || isAdmin || isSysAdmin) { %>
+                            <td>
+                                <button ng-hide="!snapshotItem.utcTime" type="button" class="hb-btn hb-btn-action" title="Delete Snapshot"                                
+                                    ng-click="$scenariosCtrl.deleteSnapshot(snapshotItem.utcTime)">
+                                    <i class="hb-icons hb-icons-Delete"></i>
+                                    Delete
+                                </button>                                    
+                            </td>
+                            </tr>
+                            <% } %>
+                    </table>
+                    <div class="actions">
+                        <button ng-disabled="$scenariosCtrl.selectedSnapshots !== 2" aria-label="compare snapshots" type="button" 
+                            class="hb-btn hb-btn-secondary" ng-click="$scenariosCtrl.compareSnapshots($scenariosCtrl.managedScenarioSnapshots)" title="Compare Selected Snapshots">
+                            <i class="hb-icons hb-icons-Compare"></i>
+                            Compare Selected Snapshots
+                        </button>
+                        <button aria-label="close" type="button" style="float: right;" class="hb-btn hb-btn-secondary"  data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="comparesnapshotsModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog" style="width: 70%; max-height: 80%;max-width: 1000px">
+            <div class="modal-content">
+                <div class="modal-header" style="display: block">
+                    <button role="button" style="float: right;"
+                        class="hb-btn hb-btn-drawer-close"
+                        data-dismiss="modal"
+                        aria-label="close compare scenario snapshot">
+                        <i class="hb-icons hb-icons-Cancel"></i>
+                    </button>
+                    <h4 class="modal-title">Compare Snapshots</h4>
+                </div>
+                <div class="modal-body" style="max-height: 80%; overflow: auto;">
+                    <div style="margin-bottom: 7px;">
+                        <button aria-label="next diff" type="button" class="hb-btn" ng-click="$scenariosCtrl.nextDiff()" title="Next Diff">
+                            <i class="hb-icons hb-icons-Next"></i>
+                        </button>
+                        <button aria-label="previus diff" type="button" class="hb-btn" ng-click="$scenariosCtrl.prevDiff()" title="Previous Diff">
+                            <i class="hb-icons hb-icons-Previous"></i>
+                        </button>
+                    </div>
+                    <table style="width: 100%;" class="table">
+                        <tr style="font-size: 16px;">
+                            <th style="width: 50%">{{$scenariosCtrl.comparedSnapshotId1}}</th>
+                            <th style="width: 50%">{{$scenariosCtrl.comparedSnapshotId2}}</th>
+                        </tr>
+                    </table>
+                    <div id="diffeditor" style="height: 700px;">
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+
+    <div id="viewSnapshotModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog" style="width: 70%; max-height: 80%; max-width: 1000px">
+            <div class="modal-content">
+                <div class="modal-header" style="display: block">
+                    <button role="button" style="float: right;"
+                        class="hb-btn hb-btn-drawer-close"
+                        data-dismiss="modal"
+                        aria-label="view scenario snapshot">
+                        <i class="hb-icons hb-icons-Cancel"></i>
+                    </button>
+                    <h4 class="modal-title">{{$scenariosCtrl.comparedSnapshotId1}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="snapshotview" style="height: 700px">
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+
+    <div id="deleteSnapshotModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-header" style="display: block">
+                    <button role="button" style="float: right;"
+                        class="hb-btn hb-btn-drawer-close"
+                        data-dismiss="modal"
+                        aria-label="delete snapshot">
+                        <i class="hb-icons hb-icons-Cancel"></i>
+                    </button>
+                    <h4 class="modal-title">Delete Snapshot: {{$scenariosCtrl.snapshotStringToDelete}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        
+                    </div>
+                    <div class="actions">
+                        <button type="button" class="hb-btn hb-btn-primary" ng-click="$scenariosCtrl.executeDeleteSnapshot($scenariosCtrl.managedScenarioSnapshots)" data-dismiss="modal">Delete</button>
+                        <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="promoteSnapshotModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-header" style="display: block">
+                    <button role="button" style="float: right;"
+                        class="hb-btn hb-btn-drawer-close"
+                        data-dismiss="modal"
+                        aria-label="delete snapshot">
+                        <i class="hb-icons hb-icons-Cancel"></i>
+                    </button>
+                    <h4 class="modal-title">Promote Snapshot: {{$scenariosCtrl.snapshotStringToPromote}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                        Promoting this snapshot will replace the current version of your scenario with the selected snapshot. A new snapshot with the current version will be created so you can revert to it if neccessary.
+                        <br>
+                        <br>
+                        Are you sure you want to continue?
+                        <br>
+                        <br>
+                    </div>
+                    <div class="actions">
+                        <button type="button" class="hb-btn hb-btn-primary" ng-click="$scenariosCtrl.executePromoteSnapshot($scenariosCtrl.managedScenarioSnapshots)" data-dismiss="modal">Continue</button>
+                        <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="importScenariosModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog" style="max-width: 90%; max-height: 80%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{$scenariosCtrl.texts.validation.title.en}}</h4>
+                </div>
+                <div class="modal-body" style="max-height: 80%; max-width: 90%;overflow: auto;">
+                    <table class="table table-condense table-hover">
+                        <tr style="background-color: rgb(234, 234, 234)">
+                            <td width="30px">
+                                <button class="hb-btn hb-btn-checkbox" ng-click="$scenariosCtrl.importToggleAll()" aria-label="toggle all scenarios import selected state">
+                                    <i ng-class="$scenariosCtrl.importAllSelected ? 'checkbox-toggle hb-icons hb-icons-CheckboxComposite' : 'checkbox-toggle hb-icons hb-icons-Checkbox'" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            <th width="12%">
+                                {{$scenariosCtrl.texts.validation.colFileName.en}}
+                            </th>
+                            <th width="12%">
+                                {{$scenariosCtrl.texts.validation.colScenarioName.en}}
+                            </th>
+                            <th width="12%">
+                                {{$scenariosCtrl.texts.validation.colScenarioId.en}}
+                            </th>
+                            <th width="300px">
+                                {{$scenariosCtrl.texts.validation.colInformation.en}}
+                            </th>
+                            <th width="40%">
+                                {{$scenariosCtrl.texts.validation.colValidationResults.en}}
+                            </th>
+                        </tr>
+                        <tr ng-repeat="scenario in $scenariosCtrl.scenariosToImport" class="scenario-import-row" ng-click="$scenariosCtrl.toggleImportSelection(scenario)">
+                            <td width="30px" valign="middle">
+                                <button ng-if="scenario.valid" class="hb-btn hb-btn-checkbox">
+                                    <i ng-class="scenario.selected ? 'checkbox-toggle hb-icons hb-icons-CheckboxComposite' : 'checkbox-toggle hb-icons hb-icons-Checkbox'" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            <td  valign="middle"> {{scenario.class}}
+                                <span ng-class="(scenario.selected) ? 'scenario-import-selected' : 'scenario-import-not-selected'">{{scenario.fileName}}</span>
+                            </td>
+                            <td  valign="middle"> {{scenario.class}}
+                                <span ng-class="(scenario.selected) ? 'scenario-import-selected' : 'scenario-import-not-selected'">{{scenario.scenarioName}}</span>
+                            </td>
+                            <td  valign="middle"> {{scenario.class}}
+                                <span ng-class="(scenario.selected) ? 'scenario-import-selected' : 'scenario-import-not-selected'">{{scenario.scenarioTrigger}}</span>
+                            </td>
+                            <td style="padding-right: 10px">
+                                <!-- invalid scenario badge -->
+                                <section ng-if="!scenario.valid">
+                                    <span class="badge badge-pill badge-danger btn-danger elipsis-tooltip" data-toggle="tooltip" title="{{scenario.message}}">{{scenario.message}}</span>
+                                </section>
+                                <section ng-if="scenario.valid">
+                                    <!-- valid new scenario badge -->
+                                    <section ng-if="!scenario.exists">
+                                        <span class="badge badge-pill badge-success btn-success elipsis-tooltip">{{$scenariosCtrl.texts.validation.newScenario.en}}</span>
+                                    </section>
+                                    <!-- valid existing scenario badge -->
+                                    <section ng-if="scenario.exists">
+                                        <span class="badge badge-pill badge-secondary elipsis-tooltip" data-placement="right" data-toggle="tooltip" title="A Scenario with that name already exists">{{$scenariosCtrl.texts.validation.existingScenario.en}}</span>
+                                        <span ng-if="scenario.selected" class="badge badge-pill badge-warning btn-warning elipsis-tooltip" data-placement="left" data-toggle="tooltip" title="The existing scenario will be overwritten !">{{$scenariosCtrl.texts.validation.overwriteScenario.en}}</span>
+                                    </section>
+                                </section>
+
+                            </td>
+                            <td valign="middle">
+                                <span ng-if="scenario.validation.validating">
+                                    <i class="hb-icons hb-icons-spin hb-icons-Process" aria-hidden="true"></i> {{$scenariosCtrl.texts.validation.validatingScenario.en}}
+                                </span>
+                                <span ng-if="scenario.validation.validated">
+                                    <span ng-if="scenario.validation.conflict" class="badge badge-pill btn-danger elipsis-tooltip">{{$scenariosCtrl.texts.validation.conflictsFound.en}}</span>
+                                    <span ng-if="scenario.validation.problem || scenario.validation.warning" class="badge badge-pill btn-warning elipsis-tooltip" data-toggle="tooltip" title="{{scenario.message}}"><i class="hb-icons hb-icons-Warning" aria-hidden="true"></i> {{scenario.message}}</span>
+                                    <span ng-if="scenario.validation.problem || scenario.validation.warning" class="badge badge-pill btn-danger elipsis-tooltip">{{$scenariosCtrl.texts.validation.deactivatedScenario.en}}</span>
+                                    <span ng-if="scenario.validation.ok" class="badge badge-pill btn-success elipsis-tooltip"><i class="hb-icons hb-icons-chec" aria-hidden="true"></i> {{$scenariosCtrl.texts.validation.validScenario.en}}</span>
+                                    <script>
+                                        $('span[data-toggle="tooltip"]').tooltip({
+                                            content: function(callback) {
+                                                callback($(this).prop('title').replace('\n', '<br />'));
+                                            }
+                                        });
+                                    </script>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="hb-btn hb-btn-danger" data-dismiss="modal" ng-click="$scenariosCtrl.dismissImport()">{{$scenariosCtrl.texts.validation.cancelOperation.en}}</button>
+                    <button type="button" ng-disabled="!$scenariosCtrl.scenariosToImportValidated" class="hb-btn hb-btn-primary" ng-click="$scenariosCtrl.executeImport()">{{$scenariosCtrl.texts.validation.confirmOperation.en}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div hidden align="center">
+        <input id="fileReaderButton" type="file" read-file="$scenariosCtrl.showContent($fileContent)" multiple aria-label="fileReaderButton">
+    </div>
+
+    <div class="portal-modal">
+        <div id="deleteScenario" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" >
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Delete scenario
+                        </div>
+                        <div class="content">
+                            <section ng-if="$scenariosCtrl.scenariosToDelete.length === 1">
+                                <span>The scenario <b>"{{$scenariosCtrl.scenariosToDelete[0].name}}"</b> will be deleted.</span><br>
+                                <span class="warning">Scenarios that used this scenario and intent mapping pointed to it might break.</span><br>
+                                <br>
+                                Are you sure you would like to delete this scenario?
+                            </section>
+                            <section ng-if="$scenariosCtrl.scenariosToDelete.length > 1">
+                                <span>The following scenarios will be deleted:</span><br><br>
+                                <span ng-repeat="scenario in $scenariosCtrl.scenariosToDelete track by $index" style="padding-left: 10px; font-weight: bold">{{$index + 1}}. {{scenario.name}}<br></span><br>
+                                <span class="warning">Scenarios that used these scenarios and intent mapping pointed to them might break.</span><br>
+                                <br>
+                                Are you sure you would like to delete these scenarios?
+                            </section>
+
+
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" ng-click="$scenariosCtrl.executeDelete()" data-dismiss="modal">Delete</button>
+                            <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="drawer" id="exportScenarios">
+        <div class="drawer-container">
+            <button role="button"
+                class="hb-btn hb-btn-drawer-close"
+                ng-click="$scenariosCtrl.exportScenarios('cancel')"
+                aria-label="close export scenarios drawer">
+            <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4>Export Scenarios</h4>
+            <div class="drawer-main-body">
+                <div class="data-item">
+                    <label for="scenarioFormatType" class="required">Export Format Type</label>
+                    <hb-info-button label="Native or OBI format"></hb-info-button>
+                    <select id="scenarioFormatType" class="form-control" ng-model="$scenariosCtrl.formatType">
+                        <option value="native">Native</option>
+                        <option value="obi">AdaptiveDialog (preview)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="drawer-buttons">
+                <button role="button"
+                        aria-label="export scenarios"
+                        class="hb-btn hb-btn-primary drawer-button" ng-click="$scenariosCtrl.exportScenarios('export')">Export</button>
+                <button role="button"
+                        aria-label="cancel"
+                        class="hb-btn hb-btn-secondary drawer-button" ng-click="$scenariosCtrl.exportScenarios('cancel')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal New Scenario Drawer -->
+    <div class="drawer" id="newScenarioDrawer">
+        <div class="drawer-container">
+            <button role="button"
+                    class="hb-btn hb-btn-drawer-close"
+                    ng-click="$scenariosCtrl.addNewScenario('cancel')"
+                    aria-label="close new scenario drawer">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4>New Scenario</h4>
+            <div class="drawer-main-body">
+                <div class="data-item">
+                    <label for="name" class="required">Name</label>
+                    <hb-info-button label="A unique internal name for your scenario"></hb-info-button>
+                    <input aria-label="scenario name"
+                           required
+                           type="text"
+                           class="form-control"
+                           id="name"
+                           name="name"
+                           ng-model="$scenariosCtrl.newScenario.name"
+                           ng-style="{'border-color': ($scenariosCtrl.validation.name) ? 'red' : ''}">
+                    <span ng-if="$scenariosCtrl.validation.name" role="alert" class="form-err-message">{{$scenariosCtrl.validation.name}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="description">Description</label>
+                    <hb-info-button label="A description for your scenario"></hb-info-button>
+                    <textarea aria-label="scenario description"
+                              class="form-control"
+                              id="description"
+                              name="description"
+                              ng-model="$scenariosCtrl.newScenario.description"
+                              rows="2"></textarea>
+                </div>
+                <div class="data-item">
+                    <label for="trigger" class="required">Scenario ID</label>
+                    <hb-info-button label="A unique ID for your scenario"></hb-info-button>
+                    <input aria-label="scenario id"
+                           required
+                           type="text"
+                           class="form-control"
+                           id="trigger"
+                           name="trigger"
+                           ng-model="$scenariosCtrl.newScenario.trigger"
+                           ng-style="{'border-color': ($scenariosCtrl.validation.trigger) ? 'red' : ''}">
+                    <span ng-if="$scenariosCtrl.validation.trigger"
+                          role="alert"
+                          class="form-err-message">{{$scenariosCtrl.validation.trigger}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="returningMessage">Returning Message</label>
+                    <hb-info-button label="A message to send in case this scenario is being resumed after interruption."></hb-info-button>
+                    <input aria-label="scenario returning message"
+                           type="text"
+                           class="form-control"
+                           id="returningMessage"
+                           name="returningMessage"
+                           ng-model="$scenariosCtrl.newScenario.returningMessage"
+                           ng-if="!$scenariosCtrl.isLocalizationEnabled">
+                    <dynamic-dropdown ng-if="$scenariosCtrl.isLocalizationEnabled" selected-string="$scenariosCtrl.localizedString" localized-strings="$scenariosCtrl.localizedStrings" on-select="$scenariosCtrl.localizedStringSelected('new')" refresh-strings="$scenariosCtrl.refreshStrings(partOfString)" save-string="$scenariosCtrl.saveNewString(selectObject, 'new')"></dynamic-dropdown>
+                </div>
+                <div class="data-item">
+                    <div class="hb-form-label" for="interrupting">Interrupting scenario</div>
+                    <hb-info-button label="Determines whether this scenario may interrupt other scenarios."></hb-info-button>
+                    <div>
+                        <button role="switch"
+                                aria-checked="{{$scenariosCtrl.newScenario.interrupting ? 'true' : 'false'}}"
+                                aria-label="interrupting scenario"
+                                id="interrupting"
+                                class="hb-btn hb-btn-toggle"
+                                ng-click="$scenariosCtrl.newScenario.interrupting = !$scenariosCtrl.newScenario.interrupting">
+                            <div ng-class="$scenariosCtrl.newScenario.interrupting ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                        </button>
+                    </div>
+                </div>
+                <div class="data-item" ng-class="$scenariosCtrl.newScenario.interrupting ? '' : 'disabled'">
+                    <div class="hb-form-label" for="breaking">Breaking scenario</div>
+                    <hb-info-button label="Determines whether this scenario breaks other scenarios once interrupting." disabled="!$scenariosCtrl.newScenario.interrupting"></hb-info-button>
+                    <div>
+                        <button role="switch"
+                                aria-checked="$scenariosCtrl.newScenario.breaking ? 'true' : 'false'"
+                                aria-label="breaking scenario"
+                                id="breaking"
+                                ng-disabled="!$scenariosCtrl.newScenario.interrupting"
+                                class="hb-btn hb-btn-toggle"
+                                ng-click="$scenariosCtrl.newScenario.breaking = !$scenariosCtrl.newScenario.breaking">
+                            <div ng-class="$scenariosCtrl.newScenario.breaking ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-buttons">
+                <button role="button"
+                        aria-label="create scenario"
+                        class="hb-btn hb-btn-primary drawer-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else {%>ng-click="$scenariosCtrl.addNewScenario('validate')"<% } %>>Create</button>
+                <button role="button"
+                        aria-label="cancel"
+                        class="hb-btn hb-btn-secondary drawer-button" ng-click="$scenariosCtrl.addNewScenario('cancel')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Health Bot Portal Clone Scenario Drawer -->
+    <div class="drawer" id="cloneScenarioDrawer">
+        <div class="drawer-container">
+            <button role="button"
+                    class="hb-btn hb-btn-drawer-close"
+                    ng-click="$scenariosCtrl.cloneScenario('cancel')"
+                    aria-label="close clone scenario drawer">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4>Clone Scenario</h4>
+            <div class="drawer-main-body">
+                <div class="data-item">
+                    <label for="name" class="required">Name</label>
+                    <hb-info-button label="A unique internal name for your scenario"></hb-info-button>
+                    <input aria-label="scenario name"
+                           required
+                           type="text"
+                           class="form-control"
+                           id="name"
+                           name="name"
+                           ng-model="$scenariosCtrl.currentScenario.name"
+                           ng-style="{'border-color': ($scenariosCtrl.validation.name) ? 'red' : ''}">
+                    <span ng-if="$scenariosCtrl.validation.name" role="alert" class="form-err-message">{{$scenariosCtrl.validation.name}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="description">Description</label>
+                    <hb-info-button label="A description for your scenario"></hb-info-button>
+                    <textarea aria-label="scenario description"
+                              class="form-control"
+                              id="description"
+                              name="description"
+                              ng-model="$scenariosCtrl.currentScenario.description"
+                              rows="2"></textarea>
+                </div>
+                <div class="data-item">
+                    <label for="trigger" class="required">Scenario ID</label>
+                    <hb-info-button label="A unique ID for your scenario"></hb-info-button>
+                    <input aria-label="scenario id"
+                           required
+                           type="text"
+                           class="form-control"
+                           id="trigger"
+                           name="trigger"
+                           ng-model="$scenariosCtrl.currentScenario.trigger"
+                           ng-style="{'border-color': ($scenariosCtrl.validation.trigger) ? 'red' : ''}">
+                    <span ng-if="$scenariosCtrl.validation.trigger"
+                          role="alert"
+                          class="form-err-message">{{$scenariosCtrl.validation.trigger}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="returningMessage">Returning Message</label>
+                    <hb-info-button label="A message to send in case this scenario is being resumed after interruption."></hb-info-button>
+                    <input aria-label="scenario returning message"
+                           type="text"
+                           class="form-control"
+                           id="returningMessage"
+                           name="returningMessage"
+                           ng-model="$scenariosCtrl.currentScenario.returningMessage"
+                           ng-if="!$scenariosCtrl.isLocalizationEnabled">
+                    <dynamic-dropdown ng-if="$scenariosCtrl.isLocalizationEnabled" selected-string="$scenariosCtrl.localizedString" localized-strings="$scenariosCtrl.localizedStrings" on-select="$scenariosCtrl.localizedStringSelected('clone')" refresh-strings="$scenariosCtrl.refreshStrings(partOfString)" save-string="$scenariosCtrl.saveNewString(selectObject, 'clone')"></dynamic-dropdown>
+                </div>
+                <div class="data-item">
+                    <div class="hb-form-label" for="interrupting">Interrupting scenario</div>
+                    <hb-info-button label="Determines whether this scenario may interrupt other scenarios."></hb-info-button>
+                    <div>
+                        <button role="switch"
+                                aria-checked="{{$scenariosCtrl.currentScenario.interrupting ? 'true' : 'false'}}"
+                                aria-label="interrupting scenario"
+                                id="interrupting"
+                                class="hb-btn hb-btn-toggle"
+                                ng-click="$scenariosCtrl.currentScenario.interrupting = !$scenariosCtrl.currentScenario.interrupting">
+                            <div ng-class="$scenariosCtrl.currentScenario.interrupting ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                        </button>
+                    </div>
+                </div>
+                <div class="data-item" ng-class="$scenariosCtrl.currentScenario.interrupting ? '' : 'disabled'">
+                    <div class="hb-form-label" for="breaking">Breaking scenario</div>
+                    <hb-info-button label="Determines whether this scenario breaks other scenarios once interrupting." disabled="!$scenariosCtrl.currentScenario.interrupting"></hb-info-button>
+                    <div>
+                        <button role="switch"
+                                aria-checked="$scenariosCtrl.currentScenario.breaking ? 'true' : 'false'"
+                                aria-label="breaking scenario"
+                                id="breaking"
+                                ng-disabled="!$scenariosCtrl.currentScenario.interrupting"
+                                class="hb-btn hb-btn-toggle"
+                                ng-click="$scenariosCtrl.currentScenario.breaking = !$scenariosCtrl.currentScenario.breaking">
+                            <div ng-class="$scenariosCtrl.currentScenario.breaking ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-buttons">
+                <button role="button"
+                        aria-label="clone scenario"
+                        class="hb-btn hb-btn-primary drawer-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else {%>ng-click="$scenariosCtrl.cloneScenario('validate')"<% } %>>Create</button>
+                <button role="button"
+                        aria-label="cancel"
+                        class="hb-btn hb-btn-secondary drawer-button" ng-click="$scenariosCtrl.cloneScenario('cancel')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Health Bot Portal Edit Scenario Drawer -->
+    <div class="drawer" id="editScenarioDrawer">
+        <div class="drawer-container">
+            <button role="button"
+                    aria-label="close scenario metadata edit drawer"
+                    class="hb-btn hb-btn-drawer-close"
+                    ng-click="$scenariosCtrl.editScenario('cancel')">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4>Edit Scenario</h4>
+            <div class="drawer-main-body">
+                <div class="data-item">
+                    <label for="edit-name" class="required">Name</label>
+                    <hb-info-button label="A unique internal name for your scenario."></hb-info-button>
+                    <input aria-label="Scenario name"
+                           required
+                           type="text"
+                           class="form-control"
+                           id="edit-name"
+                           name="edit-name"
+                           ng-model="$scenariosCtrl.currentScenario.name"
+                           ng-style="{'border-color': ($scenariosCtrl.validation.name) ? 'red' : ''}">
+                    <span ng-if="$scenariosCtrl.validation.name"
+                          role="alert"
+                          class="form-err-message">{{$scenariosCtrl.validation.name}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="edit-description">Description</label>
+                    <hb-info-button label="A description for your scenario."></hb-info-button>
+                    <textarea aria-label="scenario description"
+                              class="form-control"
+                              id="edit-description"
+                              name="edit-description"
+                              ng-model="$scenariosCtrl.currentScenario.description"
+                              rows="2"></textarea>
+                </div>
+                <div class="data-item">
+                    <label for="edit-trigger" class="required">Scenario ID</label>
+                    <hb-info-button label="A unique trigger for your scenario."></hb-info-button>
+                    <input aria-label="scenario id"
+                           required
+                           type="text"
+                           class="form-control"
+                           id="edit-trigger"
+                           name="edit-trigger"
+                           ng-model="$scenariosCtrl.currentScenario.trigger"
+                           ng-style="{'border-color': ($scenariosCtrl.validation.trigger) ? 'red' : ''}">
+                    <span ng-if="$scenariosCtrl.validation.trigger"
+                          role="alert"
+                          class="form-err-message">{{$scenariosCtrl.validation.trigger}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="edit-returningMessage">Returning Message</label>
+                    <hb-info-button label="A message to send in case this scenario is being resumed after interruption."></hb-info-button>
+                    <input aria-label="scenario returning message"
+                           type="text"
+                           class="form-control"
+                           id="edit-returningMessage"
+                           name="edit-returningMessage"
+                           ng-model="$scenariosCtrl.currentScenario.returningMessage"
+                           ng-if="!$scenariosCtrl.isLocalizationEnabled">
+                    <dynamic-dropdown ng-if="$scenariosCtrl.isLocalizationEnabled" selected-string="$scenariosCtrl.localizedString" localized-strings="$scenariosCtrl.localizedStrings" on-select="$scenariosCtrl.localizedStringSelected('edit')" refresh-strings="$scenariosCtrl.refreshStrings(partOfString)" save-string="$scenariosCtrl.saveNewString(selectObject, 'edit')"></dynamic-dropdown>
+
+                </div>
+                <div class="data-item">
+                    <div class="hb-form-label" for="edit-interrupting">Interrupting scenario</label>
+                        <hb-info-button label="Determines whether this scenario may interrupt other scenarios."></hb-info-button>
+                    <div>
+                        <button role="switch"
+                                aria-checked="{{$scenariosCtrl.currentScenario.interrupting ? 'true' : 'false'}}"
+                                aria-label="interrupting scenario"
+                                id="edit-interrupting"
+                                class="hb-btn hb-btn-toggle"
+                                ng-click="$scenariosCtrl.currentScenario.interrupting = !$scenariosCtrl.currentScenario.interrupting">
+                            <div ng-class="$scenariosCtrl.currentScenario.interrupting ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                        </button>
+                    </div>
+                </div>
+                <div class="data-item" ng-class="$scenariosCtrl.currentScenario.interrupting ? '' : 'disabled'">
+                    <div class="hb-form-label" for="edit-breaking">Breaking scenario</label>
+                        <hb-info-button disabled="!$scenariosCtrl.currentScenario.interrupting" label="Determines whether this scenario breaks other scenarios once interrupting."></hb-info-button>
+                    <div>
+                        <button role="switch"
+                                aria-checked="{{$scenariosCtrl.currentScenario.breaking ? 'true' : 'false'}}"
+                                aria-label="breaking scenario"
+                                id="edit-breaking"
+                                class="hb-btn hb-btn-toggle"
+                                ng-disabled="!$scenariosCtrl.currentScenario.interrupting"
+                                ng-click="$scenariosCtrl.currentScenario.breaking = !$scenariosCtrl.currentScenario.breaking">
+                            <div ng-class="$scenariosCtrl.currentScenario.breaking ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="drawer-buttons">
+            <button role="button"
+                    aria-label="save changes"
+                    class="hb-btn hb-btn-primary drawer-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %> ng-click="$scenariosCtrl.editScenario('validate')" <%}%>>Update</button>
+            <button role="button"
+                    aria-label="cancel changes"
+                    class="hb-btn hb-btn-secondary drawer-button" ng-click="$scenariosCtrl.editScenario('cancel')">Cancel</button>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+</body>
+</html>

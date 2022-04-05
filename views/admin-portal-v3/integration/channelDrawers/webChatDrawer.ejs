@@ -1,0 +1,35 @@
+<div class="drawer" id="webchatChannelDrawer">
+    <div class="drawer-container">
+        <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$channelsCtrl.cancelEdit('webchatChannelDrawer')">
+            <i class="hb-icons hb-icons-Cancel"></i>
+        </button>
+        <img alt ng-src="/resources/images/webchat.png" style="width: 30px; position: relative;top: -3px;">
+        <h3 style="display: inline">Web Chat</h3>
+        <div style="margin-top: 15px">
+            Connect your Healthcare Bot to interact with your web application’s users through a web chat control. <a href="https://aka.ms/HBSWebChat" target="_blank">Learn how.</a>
+        </div>        
+        <div class="drawer-main-body">
+            <div class="data-item">
+                <label>WebChat Secret</label>
+                <div>
+                    {{$channelsCtrl.webchat_secret}}
+                    <button aria-label="copy web chat secret to clipboard" style="position: relative; background-color: transparent;" ng-click="$app.copyToClipboard($channelsCtrl.webchat_secret)">
+                        <i class="hb-icons hb-icons-ClipboardSolid"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="data-item">
+                <label>App Secret</label>
+                <div>
+                    {{$channelsCtrl.app_secret}}
+                    <button aria-label="copy app secret to clipboard" style="position: relative; background-color: transparent;" ng-click="$app.copyToClipboard($channelsCtrl.app_secret)">
+                        <i class="hb-icons hb-icons-ClipboardSolid"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="drawer-buttons">
+        <button type="button" class="hb-btn hb-btn-secondary drawer-button" ng-click="$channelsCtrl.cancelEdit('webchatChannelDrawer')">Close</button>
+    </div>
+</div>

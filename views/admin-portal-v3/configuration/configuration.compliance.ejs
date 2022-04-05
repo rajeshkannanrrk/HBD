@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <%- include('../common/configuration.ejs'); %>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="configurationCommonController as $configCtrl" ng-init="$configCtrl.initTabsView()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel" role="tablist" aria-label="compliance configuration tabs">
+            <button role="tab"
+                    aria-selected="{{$configCtrl.selectedTab === 'privacy' ? 'true' : 'false'}}"
+                    id="privacy" class="tab-selector" ng-click="$configCtrl.selectTab('privacy')">
+                Privacy
+            </button>
+            <button role="tab"
+                    aria-selected="{{$configCtrl.selectedTab === 'security' ? 'true' : 'false'}}"
+                    id="security" class="tab-selector" ng-click="$configCtrl.selectTab('security')">
+                Security
+            </button>
+            <button role="tab"
+                    aria-selected="{{$configCtrl.selectedTab === 'terms-and-consent' ? 'true' : 'false'}}"
+                    id="terms-and-consent" class="tab-selector" ng-click="$configCtrl.selectTab('terms-and-consent')">
+                Terms and consent
+            </button>
+            <div style="float: right; margin-right: 10px">
+                <% if (isSysAdmin) { %>
+                <button class="control-button" ng-click="$configCtrl.toggleSysAdminView()">
+                    <span class="control-button-icon"><i class="hb-icons" ng-class="$configCtrl.showSysAdminFields ? 'hb-icons-CheckMark' : 'hb-icons-CheckBox'"></i></span>
+                    <span class="control-button-label">System admin fields</span>
+                </button>
+                <% } %>
+                <button class="control-button" ng-click="$configCtrl.loadData()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                    <span class="control-button-label">Refresh</span>
+                </button>
+                <% if (isSysAdmin || isAdmin || isEditor) { %>
+                <button class="control-button" ng-disabled="$root.activeChanges === 0" ng-click="$configCtrl.save()" >
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Save"></i></span>
+                    <span class="control-button-label">Save</span>
+                </button>
+                <button class="control-button" ng-disabled="$root.activeChanges === 0" ng-click="$configCtrl.cancel()" >
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Cancel"></i></span>
+                    <span class="control-button-label">Cancel changes</span>
+                </button>
+                <button class="control-button" ng-click="$configCtrl.reset()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Delete"></i></span>
+                    <span class="control-button-label">Reset</span>
+                </button>
+                <% } %>
+            </div>
+        </div>
+        <div class="data-container">
+            <div id="privacy" class="application-data-container data-container-tab">
+                <%- include('./compliance/configuration.compliance.privacy.ejs'); %>
+            </div>
+            <div id="security" class="application-data-container data-container-tab">
+                <%- include('./compliance/configuration.compliance.security.ejs'); %>
+            </div>
+            <div id="terms-and-consent" class="application-data-container data-container-tab">
+                <%- include('./compliance/configuration.compliance.terms-and-consent.ejs'); %>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../common/configuration-reset-warning.ejs') %>
+
+</section>
+</body>
+</html>

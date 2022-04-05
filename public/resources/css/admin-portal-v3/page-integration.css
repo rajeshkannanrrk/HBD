@@ -1,0 +1,25 @@
+#bot-icon .title {
+    display: block;
+}
+
+#bot-icon .data-item {
+    display: inline-block;
+    
+}
+
+#bot-icon .data-item img{
+    width: 34px !important;
+    height: 34px;
+    float: left;
+    margin-right: 10px;
+    
+}
+
+#bot-icon .hb-upload-button {
+    display: inline-block;
+}
+
+#bot-icon .hb-upload-button span {
+    left: 0;
+    cursor: pointer;
+}

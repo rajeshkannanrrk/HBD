@@ -1,0 +1,41 @@
+.session-to-outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 8000;
+}
+
+.session-to-middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.session-inner {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    max-width: 440px;
+    width: calc(100% - 40px);
+    padding: 30px;
+    margin-bottom: 28px;
+    background-color: #fff;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.55);
+    min-width: 320px;
+    min-height: 238px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.session-inner .clickable-text {
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;
+}
+
+.session-inner .timeout-counter {
+    color: #e81123;
+    font-weight: bold;
+}

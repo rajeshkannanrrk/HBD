@@ -1,0 +1,45 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header">
+        <h3 class="modal-title">Cards</h3>
+    </div>
+    <div class="modal-body">        
+        <div class="form-group">
+            <div class="switch-panel" id="cases-list">
+                <div ng-repeat="card in element.attachment track by $index">
+                    <div class="row form-group" >
+                        <div ng-if="element.attachment.length > 1" class="col-lg-1">
+                            <table width="100%">
+                                <tr>
+                                <td width="50%">
+                                    <span class="fa fa-angle-up" style="cursor: pointer" ng-if="$index > 0" ng-click="moveUp($index)"></span>
+                                </td>
+                                <td width="50%">
+                                    <span class="fa fa-angle-down" style="cursor: pointer" ng-if="$index < element.attachment.length - 1" ng-click="moveDown($index)"></span>
+                                </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-lg-10"> 
+                            <i ng-class="cardIcon($index)"></i>
+                            <a href="#" ng-click="editCard($index)" title="{{cardTitle($index)}}">{{cardCaption($index)}}</a>
+                        </div>
+                        <div class="col-lg-1" style="margin-left:-20px;"> 
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                <button type="button" class="btn btn-danger fa fa-remove" ng-click="removeCard($index)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="add-card-btn" type="button" class="hb-btn hb-btn-secondary" ng-click="addCard()">Add Card</button>
+        </div>
+        <div class="form-group">
+            <label>Layout:</label>
+            <select ng-options="ltype as ltype for ltype in layoutTypes" required ng-model="element.layout" class="form-control"></select>
+        </div>    
+    </div>
+    <div class="modal-footer">
+        <button id="cards-form-ok-btn" type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button id="cards-form-cancel-btn" type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

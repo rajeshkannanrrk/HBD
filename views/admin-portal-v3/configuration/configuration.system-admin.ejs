@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <%- include('../common/configuration.ejs'); %>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="configurationCommonController as $configCtrl" ng-init="$configCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <div style="float: right">
+                <button class="control-button" ng-click="$configCtrl.loadData()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                    <span class="control-button-label">Refresh</span>
+                </button>
+                <% if (isSysAdmin || isAdmin || isEditor) { %>
+                <button class="control-button" ng-disabled="$root.activeChanges === 0" ng-click="$configCtrl.save()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Save"></i></span>
+                    <span class="control-button-label">Save</span>
+                </button>
+                <button class="control-button" ng-disabled="$root.activeChanges === 0"
+                     ng-click="$configCtrl.cancel()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Cancel"></i></span>
+                    <span class="control-button-label">Cancel changes</span>
+                </button>
+                <button class="control-button" ng-click="$configCtrl.reset()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Delete"></i></span>
+                    <span class="control-button-label">Reset</span>
+                </button>
+                <% } %>
+            </div>
+        </div>
+        <div class="data-container">
+            <div class="application-data-container">
+                <hb-page-header title="System Admin fields"
+                                sub-title-line1="This page is completely hidden from tenant."
+                ></hb-page-header>
+                <% if (isSysAdmin) { %>
+                <section class="system-admin-field">
+                    <config-string-list ctrl="$configCtrl"
+                                        list-id="dialogIdList"
+                                        label="beginable_builtin_dialogs"
+                                        variable="$configCtrl.data.beginable_builtin_dialogs"
+                                        col-name="Dialog id"></config-string-list>
+                    <config-boolean ctrl="$configCtrl"
+                                    label="action_support_rp"
+                                    variable="$configCtrl.data.action_support_rp"></config-boolean>
+                    <config-boolean ctrl="$configCtrl"
+                                    label="action_support_set_timeout"
+                                    variable="$configCtrl.data.action_support_set_timeout"></config-boolean>
+                </section>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <%- include('../common/configuration-reset-warning.ejs'); %>
+</section>
+</body>
+</html>

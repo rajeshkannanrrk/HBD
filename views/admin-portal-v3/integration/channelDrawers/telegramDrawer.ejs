@@ -1,0 +1,30 @@
+<div class="drawer" id="telegramChannelDrawer">
+    <div class="drawer-container">
+        <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$channelsCtrl.cancelEdit('telegramChannelDrawer')">
+            <i class="hb-icons hb-icons-Cancel"></i>
+        </button>
+        <img alt ng-src="/resources/images/telegram.png" style="width: 30px; position: relative; top: -3px;">
+        <h3 style="display: inline;">Telegram Channel</h3>
+        <div class="drawer-main-body">
+            <div class="data-item">
+                <span>Configure your Health Bot to communicate with people using Telegram. <a href="https://aka.ms/HBSTelegram" target="_blank">Learn how.</a></span>
+            </div>
+            <div class="data-item">
+                <label class="required">Access Token</label>
+                <input type="text" class="form-control"
+                        aria-label="telegram access token"
+                        placeholder="Access token can be found in your Telegram account settings"
+                        ng-model="$channelsCtrl.telegramAccessToken"
+                        ng-style="{'border-color': ($channelsCtrl.newValidateTelegram.telegramAccessToken) ? 'red' : ''}">
+                <span ng-if="$channelsCtrl.newValidateTelegram.telegramAccessToken"
+                        role="alert"
+                        class="form-err-message">{{$channelsCtrl.newValidateTelegram.telegramAccessToken}}</span>
+            </div>    
+    
+        </div>
+    </div>
+    <div class="drawer-buttons">
+        <button class="hb-btn hb-btn-primary drawer-button" <% if (isSysAdmin || isAdmin || isEditor) { %> ng-click="$channelsCtrl.createTelegramChannel()" <% } else { %> disabled <% } %>>Save</button>
+        <button type="button" aria-label="close drawer" class="hb-btn hb-btn-secondary drawer-button" ng-click="$channelsCtrl.cancelEdit('telegramChannelDrawer')">Cancel</button>
+    </div>
+</div>

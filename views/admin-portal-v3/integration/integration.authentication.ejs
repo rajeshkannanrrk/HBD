@@ -1,0 +1,224 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <script src="/resources/angularApps/admin-portal-v3/controllers/integration.authentication.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+    <section ng-controller="authProvidersCtrl as $authProvidersCtrl" ng-init="$authProvidersCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <button role="button"
+                    aria-label="add new authentication porivder"
+                    class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %> ng-click="$authProvidersCtrl.showAddNewItemDrawer()"<% } %>>
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Add"></i></span>
+                <span class="control-button-label">New</span>
+            </button>
+            <button role="button"
+                    aria-label="refresh authentication provider list"
+                    class="control-button" ng-click="$authProvidersCtrl.readData()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+        </div>
+        <div class="data-container tabular-data-container">
+            <hb-page-header title="Authentication providers"
+                            sub-title-line1="Authenticate end users or servers before exposing data via your bot."
+                            learn-more="https://aka.ms/authentication_providers"
+            ></hb-page-header>
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th style="width: 200px">Name</th>
+                    <th style="width: 100px">Method</th>
+                    <th>Description</th>
+                    <th style="width: 160px">Actions</th>
+                </tr>
+                <tr ng-repeat="item in $authProvidersCtrl.items track by $index">
+                    <td>
+                        {{item.name}}
+                    </td>
+                    <td>
+                        <span style="width: 300px" ng-if="item.type === 'oauth2'">OAuth 2.0: End-user</span>
+                        <span style="width: 300px" ng-if="item.type === 'server2server'">OAuth 2.0: Server-to-server</span>
+                    </td>
+                    <td>
+                        {{item.description}}
+                    </td>
+                    <td class="text-right" style="width: 240px;font-size: 12px;">
+                        <button class="hb-btn hb-btn-action"
+                                aria-label="edit authentication provider {{item.name}}"
+                                title="Edit"
+                                ng-click="$authProvidersCtrl.showEditItemDrawer(item)">
+                            <i class="hb-icons hb-icons-Edit"></i> Edit
+                        </button>
+                        <button class="hb-btn hb-btn-action"
+                                aria-label="delete authentication provider {{item.name}}"
+                                title="Delete"
+                        <% if (isSysAdmin || isAdmin || isEditor) { %>
+                                data-toggle="modal" data-target="#deleteItem" data-backdrop="static"
+                                ng-click="$authProvidersCtrl.itemToDelete = item"
+                                <% } else { %> disabled <% } %>>
+                            <i class="hb-icons hb-icons-Delete"></i> Delete
+                        </button>
+
+                    </td>
+                </tr>
+            </table>
+            <div class="text-center" style="padding: 150px" ng-if="$authProvidersCtrl.items.length === 0">No authentication providers defined. <% if (isSysAdmin || isAdmin || isEditor) { %><button class="hb-btn hb-btn-link" style="padding: 0" ng-click="$authProvidersCtrl.showAddNewItemDrawer()">Add a new provider</button><% } %></div>
+        </div>
+        <% if (isSysAdmin || isAdmin || isEditor) { %>
+        <div class="portal-modal">
+            <div id="deleteItem" class="modal fade" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content" >
+                        <div class="modal-body">
+                            <div class="title">
+                                <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                                Delete authentication provider
+                            </div>
+                            <div class="content">
+                                <span>The authentication provider <b>"{{$authProvidersCtrl.itemToDelete.name}}"</b> will be deleted.</span><br>
+                                <span class="warning">Data connections that are actively using it will be invalidated and this might break dependent scenarios.</span><br>
+                                <br>
+                                Are you sure you would like to delete this authentication provider?
+                            </div>
+                            <div class="actions">
+                                <button type="button" class="hb-btn hb-btn-primary" ng-click="$authProvidersCtrl.deleteItem()" data-dismiss="modal">Delete</button>
+                                <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+
+    <!-- Health Bot Portal Authentication Drawer -->
+    <div class="drawer" id="authenticationDrawer">
+        <div class="drawer-container">
+            <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$authProvidersCtrl.cancelAddAndEdit()">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h3>{{$authProvidersCtrl.drawer_title}}</h3>
+            <div class="drawer-main-body">
+                <div class="data-item">
+                    <label for="ap-name" class="required">Name</label>
+                    <hb-info-button label="A unique internal name for your authentication providers"></hb-info-button>
+                    <input aria-label="name"
+                           aria-required="true"
+                           type="text"
+                           class="form-control"
+                           ng-model="$authProvidersCtrl.current.name"
+                           id="ap-name"
+                           name="ap-name"
+                           ng-style="{'border-color': ($authProvidersCtrl.validation.name) ? 'red' : ''}">
+                    <span ng-if="$authProvidersCtrl.validation.name"
+                          role="alert"
+                          class="form-err-message">{{$authProvidersCtrl.validation.name}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="ap-description">Description</label>
+                    <hb-info-button label="An internal description for the authentication provider"></hb-info-button>
+                    <input aria-label="description"
+                           aria-required="false"
+                           type="text"
+                           id="ap-description"
+                           name="ap-description"
+                           class="form-control"
+                           ng-model="$authProvidersCtrl.current.description">
+                </div>
+                <div class="data-item">
+                    <label>Authentication method</label>
+                    <hb-info-button label="Select the method type of the authentication provider"></hb-info-button>
+                    <!-- <br><span class="static-text" style="font-size: 11px">OAuth 2.0</span> -->
+                    <select class="form-control"
+                            aria-label="authentication method type"
+                            id="auth_method_type"
+                            name="auth_method_type"
+                            ng-model="$authProvidersCtrl.current.type" style="width: 100%">
+                        <option value="oauth2">OAuth 2.0: End-user authorization</option>
+                        <option value="server2server">OAuth 2.0: Server-to-server authorization</option>
+                    </select>
+                </div>
+                <div class="data-item">
+                    <label for="ap-oauth2-client-id" class="required">Client ID</label>
+                    <input aria-label="o auth 2 - client id"
+                            aria-required="true"
+                            type="text"
+                            class="form-control"
+                            id="ap-oauth2-client-id"
+                            name="ap-oauth2-client-id"
+                            ng-model="$authProvidersCtrl.current.oauth2_client_id"
+                            ng-style="{'border-color': ($authProvidersCtrl.validation.oauth2_client_id) ? 'red' : ''}">
+                    <span ng-if="$authProvidersCtrl.validation.oauth2_client_id"
+                            role="alert"
+                            class="form-err-message">{{$authProvidersCtrl.validation.oauth2_client_id}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="ap-oauth2-client-secret" class="required">Client Secret</label>
+                    <input aria-label="o auth 2 - client secret"
+                            aria-required="true"
+                            type="text"
+                            class="form-control"
+                            id="ap-oauth2-client-secret"
+                            name="ap-oauth2-client-secret"
+                            ng-model="$authProvidersCtrl.current.oauth2_client_secret"
+                            ng-style="{'border-color': ($authProvidersCtrl.validation.oauth2_client_secret) ? 'red' : ''}">
+                    <span ng-if="$authProvidersCtrl.validation.oauth2_client_secret"
+                            role="alert"
+                            class="form-err-message">{{$authProvidersCtrl.validation.oauth2_client_secret}}</span>
+                </div>
+                <div ng-show="$authProvidersCtrl.current.type === 'oauth2'">
+                    <div class="data-item">
+                        <label for="ap-oauth2-authorization-url" class="required">Authorization URL</label>
+                        <input aria-label="o auth 2 - authorization URL"
+                                aria-required="true"
+                                type="text"
+                                class="form-control"
+                                id="ap-oauth2-authorization-url"
+                                name="ap-oauth2-authorization-url"
+                                ng-model="$authProvidersCtrl.current.oauth2_authorization_url"
+                                ng-style="{'border-color': ($authProvidersCtrl.validation.oauth2_authorization_url) ? 'red' : ''}">
+                        <span ng-if="$authProvidersCtrl.validation.oauth2_authorization_url"
+                                role="alert"
+                                class="form-err-message">{{$authProvidersCtrl.validation.oauth2_authorization_url}}</span>
+                    </div>
+                </div>
+                <div class="data-item">
+                    <label for="ap-oauth2-access-token-url" class="required">Access Token URL</label>
+                    <input aria-label="o auth 2 - token URL"
+                            aria-required="true"
+                            type="text"
+                            class="form-control"
+                            id="ap-oauth2-access-token-url"
+                            name="ap-oauth2-access-token-url"
+                            ng-model="$authProvidersCtrl.current.oauth2_access_token_url"
+                            ng-style="{'border-color': ($authProvidersCtrl.validation.oauth2_access_token_url) ? 'red' : ''}">
+                    <span ng-if="$authProvidersCtrl.validation.oauth2_access_token_url"
+                            role="alert"
+                            class="form-err-message">{{$authProvidersCtrl.validation.oauth2_access_token_url}}</span>
+                </div>
+                <div class="data-item">
+                    <label for="ap-oauth2-scope">Scope</label>
+                    <input aria-label="o auth 2 - scope"
+                            aria-required="false"
+                            type="text"
+                            class="form-control"
+                            id="ap-oauth2-scope"
+                            name="ap-oauth2-scope"
+                            ng-model="$authProvidersCtrl.current.oauth2_scope">
+                </div>
+            </div>
+            <div class="drawer-buttons">
+                <button class="hb-btn hb-btn-primary drawer-button" <% if (isSysAdmin || isAdmin || isEditor) { %> ng-click="$authProvidersCtrl.validateForm()" <% } else { %> disabled <% } %>>{{($authProvidersCtrl.drawer_edit_mode) ? 'Update' : 'Create'}}</button>
+                <button type="button" class="hb-btn hb-btn-secondary drawer-button" ng-click="$authProvidersCtrl.cancelAddAndEdit()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

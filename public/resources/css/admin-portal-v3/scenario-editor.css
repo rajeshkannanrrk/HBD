@@ -1,0 +1,1074 @@
+@font-face {
+    font-family: 'FullMDL2';
+    src: url('/resources/fonts/FullMDL2.eot'); /* IE9 Compat Modes */
+    src: url('/resources/fonts/FullMDL2.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/resources/fonts/FullMDL2.woff') format('woff'), /* Modern Browsers */ url('/resources/fonts/FullMDL2.ttf') format('truetype'), /* Safari, Android, iOS */ url('/resources/fonts/FullMDL2.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+body {
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif !important;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    overflow-x: auto;
+    min-height: 800px;
+    min-width: 1320px;
+    overflow-y: auto;
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+a:hover, a:focus, a:active, a:visited {
+    text-decoration: none;
+}
+
+
+@media screen and (min-width: 1300px) {
+    body {
+        overflow-x: hidden !important;
+    }
+}
+
+@media screen and (min-height: 800px) {
+    body {
+        overflow-y: hidden !important;
+    }
+}
+
+.MonacoEditor-OneLine {
+    border: 1px solid lightgray;
+    height: 22px;
+    border-radius: 0;
+}
+
+.MonacoEditor-OneLine-Tall {
+    border: 1px solid lightgray;
+    height: 30px;
+    border-radius: 0;
+    margin-bottom: 2px;
+
+}
+
+.MonacoEditor-Inline {
+    border: 1px solid lightgray;
+    height: 66px;
+    border-radius: 3px;
+}
+
+
+.MonacoEditor-Med {
+    border: 1px solid lightgray;
+    height: 120px;
+    border-radius: 0;
+}
+
+.MonacoEditor-Med-DS {
+    border: 1px solid lightgray;
+    height: 230px;
+    border-radius: 0;
+}
+
+.MonacoEditor-Large {
+    border: 1px solid lightgray;
+    height: 200px;
+    border-radius: 3px;
+}
+
+.MonacoEditor-XLarge {
+    border: 1px solid lightgray;
+    height: 500px;
+    border-radius: 3px;
+}
+
+.drag {
+    cursor: -webkit-grab;
+    background: none;
+}
+
+.jsplumb-endpoint-anchor {
+    z-index: 10001;
+}
+
+.window {
+    cursor: pointer;
+    position: absolute;
+    color: black;
+    text-align: center;
+    font-size: 12px;
+    z-index: 0 !important;
+    height: 30px;
+    line-height: 28px;
+    padding: 1px;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.first-element:after {
+    content: "";
+    position: absolute;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    top: -1px;
+    left: -1px;
+    border: 3px solid #3316a6;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.found-element:after {
+    content: "";
+    position: absolute;
+    width: calc(100% + 12px);
+    height: calc(100% + 12px);
+    top: -6px;
+    left: -6px;
+    border: 3px solid red;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.current-step:after {
+    content: "";
+    position: absolute;
+    width: calc(100% + 12px);
+    height: calc(100% + 12px);
+    top: -6px;
+    left: -6px;
+    border: 4px solid #00ff00;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.jsplumb-drag-selected:after {
+    content: "";
+    position: absolute;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    top: -1px;
+    left: -1px;
+    border: 3px dotted #000000;
+    border-radius: 5px;
+    z-index: 1;
+
+}
+
+.steplabel {
+    width: 100%;
+    height: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #000;
+}
+
+.yes-no-label {
+    margin-top: 15px;
+    background-color: white;
+    padding: 0.4em;
+    font: 12px sans-serif;
+    color: #444;
+    border: 1px dotted gray;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    cursor: pointer;
+    z-index: 1;
+    user-select: none;
+}
+
+.fail-label {
+    margin-top: 15px;
+    background-color: white;
+    padding: 0.4em;
+    font: 12px sans-serif;
+    color: #444;
+    border: 1px dotted gray;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    cursor: pointer;
+    z-index: 1;
+}
+
+.success-label {
+    margin-top: 15px;
+    background-color: white;
+    padding: 0.4em;
+    font: 12px sans-serif;
+    color: #444;
+    border: 1px dotted gray;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    cursor: pointer;
+    z-index: 1;
+}
+
+.ui-menu {
+    z-index: 700;
+}
+
+.no-label {
+    margin-left: -25px;
+}
+
+.yes-label {
+    margin-left: 25px;
+}
+
+.default-case-label {
+    margin-left: 40px;
+}
+
+#editor {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.buttons-container {
+    height: 50px;
+    background-color: #f6f6f6;
+}
+
+#designer {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 70px);
+    overflow: auto;
+    border: solid 1px #DCDCDC;
+    padding: 0;
+    top: 50px;
+    left: 0;
+    background-image: linear-gradient(#e4e4e4 1px, transparent 1px),
+    linear-gradient(90deg, #e4e4e4 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, .3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .3) 1px, transparent 1px);
+    background-size: 10px 10px, 10px 10px, 10px 10px, 10px 10px;
+    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #efeeee;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #595959;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #292929;
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.view-bottom-panel {
+    position: absolute;
+    background-color: #efeeee;
+    z-index: 4;
+    left: 0;
+    bottom: 0;
+    height: 20px;
+    padding: 0 5px 0 5px;
+    width: 100%;
+}
+
+.view-bottom-panel .last-modified {
+    position: absolute;
+    top: 0;
+    left: 200px;
+    width: calc(100% - 570px);
+    text-align: center;
+    letter-spacing: -0.5px;
+    font-weight: lighter;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.bottom-panel-button {
+    height: 20px;
+    padding: 2px 10px 0 10px;
+    font-size: 13px;
+    cursor: pointer;
+    float: left;
+    margin: 0 0 0 0;
+    width: 80px;
+    text-align: center;
+}
+
+.bottom-panel-button.selected {
+    padding-top: 0;
+    border-top: 2px solid #0071c6;
+    font-weight:800;
+}
+.bottom-panel-button:hover {
+    padding-top: 0;
+    border-top: 2px solid #0071c6;
+
+}
+
+.state-button {
+    float: right;
+    font-size: 20px;
+    line-height: 20px;
+    cursor: pointer;
+    font-weight: 900;
+}
+
+.zoom {
+    float:right;
+    margin-right: 40px;
+}
+
+.zoom .zoom-button {
+    float: right;
+    width: 37px;
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    vertical-align: top;
+    text-align: center;
+}
+
+.zoom .zoom-button.zoom-in {
+    cursor: zoom-in;
+}
+.zoom .zoom-button.zoom-out {
+    cursor: zoom-out;
+}
+
+#rubberband {
+    border: 1px solid blue;
+    display: none;
+    position: absolute;
+    background-color: lightblue;
+    opacity: 0.6;
+    z-index: 4000;
+}
+
+.ui-tooltip {
+    font-size: 11px;
+}
+
+.switch-panel {
+    max-height: 300px;
+    overflow: auto;
+    overflow-x: hidden
+}
+
+.container-fluid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-width: 550px;
+    padding: 0;
+}
+
+.label-editor-field-icon {
+    font-size: 25px!important;
+    color: #cccccc;
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    cursor: pointer;
+}
+
+.label-editor-field-icon:hover {
+    color: #aaaaaa;
+}
+
+.modal-header .label-editor-field {
+    padding-left: 42px!important;
+    color: white
+}
+
+.label-editor-field {
+    font-size: 24px;
+    padding: 15px;
+    font-weight: bold;
+
+}
+
+.label-editor-field-disabled {
+    font-size: 24px;
+    padding: 15px;
+    font-weight: bold;
+    pointer-events: none;
+    border: none;
+    box-shadow: none;
+}
+
+.information {
+    float: right
+}
+
+.toast-top-right {
+    top: 60px !important;
+}
+
+.test-panel-preview-box {
+    height: 50%;
+    position: relative;
+}
+
+.test-panel-preview-box .webchat-locale-picker {
+
+    display: block;
+    position: absolute;
+    top: 0px;
+    color: #ffffff;
+    right: 13px;
+    left: auto;
+    height: 30px;
+    background-color: #292929;
+}
+
+.test-panel-preview-box .previewBox-background-title {
+    background-color: #292929;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+}
+
+.test-panel-preview-box .previewBox-background-title span {
+    color: white;
+    font-size: 16px;
+    line-height: 30px;
+    padding-left: 8px;
+}
+
+.test-panel-preview-box .previewBox-background-main {
+    text-align: center;
+    padding-top: 50%;
+    font-size: 16px;
+    font-weight: 200;
+}
+
+.test-panel-debug-box {
+    height: 50%;
+}
+
+.messagesBox {
+    padding-left: 3px;
+    padding-top: 3px;
+    border-bottom: 1px solid lightgray;
+    overflow: auto;
+    background-color: #ffffff;
+    width: 100%;
+    height: 150px;
+}
+
+.messagesBox table {
+    margin: 0;
+    border-collapse: collapse;
+}
+
+.messagesBox table th {
+    padding: 6px;
+}
+
+.messages-body {
+    font-family: monospace;
+    font-size: 12px;
+}
+
+#emptyTrace {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    background-color: #fff;
+    width: 10px;
+    height: 10px;
+    border: 0;
+    padding: 0;
+    cursor: pointer
+}
+
+#watchBox {
+    height: calc(100% - 44px);
+    width: calc(100% - 20px);
+    overflow: auto;
+    padding: 4px;
+
+}
+
+#evalBox {
+    position: relative;
+    height: calc(100% - 44px);
+    width: calc(100% - 20px);
+
+}
+
+#evalBox .evalEditor {
+    margin: 0;
+    border-bottom: 2px solid lightgray;
+    height: 50%;
+    width: 100%;
+}
+
+#evalBox .evalResults {
+    margin: 0;
+    height: 41%;
+    width: 100%;
+}
+
+#evalBox .evalSpinner {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+}
+
+#infoBox {
+    padding: 20px 10px;
+}
+
+#infoBox .info-item .info-field-name {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 13px;
+    width: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#infoBox .info-item .info-field-name:after {
+    content: ":";
+    font-weight: lighter;
+
+}
+#infoBox .info-item .info-field-data {
+    display: inline-block;
+    width: 200px;
+    line-height: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.application-header {
+    min-width: 1300px;
+    z-index: 1000;
+}
+
+.main-editor {
+    position: absolute;
+    width: calc(100% - 570px);
+    height: calc(100% - 200px);
+    padding: 0;
+    margin: 0;
+    top: 50px;
+    left: 0;
+}
+
+.right-pane {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width:570px;
+    height: calc(100% - 50px);
+    /*     overflow: hidden; */
+    border-left: 5px solid #292929;
+    border-right: 5px solid #292929;
+    border-bottom: 5px solid #292929;
+}
+
+.trace-window {
+    background-color: #aaa;
+    border-top: 5px solid #292929;
+    border-left: 5px solid #292929;
+    border-bottom: 5px solid #292929;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - 570px);
+    min-width: 500px;
+    height: 150px;
+    overflow: hidden;
+}
+
+.trace-window-container {
+    height: 150px;
+}
+
+.trace-window-minimized {
+    visibility: hidden;
+}
+
+.right-pane-minimized {
+    visibility: hidden;
+}
+
+.main-editor-maximized {
+    width: 100%;
+    height: calc(100% - 50px);
+    border-bottom: 5px solid #292929;
+}
+
+.right-pane-container {
+    position: relative;
+    width: 570px;
+}
+
+.bottom-pane {
+    position: relative;
+    float: left;
+    width: 570px;
+    height: 150px;
+    overflow: hidden;
+    border-top: 1px solid rgba(128, 128, 128, 0.7);
+}
+
+.scenario-metadata {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #595959;
+}
+
+.editor-container {
+    width: 100%;
+    height: calc(100% - 80px);
+    overflow-y: hidden;
+}
+
+.scenario-metadata-field {
+    float: left;
+    padding-right: 10px;
+}
+
+.scenario-metadata-field-name {
+    height: 20px;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: bold;
+    padding-right: 10px;
+    float: left;
+}
+
+.scenario-metadata-field-value {
+    float: left;
+}
+
+.scenario-metadata-field-value input {
+    height: 20px;
+    border-radius: 0;
+    font-size: 16px;
+    line-height: 16px;
+    padding: 0;
+
+    float: left;
+}
+
+.controls-panel {
+    background-color: white;
+    height: 40px;
+    overflow: hidden;
+    border-bottom: 1px solid #000;
+}
+
+.main-editor .main-editor-content {
+    position: relative;
+    height: calc(100% - 36px);
+    width: 100%;
+    padding: 0;
+}
+
+.main-editor .main-editor-content .tab-content {
+    width: 100%;
+    height: calc(100%);
+}
+
+.metadata-panel {
+    display: none;
+}
+
+.test-panel {
+    background-color: #fff;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 570px;
+    height: calc(100% - 60px);
+    float: left;
+    z-index: 100;
+    border-left: 1px solid #d9d9d9
+}
+
+#traceBox .nav-tabs {
+    background-color: #292929;
+    color: #ffffff;
+    font-size: 14px;
+    border-bottom: 2px solid #292929
+}
+
+#traceBox .nav-link {
+    color: #ffffff;
+}
+
+#traceBox .nav-link:hover {
+    color: #292929;
+    background-color: #ffffff;
+}
+
+#traceBox .nav-item.active .nav-link {
+    background-color: #ffffff;
+}
+
+#traceBox .nav-item.active .nav-link {
+    color: #292929;
+}
+
+.editor-step {
+    float: left;
+    position: relative;
+    height: 100%;
+    width: 35px;
+    border-radius: 0;
+    margin: 0 1px 0 1px;
+    padding: 0;
+    display: inline-block;
+}
+
+.editor-step-long {
+    width: 100px;
+}
+
+.editor-step-input {
+    position: absolute;
+    display: inline-block;
+    height: 100%;
+    overflow: hidden;
+    width: 150px;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 8px 0 0 0;
+}
+
+.editor-step-input input {
+    display: inline-block;
+    height: 28px;
+    border-radius: 0;
+    padding: 2px;
+}
+
+.editor-step-long > input {
+    border-radius: 0;
+    height: 20px;
+}
+
+.editor-step-button {
+    border-radius: 0;
+    height: 28px;
+    padding: 3px;
+    margin: 8px 0 0 0;
+    border: 1px solid #cccccc;
+    text-align: center;
+    width: 100%;
+}
+
+.editor-step-button .editor-step-icon {
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    line-height: 18px;
+    height: 18px;
+    padding: 0;
+}
+
+.editor-step-label {
+    font-size: 10px;
+    text-align: center;
+}
+
+.editor-step-name {
+    display: block;
+    width: 100%;
+    font-size: 10px;
+    line-height: 10px;
+    height: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-tabs .nav-link {
+    border-radius: 0 !important;
+    padding: 6px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.right-buttons {
+    float: right;
+    height: 36px;
+    padding: 0 !important;
+    display: inline-block;
+}
+
+.toolbox-button-container {
+    position: relative;
+    padding: 7px 10px;
+    margin: 0;
+    user-select: none;
+}
+
+.toolbox-button {
+    display: inline-block;
+    border-radius: 0;
+    border: 0;
+    height: 36px;
+    margin: 0 -1px 0 -1px;
+    width: 53px;
+    padding: 0;
+    text-align: center;
+}
+
+.toolbox-button.active > span {
+    background-color: #292929;
+    color: #fff;
+}
+
+.toolbox-button-separator {
+    background-color: #d4d4d4;
+    display: inline-block;
+    border-radius: 0;
+    border: 0;
+    height: 20px;
+    margin: 0 3px 14px 3px;
+    width: 1px;
+    padding: 0;
+    text-align: center;
+}
+
+.toolbox-button > span {
+    border: 1px solid #d4d4d4;
+    display: inline-block;
+    width: 100%;
+    height: 25px;
+    padding: 1px;
+    font-size: 16px;
+}
+
+.toolbox-button > div {
+    display: inline-block;
+    width: 100%;
+    padding: 1px;
+    font-size: 10px;
+
+}
+
+.toolbox-button-long {
+    position: relative;
+    width: 200px;
+    margin-left: 10px;
+}
+
+.toolbox-button-long input {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    display: inline-block;
+    height: 35px;
+    border-radius: 0;
+    padding: 2px;
+}
+
+
+@media screen and (max-width: 1470px) {
+    .toolbox-button {
+        width: 40px;
+    }
+
+    .toolbox-button > span {
+        height: 35px;
+        padding: 6px;
+        font-size: 16px;
+    }
+
+    .toolbox-button > div {
+        overflow: hidden;
+        height: 6px;
+        visibility: hidden;
+    }
+
+    .toolbox-button-long {
+        width: 200px;
+    }
+
+    .toolbox-button-long input {
+        top: -5px;
+        left: 0;
+        display: inline-block;
+        height: 35px;
+        border-radius: 0;
+        padding: 2px;
+    }
+}
+
+.sep1 {
+    width: 2px;
+    height: 18px;
+    background-color: #a5a5a5;
+    position: absolute;
+    right: 396px;
+    border-radius: 2px;
+    top: 47px;
+    z-index: 100;
+}
+
+.trace-messages-rows {
+    height: 106px;
+    overflow: auto;
+}
+
+.trace-messages-rows .bg-danger {
+    background-color: #f2dede!important;
+}
+
+.trace-messages-rows .bg-success {
+    background-color: #dff0d8!important;
+}
+
+.trace-messages-rows .bg-info {
+    background-color: #d9edf7!important;
+}
+
+.trace-messages-rows .bg-warning {
+    background-color: #fcf8e3!important;
+}
+
+.ui-contextmenu {
+    font-size: 14px;
+}
+
+input, select {
+    border-radius: 0 !important;
+    padding: 0 8px !important;
+    font-size: 14px!important;
+}
+
+
+/* Bootstrap 3 classes for .in, as Bootstrap 4 uses .show. */
+.modal .modal-content {
+    border-radius: 0;
+    padding: 0;
+}
+
+.fade.in {
+    opacity: 1;
+}
+
+.modal.in .modal-dialog {
+    -webkit-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+
+.modal-backdrop.in {
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+
+/* end */
+
+.hb-btn {
+    width: 80px;
+
+}
+
+.uib-modal-section-separator{
+    width:100%;
+    height:1px;
+    background-color: #e5e5e5;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.modal-header {
+    background-color:#595959 !important;
+    color: white;
+    padding: 5px 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.modal-header input {
+    border: none;
+    background-color: #595959!important;
+    color :white;
+    font-size: 22px!important;
+}
+
+.label-span {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 14px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.learn-more:hover, .learn-more:visited, .learn-more:link, .learn-more:active
+{
+    color: #0071C6;
+    text-decoration: none;
+}
+
+.main-editor-content .nav.nav-tabs {
+    display: none;
+}
+
+.clickable-text {
+    color: #015cda;
+    padding-left: 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.ui-select-bootstrap .ui-select-toggle {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.ui-select-match-text{
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 40px;
+}
+
+.ui-select-toggle > .btn.btn-link {
+    margin-right: 10px;
+    top: 6px;
+    position: absolute;
+    right: 10px;
+}
+
+.modal-lg {
+    max-width: 900px;
+}
+
+.hb-modal-step-datasource .modal-lg {
+    width: 1025px;
+}
+
+.hb-modal-step-wait .modal-lg {
+    width: 400px;
+}
+
+.hb-modal-step-globalcontext .modal-lg {
+    width: 700px;
+}

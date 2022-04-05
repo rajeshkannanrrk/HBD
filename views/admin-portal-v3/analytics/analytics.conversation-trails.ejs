@@ -1,0 +1,154 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-conversation-trails.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/analytics.conversation-trails.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script type="text/javascript" src="/node_modules/daterangepicker/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="/node_modules/daterangepicker/daterangepicker.css" />
+
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="conversationTrailsCtrl as $conversationTrailsCtrl" ng-init="$conversationTrailsCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <button aria-label="refresh retention policy"
+                    class="control-button"
+                    ng-click="$conversationTrailsCtrl.readDataRetentionPolicy()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+        </div>
+        <div class="data-container" >
+            <hb-page-header title="Conversation logs"
+                            sub-title-line1="Review end user conversations to optimize the bot experience"
+            ></hb-page-header>
+            <%if (isSysAdmin || isAdmin) {%>
+                <div class="data-container-form">
+                <div class="page-section">                                    
+                    <div class="page-section-title"><h3 style="font-size: 20px">Data Retention</h3></div>
+                    <div>
+                        Automatically delete conversation log data
+                        <button style="width: 30px;" aria-label="Conversation logs will be automatically deleted on a rolling window basis according to the applied retention period" class="info-button">
+                            <div class="hb-hover-info ng-binding">Conversation logs will be automatically deleted on a rolling window basis according to the applied retention period</div>
+                        </button>
+                    </div>
+                    <button role="switch" aria-label="data retention" aria-checked="true" class="hb-btn hb-btn-toggle" ng-click="$conversationTrailsCtrl.toggleRetentionPolicy()">
+                        <div ng-class="$conversationTrailsCtrl.retentionPolicyEnabled ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off"></div>
+                    </button>
+                    <div ng-show="$conversationTrailsCtrl.retentionPolicyEnabled" > 
+                        <div>Retention Period for conversation data:</div>
+                        <select ng-options="periods.value as periods.text for periods in $conversationTrailsCtrl.periods" ng-model="$conversationTrailsCtrl.selectedPeriod" 
+                                            class="form-control" ng-change="$conversationTrailsCtrl.enableDisableItems()" ></select>
+                    </div>    
+                    <div>
+                        <button class="hb-btn hb-btn-primary" ng-disabled="!$conversationTrailsCtrl.enableApplyButton"
+                        aria-label="Apply retention policy"
+                        style="width: 200px"                        
+                        ng-click="$conversationTrailsCtrl.saveOrConfirmDataRetention()">Apply retention policy</button>
+                        <div ng-show="$conversationTrailsCtrl.enableApplyButton" style="color: red;">There are unsaved changes to the retention policy that have not been applied</div>
+                    </div>
+                </div>
+                <div class="page-section">
+                    <br>
+                    <br>
+                    <div class="page-section-title"><h3 style="font-size: 20px">Data Export</h3></div>
+
+                    <div>1. Select a date range to export:</div>
+
+                    <div class="hb-date-range">
+                        <div class="range-part">
+                            <div class="range-part-date">{{$conversationTrailsCtrl.params.range.startDate}}</div>
+                            <div class="range-part-hour">{{$conversationTrailsCtrl.params.range.startHour}}</div>
+                        </div>
+                        <div class="range-part">
+                            <div class="range-part-date" ng-style="{'margin-top': $conversationTrailsCtrl.params.range.endHour ? '0' : '9%'}">{{$conversationTrailsCtrl.params.range.endDate}}</div>
+                            <div class="range-part-hour">{{$conversationTrailsCtrl.params.range.endHour}}</div>
+                        </div>
+                        <input type="text" autocomplete="off" id="range"/>
+                    </div>
+                    <div ng-if="$conversationTrailsCtrl.validation.dateRange"
+                          role="alert"
+                          class="form-err-message">{{$conversationTrailsCtrl.validation.dateRange}}</div>
+                </div>
+                <div class="page-section">
+                    <div>2. Filter by User ID (leave empty to retrieve all Users)</div>
+                    <input type="text"
+                           placeholder="Enter user ID for export"
+                           aria-label="Filter by User ID (leave empty to retrieve all Users)"
+                           ng-model="$conversationTrailsCtrl.params.userId">
+                    <div>
+                        <button class="hb-btn hb-btn-primary"
+                                aria-label="Download conversations"
+                                style="width: 200px"
+                                ng-disabled="$conversationTrailsCtrl.creatingData"
+                                ng-click="$conversationTrailsCtrl.showDisclaimer()">Download conversations</button>
+                    </div>
+                </div>
+            </div>
+            <%} else {%>
+                <hb-page-off title="You don't have permission to export conversation logs"
+                             sub-title-line="Ask your service admin to grant access to this view"
+                             icon="hb-icons hb-icons-Hide"
+                </hb-page-off>
+            <%}%>
+        </div>
+    </div>
+    <div class="portal-modal">
+        <div id="exportDisclaimerPopup" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Disclaimer
+                        </div>
+                        <div class="content">
+                            <section>
+                                The conversation logs include each utterance that was sent to the bot and each response that was returned.<br/>
+                                Due to the sensitive nature of the data, you are responsible for deleting it as it may contain PHI.<br/>
+                                <br/>
+                                Are you sure?</br>
+                            </section>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" ng-click="$conversationTrailsCtrl.exportConversationTrails()" data-dismiss="modal">Continue</button>
+                            <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portal-modal">
+        <div id="retensionDisclaimerPopup" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Disclaimer
+                        </div>
+                        <div class="content">
+                            <section>
+                                Enabling this feature <b>will delete all historic conversation data</b> created before the retention period. This action is not reversible and is tracked in the portal audit trails
+                                <br/>
+                                Are you sure?</br>
+                            </section>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" ng-click="$conversationTrailsCtrl.saveDataRetention()" data-dismiss="modal">Continue</button>
+                            <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header">
+        <h3 class="modal-title">Entity</h3>
+    </div>        
+    <div class="modal-body">
+         <div class="form-group">
+            <label for="text">Message Metadata JavaScript Expression:(will be added to the message sent via DirectLine protocol)</label>
+             <span class="fa fa-question-circle" data-toggle="tooltip" title={{actionHelp}}></span>
+            <div class="MonacoEditor-Large" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" required ng-model="element.entity" id="entity" name="entity"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

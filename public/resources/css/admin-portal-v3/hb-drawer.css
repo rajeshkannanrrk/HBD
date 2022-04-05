@@ -1,0 +1,500 @@
+.body-with-hidden-drawer {
+    position: relative;
+    overflow: hidden;
+}
+
+.drawer {
+    position: fixed;
+    width: 0;
+    height: calc(100% - 50px);
+    background-color: #fff;
+    border-left: 1px solid #757575;
+    z-index: 1000;
+    top: 50px;
+    right: 0;
+    -webkit-transition: width .4s ease-in-out, opacity .2s ease-in-out;
+    -moz-transition: width .4s ease-in-out, opacity .2s ease-in-out;
+    -ms-transition: width .4s ease-in-out, opacity .2s ease-in-out;
+    -o-transition: width .4s ease-in-out, opacity .2s ease-in-out;
+    transition: width .4s ease-in-out, opacity .2s ease-in-out;
+    overflow-x: hidden;
+    opacity: 0;
+}
+
+.ms-ContextualHost {
+    z-index: 6001;
+}
+
+.drawer-container {
+    height: 100%;
+    width: 600px;
+    position: relative;
+    padding: 20px 45px 45px 45px;
+}
+
+.drawer-opened {
+    width: 600px;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, .3);
+    opacity: 1;
+}
+
+.drawer .hb-btn-drawer-close {
+    background-color: white;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.drawer-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 45px;
+    padding-top: 0;
+}
+
+.drawer-button {
+    width: 120px;
+    padding: 0;
+    margin: 2px;
+}
+
+.data-item {
+    position: relative;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.data-item .data-item-title{
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    margin-top: 30px;
+}
+.data-item .data-item-sub-title{
+    font-size: 16px;
+    line-height: 30px;
+    font-weight: 400;
+}
+
+.data-item select {
+    width: 100%!important;
+}
+
+
+.data-item label,
+.data-item .hb-form-label {
+    margin-top: 10px;
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.data-item.upload {
+    display: flex;
+}
+
+.data-item.upload input, .data-item.upload select {
+    height: 32px !important;
+}
+
+.data-item .upload-button {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.data-item label.required::after,
+.data-item .hb-form-label.required::after {
+    content: "*";
+    color: #e81123;
+}
+
+.mandatory-field{
+    color: #e81123;
+}
+
+.data-item-info-icon {
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 0;
+    color: rgb(89, 89, 89)
+}
+
+.data-item input, .data-item select {
+    padding: 0 3px 0 3px;
+    height: 23px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.data-item select {
+    width: 50%;
+    padding: 0 3px 0 3px;
+    height: 23px;
+}
+
+.frozen {
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.2 !important;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.drawer-tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.drawer-tooltip .drawer-tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.drawer-tooltip:hover .drawer-tooltiptext {
+    visibility: visible;
+}
+
+.static-parameters {
+    margin-top: 50px;
+}
+
+.static-parameters-table {
+    width: 100%;
+    border-top: 1px solid #cccccc !important;
+}
+
+.static-parameters-table > * td {
+    padding: 2px !important
+}
+
+.static-parameters-table tr {
+    width: 100%;
+    border-bottom: 1px solid #cccccc !important;
+}
+
+.static-parameters-table td {
+    padding: 3px !important;
+    margin: 0;
+}
+
+.static-parameters-table tr td input, .static-parameters-table tr td select {
+    padding: 0 4px;
+    margin: 0;
+    width: 100%;
+
+}
+
+.static-header-text-box-invalid {
+    border-color: #e81123;
+}
+
+.static-header-text-box-invalid:focus {
+    border-color: #e81123;
+}
+
+.static-header-text-box {
+    border: none;
+    box-shadow: none;
+}
+
+.static-header-text-box:focus {
+    border: 1px solid rgb(89, 89, 89);
+    box-shadow: none;
+}
+
+.static-parameters input, .static-parameters select {
+    padding: 0 3px 0 3px;
+    height: 20px;
+}
+
+.tabular-data-container tr:first-child {
+    outline: 1px solid #dddddd !important;
+}
+
+.form-err-message {
+    color: #e81123;
+    font-weight: normal;
+}
+
+.form-warn-message {
+    color: #e8961f;
+    font-weight: normal;
+}
+
+.tooltip-inner {
+    background-color: #292929 !important;
+    color: #fff;
+    padding: 10px;
+    border-radius: 0 !important;
+    text-align: left;
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: #292929;
+}
+
+.tooltip.right .tooltip-arrow {
+    border-right-color: #292929;
+}
+
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #292929;
+}
+
+.tooltip.left .tooltip-arrow {
+    border-left-color: #292929;
+}
+
+.drawer-main-body {
+    font-size: 14px;
+    height: calc(100% - 120px);
+    overflow-y: scroll;
+    padding-right: 30px;
+    margin-right: -30px;
+}
+
+.drawer-main-body .upload-file {
+    display: inline-block;
+}
+
+.drawer-catalog {
+    white-space: pre-line;
+}
+.flow-part-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.flow-part-title .drawer-form-flow-part-number {
+    float: left;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    border: 2px solid #444444;
+    color: #444444;
+    font-weight: bold;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 14px;
+    padding-top: 6px;
+}
+
+.flow-part-title .drawer-form-flow-part-title {
+    height: 50px;
+    margin-left: 40px;
+    font-size: 18px;
+    line-height: 18px;
+    border-top: 1px solid #c1c1c1;
+    padding-top: 6px;
+    padding-left: 2px
+}
+
+.drawer-form-flow-part {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.fhir-capabilities-methods {
+    width: 280px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fhir-fetch-span {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.modal .modal-content {
+    border-radius: 0;
+    padding: 0;
+}
+
+.data-item-string-table {
+    width: 100%;
+
+}
+
+select.webchat-locale-picker {
+    position: absolute;
+    top: 0;
+    left: 100px;
+    height: 38px;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+    background-color: #0078d7;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    width: auto !important;
+}
+
+.webchat-loading:before {
+    content: "";
+    width: 100%;
+    height: 38px;
+    background-color: #0078d7;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.webchat-loading {
+    height: 100%;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 50%;
+}
+
+.drawer .section-title {
+    font-weight: 500;
+    font-size: 16px;
+}
+.main-label {
+    margin-top: 3px;
+    display: block;
+    font-size: 12px;
+    font-weight: 600 !important;
+}
+.sub-label {
+    font-size: 10px;
+}
+
+#webchatDrawer .drawer-container {
+    padding: 0;
+}
+
+#webchatDrawer .data-item {
+    margin: 0;
+}
+
+h5 {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.footnote {
+    position: absolute;
+    bottom: 100px;
+    left: 40px;
+    width: calc(100% - 140px);
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.footnote .bullet {
+    position: relative;
+}
+.footnote .bullet:before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: black;
+    position: absolute;
+    top: 8;
+    left: -8px;
+}
+
+.footnote .warning {
+    margin: 8px 0;
+    color: red;
+}
+
+.footnote input {
+    width: 100%;
+    padding-left: 10px;
+    font-style: italic;
+}
+
+.data-item .radio input {
+    margin: 0;
+    background-color: yellow;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    position: relative;
+}
+
+.data-item .radio label {
+    padding: 0;
+    vertical-align: 3px;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-bottom: : 11px;
+}
+
+.drawer .data-item .hb-btn-toggle:disabled {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.drawer table tr:hover td{
+    background-color: transparent;
+}
+
+.data-item .verifyToken {
+    position: absolute;
+    bottom: 0;
+    right: 30px;
+}
+
+.custom-field {
+    margin-bottom: 20px;
+}
+
+.drawer .last-modified {
+    font-size: 12px;
+    margin-bottom: 10px;
+    opacity: 0.8
+}
+
+.drawer .warning {
+    color: red;
+}
+
+.drawer .feedback-header {
+    margin-bottom: 25px;
+}
+
+.drawer .email-confirmation-label {
+    margin-top: 0px;
+    font-weight: normal;
+}
+
+.drawer .email-confirmation-input {
+    height: 15px;
+}
+
+.drawer-buttons-feedback {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 45px;
+    padding-top: 0;
+    padding-left: 0;
+}

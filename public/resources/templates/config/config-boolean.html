@@ -1,0 +1,17 @@
+<div class="config-item" ng-class="variable._changed ? 'not-saved' :  ''">
+    <div ng-if="label !== undefined" class="config-item-name">
+        {{label}}
+        <a href="{{link}}" target="_blank" tabindex="57">{{linkText}}</a>
+        <button aria-label="{{label}} - {{info}}"
+                ng-if="info !== undefined" class="info-button">
+            <div class="hb-hover-info">{{info}}</div>
+        </button>
+    </div>
+    <button role="switch"
+            aria-label="{{label}}"
+            aria-checked="{{variable._tenant ? 'true' : 'false'}}"
+            class="hb-btn hb-btn-toggle"
+            ng-click="ctrl.toggleBoolean(variable)">
+        <div ng-class="variable._tenant ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on='{{textOn || "On" }}' hb-off='{{textOff || "Off" }}'></div>
+    </button>
+</div>

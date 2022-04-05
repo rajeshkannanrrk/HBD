@@ -1,0 +1,39 @@
+<hb-page-header title="Security"
+                sub-title-line1="Configure security setting for your bot instance."
+></hb-page-header>
+<div class="hb-section-details">
+    <section class="config-section" id="policy-urls">
+        <div class="config-section-title">
+            <h4 class="section-name">Conversation timeout</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Conversation timeout</h3>
+                        <div class="preview-text">
+                            End user conversations will timeout if there is no conversation activity within a specified timeframe.
+                        </div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/conversationTimeout.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-select-time-options ctrl="$configCtrl"
+                                    selection-id="ConversationTimeout"
+                                    label="Timeout duration"
+                                    variable="$configCtrl.data.conversation_timeout_duration_in_minutes"
+                                    type="number"
+                                    options="[5, 10, 15, 30, 60, 120, 300, 720, 1440]"></config-select-time-options>
+        <config-textbox ctrl="$configCtrl"
+                        label="Timeout message"
+                        variable="$configCtrl.data.conversation_timeout_message"></config-textbox>
+    </section>
+    <section class="config-section" id="view-terms">
+        <div class="config-section-title">
+            <h4 class="section-name">End user authentication</h4>
+        </div>
+        <config-boolean ctrl="$configCtrl"
+                        label="Authentication verified on every message"
+                        variable="$configCtrl.data.user_authentication_required"></config-boolean>
+    </section>
+</div>

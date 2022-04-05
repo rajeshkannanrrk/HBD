@@ -1,0 +1,34 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header">
+        <input ng-if="!uibCtrl._labledTitle_" value="Assign Variable" name="label" type="text" class="form-control label-editor-field label-editor-field-disabled">
+        <span   ng-if="!uibCtrl._labledTitle_" class="fa fa-pencil label-editor-field-icon" ng-click="uibCtrl._activateLabeledTitle(element, 'Assign Variable')"></span>
+
+        <input ng-if="uibCtrl._labledTitle_" ng-model="element.label" name="label" id="label-input-box" type="text" class="form-control label-editor-field">
+        <span  ng-if="uibCtrl._labledTitle_" class="fa fa-eraser label-editor-field-icon" ng-click="uibCtrl._disableLabeledTitle(element, 'Assign Variable')"></span>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Variable Scope:</label>
+            <select ng-options="scope as scope for scope in variableScopes" ng-model="element.scope" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <label for="variable">Variable name:</label>
+            <input id="variable" ng-model="element.variable" required name="variable" type="text" placeholder="Variable" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Operation to perform on variable:</label>
+            <select ng-options="operation as operation for operation in operations" ng-model="element.operation" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <label for="assign">Value Expression:</label>
+            <span class="fa fa-question-circle" data-toggle="tooltip" title={{actionHelp}}></span>
+            <div class="MonacoEditor-Inline" autocomplete="variables"
+                    ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" required ng-model="element.value" id="assign" name="assign"></div>
+        </div>
+    
+    </div>    
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

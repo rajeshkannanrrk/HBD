@@ -1,0 +1,157 @@
+<hb-page-header title="Interactions"
+                sub-title-line1="Configure built-in scenarios that interact with your end user."
+></hb-page-header>
+<div class="hb-section-details">
+    <section class="config-section" id="general">
+        <div class="config-section-title">
+            <h4 class="section-name">Global defaults</h4>
+        </div>
+
+        <config-textbox ctrl="$configCtrl"
+                        label="Default reply for utterances that are not understood"
+                        info="The default reply to display when the bot cannot understand the end users intent or does not have a response for a recognized intent"
+                        variable="$configCtrl.data.general.default_reply"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Default message when returning from interrupting scenarios"
+                        info="This message is displayed when an interrupting scenario has completed and the user is returning to the previous scenario."
+                        learn-more="https://docs.microsoft.com/en-us/HealthBot/bot_docs/interruptions"
+                        variable="$configCtrl.data.general.default_returning_message"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Default Error Message"
+                        info="This message will be shown when your bot encounters a run time error"
+                        variable="$configCtrl.data.general.default_error_message"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Default retry message (number prompts)"
+                        info="This message is shown when the end-user does not provide a valid number input when it is expected for the prompt type"
+                        variable="$configCtrl.data.general.default_number_retry_prompt"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Default retry message (yes/no prompts)"
+                        info="This message is shown when the end-user does not provide a valid yes/no input when it is expected for the prompt type"
+                        variable="$configCtrl.data.general.default_confirm_retry_prompt"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Default retry message (single-choice prompt)"
+                        info="This message is shown when the end-user does not provide a valid single-choice input when it is expected for the prompt type"
+                        variable="$configCtrl.data.general.default_choice_retry_prompt"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Default retry message (multi-choice prompt)"
+                        info="This message is shown when the end-user does not provide a valid multi-choice input when it is expected for the prompt type"
+                        variable="$configCtrl.data.general.default_multichoice_retry_prompt"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Default retry message (date prompt)"
+                        info="This message is shown when the end-user does not provide a valid date input when it is expected for the prompt type"
+                        variable="$configCtrl.data.general.default_time_retry_prompt"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Default retry message (attachment prompt)"
+                        info="This message is shown when the end-user does not provide a valid attachment input when it is expected for the prompt type"
+                        variable="$configCtrl.data.general.default_file_retry_prompt"></config-textbox>
+    </section>
+    <section class="config-section" id="automaticWelcome">
+        <div class="config-section-title">
+            <h4 class="section-name">Automatic welcome</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Automatic welcome</h3>
+                        <div class="preview-text">End users will automatically see the welcome message for each new interaction with your bot.</div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/welcomeMessage.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div>There are multiple ways to display automatic welcome messages. <a href="https://aka.ms/healtbotdocs/automatic_welcome_options">Learn more</a></div>
+        <div class="config-welcome-margin-top">
+            <config-textarea ctrl="$configCtrl"
+                label="Automatic welcome message" placeholder="Enter message"
+                info="This message is automatically displayed to the end user when they first enter the chat.  "
+                variable="$configCtrl.data.automatic_welcome.auto_welcome_message">
+            </config-textarea>
+        </div>
+        <div class="config-welcome-margin-top">
+            <config-option-buttons  ctrl="$configCtrl" label="Automatic welcome scenario"
+                info="This scenario will automatically start when the end-user opens the bot. The automatic welcome scenario overrides the automatic welcome message"
+                type="select" placeholder="** scenario not selected **"
+                variable="$configCtrl.data.automatic_welcome.auto_welcome_scenario"
+            </config-option-buttons>
+        </div>
+        <div class="config-item"><strong>Important:</strong> Works only with scenarios that display a single statement step</div>
+
+    </section>
+    <section class="config-section" id="greetings">
+        <div class="config-section-title">
+            <h4 class="section-name">Greetings</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Greetings</h3>
+                        <div class="preview-text">End users can type common greetings, such as "Hi" to greet your bot.</div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/greetings.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-boolean ctrl="$configCtrl"
+                        label="Interrupting scenario"
+                        info="Alow the greeting scenario to interrupt other  scenarios whilst they are active"
+                        variable="$configCtrl.data.greetings.interrupting"></config-boolean>
+        <config-textbox ctrl="$configCtrl"
+                        label="Greeting response"
+                        info="This response is displayed when the end user greets the bot"
+                        placeholder="Enter text"
+                        variable="$configCtrl.data.greetings.reply"></config-textbox>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-boolean ctrl="$configCtrl"
+                            label="conversation./builtin/greeting.breaking"
+                            variable="$configCtrl.data.greetings.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+    <section class="config-section" id="feedback">
+        <div class="config-section-title">
+            <h4 class="section-name">Feedback</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Feedback</h3>
+                        <div class="preview-text">End users can type "Feedback" to leave feedback about their interaction with the bot. Feedback is available in the portal analytics.</div>
+                        <div class="preview-learn-more"><a class="clickable-text" href="https://aka.ms/HealthBotDocs/feedback" target="_blank">Learn more</a></div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/feedback.png">
+                    </div>
+                </button>
+            </div>
+            <% if (isSysAdmin) { %>
+            <config-section-enable-toggle ctrl="$configCtrl" class="system-admin-field"
+                                          variable="$configCtrl.data.feedback.enabled"></config-section-enable-toggle>
+            <% } %>
+        </div>
+        <config-boolean ctrl="$configCtrl"
+                        label="Interrupting scenario"
+                        info="Alow the feedback scenario to interrupt other scenarios whilst they are active"
+                        variable="$configCtrl.data.feedback.interrupting"></config-boolean>
+        <config-textbox ctrl="$configCtrl"
+                        label="Feedback request"
+                        info="This message is displayed when prompting the end user for feedback"
+                        variable="$configCtrl.data.feedback.prompt"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Feedback confirmation"
+                        info="This message is displayed after the end user has provided feedback"
+                        variable="$configCtrl.data.feedback.confirmation"></config-textbox>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-boolean ctrl="$configCtrl"
+                            label="conversation./builtin/feedback.interruptible"
+                            variable="$configCtrl.data.feedback.interruptible"></config-boolean>
+            <config-textbox ctrl="$configCtrl"
+                            label="conversation./builtin/feedback.returning_message"
+                            info="A message to display when returning from an interruption to this dialog /or when refusing an interruption"
+                            variable="$configCtrl.data.feedback.returning_message"></config-textbox>
+            <config-boolean ctrl="$configCtrl"
+                            label="conversation./builtin/feedback.breaking"
+                            variable="$configCtrl.data.feedback.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+</div>

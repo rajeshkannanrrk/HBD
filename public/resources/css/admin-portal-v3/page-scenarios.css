@@ -1,0 +1,264 @@
+
+.data-container.scenarios-welcome-page {
+    width: 1000px;
+}
+
+.checkbox-toggle {
+    cursor: pointer;
+}
+
+.scenario-import-selected {
+    color: #191919;
+}
+
+.scenario-import-not-selected {
+    color: rgba(128, 128, 128, 0.7);
+    cursor: pointer;
+}
+
+.scenario-import-row {
+    height: 38px;
+    font-size: 14px;
+    line-height: 14px;
+    cursor: pointer;
+}
+
+.showLeft {
+    display: inline-block;
+    height: 100%;
+    text-shadow: none !important;
+    color: #5a5a5a !important;
+}
+
+.scenario-table {
+    width: 100%;
+}
+
+.scenario-table-checkbox-column {
+    width: 50px;
+}
+
+
+
+.scenario-table-toggle-column {
+    width: 100px;
+}
+
+.scenario-table .hb-onoff {
+    width: 80px;
+    margin: 0;
+}
+
+.scenario-table .hb-onoff > div {
+    width: 40px;
+    height: 20px;
+    margin: 0 0 0 0;
+    padding: 2px 0 2px 0;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.scenario-table-toggle-column .hb-onoff .hb-btn-onoff-selected {
+    height: 100px !important;
+
+}
+
+.scenario-table-short-text-column {
+    width: 150px;
+}
+
+.scenario-table-action-column {
+    width: 220px;
+}
+
+.ng-confirm.ng-confirm-light .ng-confirm-box, .ng-confirm.ng-confirm-white .ng-confirm-box {
+    border-radius: 0;
+}
+
+
+.no-scenario-button {
+    color: white;
+    margin: 6px auto auto auto;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scenarios-welcome-page {
+    padding-left: 40px;
+    padding-top: 30px;
+}
+
+.scenarios-welcome-page .title {
+    font-size: 36px;
+    height: 80px;
+    padding-top: 14px;
+}
+
+.scenarios-welcome-page .sub-title {
+    font-size: 18px;
+    margin-top: 13px;
+    margin-bottom: 1px;
+    margin-left: 105px;
+}
+
+.clickable:hover {
+    cursor: pointer;
+}
+
+.welcome-options {
+    display: flex;
+}
+
+.welcome-option {
+    display: flex;
+    margin: 10px 30px 10px 0;
+}
+
+.welcome-option .title {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 28px;
+    max-width: 194px;
+}
+
+.welcome-option .sub-title {
+    font-size: 15px;
+    display: block;;
+    text-decoration: none;
+    line-height: 17px;
+    height: 60px;
+    margin: 10px 0 0 0;
+    font-family: "Segoe UI";
+    font-weight: 400;
+
+
+}
+
+.welcome-option .icon {
+    font-family: 'FullMDL2';
+    text-decoration: none;
+    font-style: normal;
+    font-size: 41px;
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.scenarios-welcome-page .image {
+    height: 82px;
+    width: 82px;
+    margin-right: 20px;
+    float: left;
+    margin-top: 0;
+}
+
+
+.scenario-table-selected-column {
+    width: 5%;
+    height: 40px;
+    min-width: 50px;
+}
+
+.scenario-table-active-column {
+    width: 10%;
+    height: 40px;
+    min-width: 100px;
+}
+
+.scenario-table-name-column {
+    width: 15%;
+    height: 40px;
+    min-width: 150px;
+    position: relative;
+    font-size: 16px;
+}
+
+.scenario-table-id-column {
+    width: 15%;
+    height: 40px;
+    min-width: 130px;
+    position: relative;
+    font-size: 14px;
+}
+
+.scenario-table-description-column {
+    width: 27%;
+    height: 40px;
+    min-width: 265px;
+    position: relative;
+    font-size: 14px;
+}
+
+.scenario-table-last-modified-column {
+    width: 17%;
+    height: 40px;
+    min-width: 170px;
+    font-size: 11px;
+    position: relative;
+
+}
+
+.scenario-table-action-column {
+    width: 11%;
+    height: 40px;
+    min-width: 240px;
+}
+
+.scenario-table-name-column span,
+.scenario-table-id-column span,
+.scenario-table-description-column span,
+.scenario-table-last-modified-column span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 40px;
+    padding: 0 20px 0 20px;
+    display: block;
+    /* padding-left: 15px; */
+}
+
+.scenario-table-name-column span:before {
+    position: absolute;
+    left: 0;
+}
+
+.scenario-table-name-column a:focus span {
+    outline: 1px dashed black !important;
+    width: calc(100% - 10px);
+    height: 38px;
+}
+
+.ng-confirm.ng-confirm-light .ng-confirm-box, .ng-confirm.ng-confirm-white .ng-confirm-box {
+    border-radius: 0;
+}
+
+.welcome-to-catalog h2 {
+    position: relative;
+    padding-left: 36px;
+}
+
+.welcome-to-catalog h2 i {
+
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
+.scenarios-search-results pre {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.search-scenario-match {
+    background-color: #ffb600;
+    font-weight: 600;
+    padding: 0 2px;
+    font-size: 16px;
+}

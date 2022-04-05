@@ -1,0 +1,34 @@
+<div class="config-item" ng-class="variable._changed ? 'not-saved' :  ''">
+    <div ng-if="label !== undefined" class="config-item-name">
+        {{label}}
+        <button aria-label="{{label}} - {{info}}"
+                ng-if="info !== undefined" class="info-button">
+            <div class="hb-hover-info">{{info}}</div>
+        </button>
+    </div>
+    <div ng-if="special === 'data-retention'">
+        <select aria-label="{{label}}"
+                ng-model="variable._tenant"
+                ng-change="ctrl.selectionChanged(variable)">
+            <option value="GDPR">GDPR (Stored until the end user requests deletion)</option>
+            <option value="US regulation">HIPAA (Anonymized and stored 10 years in encrypted storage for governance)</option>
+        </select>
+    </div>
+    <div ng-if="special !== 'data-retention'">
+        <div class="hb-option-group" role="listbox" aria-label="options of {{label}}" ng-if="type !== 'select'">
+            <button role="option"
+                    ng-repeat="opt in (options ? options : variable._scheme.format) track by $index"
+                    aria-selected="{{variable._tenant === opt ? 'true' : 'false'}}"
+                    class="hb-btn"
+                    ng-class="variable._tenant === opt ? 'hb-btn-primary' : 'hb-btn-secondary'"
+                    ng-click="ctrl.selectOption(variable, opt)">{{opt}}</button>
+        </div>
+        <div class="hb-option-group" role="listbox" aria-label="options of {{label}}" ng-if="type === 'select'">
+        <select style="width: 400px;" aria-label="{{label}}"
+                ng-model="variable._tenant"
+                ng-change="ctrl.selectionChanged(variable)">
+            <option value="{{opt}}" ng-repeat="opt in (options ? options : variable._scheme.format) track by $index">{{opt || placeholder}}</option>
+        </select>
+        </div>
+    </div>
+</div>

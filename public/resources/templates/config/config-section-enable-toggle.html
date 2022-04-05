@@ -1,0 +1,12 @@
+<div class="config-item"
+     ng-class="variable._changed ? 'not-saved' :  ''">
+    <div class="section-enable" ng-class="variable._scheme._convict_tenant_can_edit === false ? 'system-admin-field' :  ''">
+        <button role="switch"
+                aria-checked="{{variable._tenant ? 'true' : 'false'}}"
+                aria-label="section enable"
+                ng-disabled="{{disableToggle}}"
+                class="hb-btn hb-btn-toggle" ng-click="ctrl.toggleBoolean(variable)">
+            <div ng-class="variable._tenant ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="Enabled" hb-off="Disabled"></div>
+        </button>
+    </div>
+</div>

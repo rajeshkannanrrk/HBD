@@ -1,0 +1,105 @@
+<span>
+<hb-page-header title="Triage and symptom checking"
+                sub-title-line1="Configure the behavior of the built-in medical triage and symptom checking available to your bot instance."
+></hb-page-header>
+    <div class="config-section-title" style="display: inline">
+        <div class="preview">
+            <button title="section info" role="tooltip" class="preview-button">
+                <div class="preview-content">
+                    <div class="preview-arrow-left"></div>
+                    <h3 class="preview-title">Triage and symptom checking</h3>
+                    <div class="preview-text">End users can type a medical complaint to triage and check their
+                        symptoms
+                    </div>
+                    <img alt class="preview-img" src="/resources/images/configPreviews/triage_tooltip_{{$configCtrl.data.triage_provider._tenant}}.png">
+                </div>
+            </button>
+        </div>
+    </div>
+
+</span>
+<div class="hb-section-details">
+        <section class="config-section"
+                 id="TriageProvider">
+            <div class="config-section-title">
+                <h4 class="section-name">Content Providers</h4>
+            </div>
+
+            <config-stylized-option-buttons ctrl="$configCtrl"
+                                                    label="Select a built-in triage content provider"
+                                                    info="Content providers determine the triage behavior. For example, how symptoms are assessed and the method for establishing a disposition"
+                                                    variable="$configCtrl.data.triage_provider"
+                                                    options="['infermedica', 'capita']"
+                                                    changed-warnings='{
+                                                        infermedica : "Click \"save\" to set the content provider to Infermedica.",
+                                                        capita : "Click \"save\" to set the content provider to Capita."
+                                                    };'
+            ></config-stylized-option-buttons>
+
+        </section>
+
+    <h4 style="font-weight: normal">
+        {{$configCtrl.data.triage_provider._tenant[0].toUpperCase() +
+        $configCtrl.data.triage_provider._tenant.substring(1) + " Settings"}}
+    </h4>
+
+    <section id="infermedica-triage-configuration" ng-show="$configCtrl.data.triage_provider._tenant == 'infermedica'">
+        <%- include('./configuration.medical.triage.infermedica.ejs'); %>
+    </section>
+    <section id="capita-triage-configuration" ng-show="$configCtrl.data.triage_provider._tenant == 'capita'">
+        <%- include('./configuration.medical.triage.capita.ejs'); %>
+    </section>
+
+</div>
+
+<script>
+    var ranges = [
+        {
+            id: "#pregnancyAgeRangeIM",
+            min: 0,
+            max: 120
+        },
+        {
+            id: "#pregnancyAgeRangeHN",
+            min: 0,
+            max: 120
+        }
+    ]
+
+    ranges.forEach(function (range) {
+        $(range.id).slider({
+            range: true,
+            min: range.min,
+            max: range.max,
+            slide: function (event, ui) {
+                $(range.id + "Min").val(ui.values[0]);
+                $(range.id + "Max").val(ui.values[1]);
+                if (ui.value === ui.values[0]) {
+                    $($(range.id + ' .ui-slider-handle')[0]).attr("val", ui.value);
+                    $(range.id + 'Min').trigger('change');
+                } else {
+                    $($(range.id + ' .ui-slider-handle')[1]).attr("val", ui.value);
+                    $(range.id + 'Max').trigger('change');
+                }
+            }
+        });
+    })
+
+    function initSliders(data) {
+        if (data.infermedica.pregnancy) {
+            initSlider("#pregnancyAgeRangeIM", data.infermedica.pregnancy.minimum_age_to_ask_about_pregnancy, data.infermedica.pregnancy.maximum_age_to_ask_about_pregnancy)
+        }
+    }
+
+    function capitalize(str) {
+        return str[0].toUpperCase + str.substring(1).toLowerCase()
+    }
+
+    function initSlider(id, min, max) {
+        $(id).slider("values", 0, min._tenant);
+        $(id).slider("values", 1, max._tenant);
+        $($(id + " .ui-slider-handle")[0]).attr("val", min._tenant)
+        $($(id + " .ui-slider-handle")[1]).attr("val", max._tenant)
+    }
+</script>
+

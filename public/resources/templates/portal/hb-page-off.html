@@ -1,0 +1,12 @@
+<div class="page-off-content">
+    <div class="blocked-content-message">
+        <div class="blocked-content-message-icon">
+            <i class="{{icon}}"></i>
+        </div>
+        <div class="blocked-content-message-text">
+            <title ng-if="title">{{title}}</title>
+            <sub-title ng-if="subTitleLine" style="float:left">{{subTitleLine}}</sub-title>
+            <button class="hb-btn hb-btn-blocked-content-action" ng-click='buttonAction()'>{{buttonText}}</button>
+        </div>
+    </div>
+</div>

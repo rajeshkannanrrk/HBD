@@ -1,0 +1,64 @@
+table {
+    border: none !important;
+    font-size: 12px;
+}
+
+table tr {
+    background-color: transparent;
+    border: none !important;
+}
+
+table tr th {
+    background-color: #ffffff;
+    border: none !important;
+    padding: 3px 10px !important;
+}
+
+table tr td {
+    background-color: #ffffff;
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    padding: 6px 10px !important;
+}
+
+table tr td a{
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 220px;
+
+}
+
+.ellipsis-cell {
+    width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.audit-trails-table{
+    width: 100%
+}
+
+.audit-trails-table tr td{
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+tr:hover td {
+    background-color: #efefef;
+}
+
+tr.selected td{
+    background-color: #ecf7ff;
+    font-weight: bold;
+}
+
+.sticky-header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}

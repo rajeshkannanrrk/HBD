@@ -1,0 +1,23 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header" style="position: relative">
+        <input ng-if="!uibCtrl._labledTitle_" value="End Scenario With Result" name="label" type="text" class="form-control label-editor-field label-editor-field-disabled">
+        <span   ng-if="!uibCtrl._labledTitle_" class="fa fa-pencil label-editor-field-icon" ng-click="uibCtrl._activateLabeledTitle(element, 'End Scenario With Result')"></span>
+
+        <input ng-if="uibCtrl._labledTitle_" ng-model="element.label" name="label" id="label-input-box" type="text" class="form-control label-editor-field">
+        <span  ng-if="uibCtrl._labledTitle_" class="fa fa-eraser  label-editor-field-icon" ng-click="uibCtrl._disableLabeledTitle(element, 'End Scenario With Result')"></span>
+    </div>
+    <div class="modal-body">
+        <!-- <div class="form-group">
+            <label for="dataType">End Scope:</label>
+            <select ng-options="endScope as endScope for endScope in endScopes" ng-model="element.endScope" class="form-control"></select>
+        </div>                 -->
+         <div class="form-group">
+            <label for="text">Scenario Return Value:</label>
+            <div class="MonacoEditor-Large" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" autocomplete="variables" required ng-model="element.returnValue" id="variable" name="variable"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

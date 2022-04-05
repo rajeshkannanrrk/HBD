@@ -1,0 +1,16 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header" style="position: relative">
+        <span class="label-editor-field">Set Run Arguments</span>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="text">Run Arguments</label>
+            <span class="fa fa-question-circle" data-toggle="tooltip" title={{argsHelp}}></span>
+            <div class="MonacoEditor-Med" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" id="args" ng-model="args" name="args"></div>
+        </div>       
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

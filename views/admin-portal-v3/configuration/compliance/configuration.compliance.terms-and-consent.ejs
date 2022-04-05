@@ -1,0 +1,119 @@
+<hb-page-header title="Terms and consent"
+                sub-title-line1="Configure terms and consent to meet legal requirements."
+></hb-page-header>
+<div class="hb-section-details">
+    <section class="config-section" id="policy-urls">
+        <div class="config-section-title">
+            <h4 class="section-name">Policy URLs</h4>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Terms of service URL"
+                        variable="$configCtrl.data.policy_urls.tenant_terms_link"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Privacy policy URL"
+                        variable="$configCtrl.data.policy_urls.tenant_privacy_link"></config-textbox>
+    </section>
+    <section class="config-section" id="view-terms">
+        <div class="config-section-title">
+            <h4 class="section-name">View terms</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Terms</h3>
+                        <div class="preview-text">End users can type "Terms" to see the terms of service and privacy policy.</div>
+                        <div class="preview-learn-more"><a class="clickable-text" href="https://aka.ms/HealthBotDocs/terms" target="_blank">Learn more</a></div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/terms.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-textarea ctrl="$configCtrl"
+                         label="Confirmation message"
+                         variable="$configCtrl.data.view_terms.reply"></config-textarea>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-boolean ctrl="$configCtrl"
+                            label="conversation./builtin/terms.interrupting"
+                            variable="$configCtrl.data.view_terms.interrupting"></config-boolean>
+            <config-boolean ctrl="$configCtrl"
+                            label="conversation./builtin/terms.breaking"
+                            variable="$configCtrl.data.view_terms.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+    <section class="config-section" id="user-consent">
+        <div class="config-section-title">
+            <h4 class="section-name">Require user consent</h4>
+            <config-section-enable-toggle ctrl="$configCtrl"
+                                          info="Will require end users to provide explicit consent before using your Health Bot instance"
+                                          variable="$configCtrl.data.end_user_consent.enable_tenant"></config-section-enable-toggle>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">End user consent</h3>
+                        <div class="preview-text">
+                            End users are prompted to explicitly consent to terms when they begin a new interaction with your bot.
+                        </div>
+                        <div class="preview-learn-more"><a class="clickable-text" href="https://aka.ms/HealthBotDocs/consent" target="_blank">Learn more</a></div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/consent.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-boolean ctrl="$configCtrl"
+                            label="conversation.user_consent.interruptible"
+                            variable="$configCtrl.data.end_user_consent.interruptible"></config-boolean>
+            <config-boolean ctrl="$configCtrl"
+                            label="conversation.user_consent.returning_message"
+                            variable="$configCtrl.data.end_user_consent.returning_message"></config-boolean>
+            <config-textbox ctrl="$configCtrl"
+                            label="user_consent.bot_name"
+                            variable="$configCtrl.data.end_user_consent.bot_name"></config-textbox>
+            <config-boolean ctrl="$configCtrl"
+                            label="user_consent.enable_ms"
+                            variable="$configCtrl.data.end_user_consent.enable_ms"></config-boolean>
+            <config-natural-number ctrl="$configCtrl"
+                                   label="user_consent.major_version"
+                                   variable="$configCtrl.data.end_user_consent.major_version"></config-natural-number>
+            <config-natural-number ctrl="$configCtrl"
+                                   label="user_consent.minor_version"
+                                   variable="$configCtrl.data.end_user_consent.minor_version"></config-natural-number>
+            <config-natural-number ctrl="$configCtrl"
+                                   label="user_consent.validity_duration_in_days"
+                                   variable="$configCtrl.data.end_user_consent.validity_duration_in_days"></config-natural-number>
+            <config-textbox ctrl="$configCtrl"
+                            label="user_consent.intro"
+                            variable="$configCtrl.data.end_user_consent.intro"></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label="user_consent.ms_prompt"
+                            variable="$configCtrl.data.end_user_consent.ms_prompt"></config-textbox>
+        </section>
+        <% } %>
+        <config-textarea ctrl="$configCtrl"
+                         label="Consent message"
+                         info="The message that will prompt end users to consent to your terms of service and privacy policy. Use markdown and a special syntax to reference your policy URLs."
+                         learn-more="https://aka.ms/HealthBotDocs/consent"
+                         variable="$configCtrl.data.end_user_consent.tenant_prompt"></config-textarea>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label="user_consent.conclusion_greet"
+                            variable="$configCtrl.data.end_user_consent.conclusion_greet"></config-textbox>
+        </section>
+        <% } %>
+        <config-textbox ctrl="$configCtrl"
+                        label="Completion message"
+                        variable="$configCtrl.data.end_user_consent.conclusion_prompt"></config-textbox>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label="user_consent.re_prompt"
+                            variable="$configCtrl.data.end_user_consent.re_prompt"></config-textbox>
+        </section>
+        <% } %>
+    </section>
+</div>

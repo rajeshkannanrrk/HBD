@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <script src="/resources/angularApps/admin-portal-v3/controllers/users.audittrails.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="auditTrailsCtrl as $auditTrailsCtrl">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <select aria-label="audit trails type selector"
+                    id="auditTrailsType"
+                    ng-model="$auditTrailsCtrl.filter"
+                    ng-change="$auditTrailsCtrl.changeFilter()">
+                <option value="">All</option>
+                <option>Configuration</option>
+                <option>Scenarios</option>
+                <option>Users</option>
+                <option>Snapshots</option>
+                <option>Language models</option>
+                <option>Localization</option>
+                <option>Backup</option>
+                <option>Conversation logs</option>
+                <option>Channels</option>
+                <option>Icon</option>
+            </select>
+            <select aria-label="audit trails time range" ng-model="$auditTrailsCtrl.timeRange" ng-change="$auditTrailsCtrl.refresh()">
+                <option ng-repeat="range in $auditTrailsCtrl.getTimeRanges()" ng-value="range.value">{{ range.displayName }}</option>
+            </select>
+            <button aria-label="refresh audit trails list" class="control-button" ng-click="$auditTrailsCtrl.refresh()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+        </div>
+        <div class="data-container">
+            <hb-page-header title="Audit trails"
+                            sub-title-line1="Review and validate changes to assets in your management portal."
+                            learn-more="https://aka.ms/HealthcareBotDocs/audit_trails"></hb-page-header>
+            <div id="auditTrailsTable_outsideWrapper">
+                <table id="auditTrailsTable" class="display audit-trails-table"></table>
+                <button class="clickable-text" ng-if="$auditTrailsCtrl.canLoadMore()" ng-click="$auditTrailsCtrl.loadMore()">Retrieve more Data</button>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    angular.module("adminPortalApp.preloadedData").constant("auditTrail", <%- auditTrail %>);
+    angular.module("adminPortalApp.preloadedData").constant("continuationToken", <%- continuationToken %>);
+</script>
+</body>
+</html>

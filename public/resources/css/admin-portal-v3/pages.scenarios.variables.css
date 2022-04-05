@@ -1,0 +1,144 @@
+* {
+    font-family: Segoe UI;
+}
+
+.hb-section-details {
+    margin-bottom: 20px;
+}
+.hb-section-details .title {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.hb-section-details .sub-title, .hb-section-details .sub-title .clickable-text {
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0;
+}
+
+
+.hb-table {
+    width: 900px;
+}
+
+button.clickable-text{
+    text-align: center;
+    height: 20px;
+    font-size: 11px;
+    line-height: 11px;
+    padding: 4px 2px;
+    margin-top: 3px;
+    user-select: none;
+    background-color: transparent;
+    display: inline-block;
+    letter-spacing: 0px;
+}
+
+button.clickable-text:focus{
+    outline: 1px dashed #0071c6;
+    box-shadow: none;
+}
+
+.hb-table-header > div{
+    font-size: 12px;
+}
+.hb-table-header > span{
+    font-size: 12px;
+    background-color: lightblue;
+}
+
+.hb-table-row, .hb-table-header{
+    display: flex;
+    position: relative;
+    height: 30px;
+    border-bottom: 1px solid #9b9b9b;
+    padding: 2px 0;
+}
+
+.hb-cell-1, .hb-cell-2, .hb-cell-3, .hb-cell-4, .hb-cell-5, .hb-cell-6, .hb-cell-7, .hb-cell-8, hb-cell-9, hb-cell-10 {
+    display: table-cell;
+
+}
+
+.hb-table-row input {
+    height: 26px;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 0 5px;
+    width: calc(100% - 10px);
+    border: 1px solid #9b9b9b;
+    outline: none;
+    box-shadow: none;
+}
+
+.hb-table-row input:focus {
+    box-shadow: none;
+    border: 1px solid #0071c6;
+    outline: none;
+}
+
+.hb-table-footer .clickable-text {
+
+}
+
+.hb-cell-1 { width: 90px; }
+.hb-cell-2 { width: 180px }
+.hb-cell-3 { width: 270px }
+.hb-cell-4 { width: 360px }
+.hb-cell-5 { width: 450px }
+.hb-cell-6 { width: 540px }
+.hb-cell-7 { width: 630px }
+.hb-cell-8 { width: 720px }
+.hb-cell-9 { width: 810px }
+.hb-cell-10 { width: 900px }
+
+
+.info-button:before {
+    content: "\F167";
+    font-family: 'FullMDL2';
+    position: absolute;
+    top: 6px;
+    left: 0px;
+    width: 14px;
+    width: 14px;
+    padding: 1px;
+    height: 14px;
+    font-size: 12px;
+    line-height: 12px;
+
+    cursor: pointer;
+}
+
+.info-button:focus:before {
+    outline: 1px dashed #0071c6
+}
+.info-button {
+    vertical-align: text-bottom;
+    display: inline-block;
+    position: relative;
+    height: 20px;
+    width: 20px;
+    border: none !important;
+    outline: none !important;
+    background-color: transparent;
+    cursor: default;
+}
+
+.hb-hover-info {
+    display: none;
+}
+
+.info-button:focus .hb-hover-info, .hb-hover-info:hover {
+    position: absolute;
+    display: inline-block;
+    white-space: normal;
+    text-align: left;
+    padding: 10px;
+    top: 10px;
+    right: -250px;
+    width: 250px;
+    background-color: white;
+    box-shadow: 1px 1px 5px 1px #9b9b9b;
+    z-index: 1;
+    letter-spacing: 0px;
+}

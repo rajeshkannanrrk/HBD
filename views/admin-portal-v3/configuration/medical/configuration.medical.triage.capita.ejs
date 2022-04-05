@@ -1,0 +1,250 @@
+<section class="config-section" id="general-triage">
+    <div class="config-section-title">
+        <h3 class="section-name">General</h3>
+
+    </div>
+
+    <config-textbox ctrl="$configCtrl"
+                    label="Message when returning to triage from an interrupting scenario"
+                    info="Sets the message displayed before returning to the triage scenario (when the triage is interrupted)."
+                    variable="$configCtrl.data.capita.general.returning_message"></config-textbox>
+    <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label="Something went wrong triage text"
+                            info="Text to display when an error occurred during triage."
+                            variable="$configCtrl.data.capita.general.something_went_wrong_triage_text"></config-textbox>
+        </section>
+    <% } %>
+
+    <config-boolean ctrl="$configCtrl"
+                label="Request customer feedback at the end of the triage flow"
+                info="At the end of the built-in triage scenario a prompt for feedback will be shown and the response will be stored in the feedback report"
+                variable="$configCtrl.data.capita.general.enable_feedback"></config-boolean>
+
+</section>
+
+
+<section class="config-section" id="Gender">
+    <div class="config-section-title">
+        <h3 class="section-name">Gender</h3>
+    </div>
+    <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label="Biological sex prompt text - second person addressing"
+                            info="Text for display when prompting for biological sex (in second person)."
+                            variable="$configCtrl.data.capita.gender.gender_prompt_text.second_person"></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label="Biological sex prompt text - third person addressing"
+                            info="Text for display when prompting for biological sex (in third person)."
+                            variable="$configCtrl.data.capita.gender.gender_prompt_text.third_person"></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label="Biological sex reprompt text - second person addressing"
+                            info="Text for display when reprompting the biological sex question, if user failed to select either options (in second person)."
+                            variable="$configCtrl.data.capita.gender.gender_reprompt_text.second_person"></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label="Biological sex reprompt text - third person addressing"
+                            info="Text for display when reprompting the biological sex question, if user failed to select either options (in third person)."
+                            variable="$configCtrl.data.capita.gender.gender_reprompt_text.third_person"></config-textbox>
+        </section>
+    <% } %>
+    <config-textbox ctrl="$configCtrl"
+                    label="Male option"
+                    info="Sets the male choice displayed when prompting the end user for their biological sex."
+                    variable="$configCtrl.data.capita.gender.gender_prompt_choice.male"></config-textbox>
+    <config-textbox ctrl="$configCtrl"
+                    label="Female option"
+                    info="Sets the female choice displayed when prompting the end user for their biological sex."
+                    variable="$configCtrl.data.capita.gender.gender_prompt_choice.female"></config-textbox>
+</section>
+
+<% if (isSysAdmin) { %>
+    <section class="config-section system-admin-field" id="Age">
+        <div class="config-section-title">
+            <h3 class="section-name">Age</h3>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age prompt text - male, second person"
+                        info="Text for prompting a male user for his age (in second person)."
+                        variable="$configCtrl.data.capita.age.age_prompt_text.male.second_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age prompt text - male, third person"
+                        info="Text for prompting a male user for his age (in third person)."
+                        variable="$configCtrl.data.capita.age.age_prompt_text.male.third_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age prompt text - female, second person"
+                        info="Text for prompting a female user for her age (in second person)."
+                        variable="$configCtrl.data.capita.age.age_prompt_text.female.second_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age prompt text - female, third person"
+                        info="Text for prompting a female user for her age (in third person)."
+                        variable="$configCtrl.data.capita.age.age_prompt_text.female.third_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Invalid age prompt text"
+                        info="Text for re-prompting the user for her/his age."
+                        variable="$configCtrl.data.capita.age.invalid_age_prompt_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Minimum age self use text"
+                        info="The minimum age must be 16 years or older (COPPA)."
+                        variable="$configCtrl.data.capita.age.minimum_age_self_use_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age approval text"
+                        info="Ask the user for confirmation that this is indeed his/her age (in case age was written textually)."
+                        variable="$configCtrl.data.capita.age.age_approval_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age reenter text - male, second person"
+                        info="Ask a male user to re-enter his age (in second person)."
+                        variable="$configCtrl.data.capita.age.age_reenter_text.male.second_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age reenter text - male, third person"
+                        info="Ask a male user to re-enter his age (in third person)."
+                        variable="$configCtrl.data.capita.age.age_reenter_text.male.third_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age reenter text - female, second person"
+                        info="Ask a female user to re-enter her age (in second person)."
+                        variable="$configCtrl.data.capita.age.age_reenter_text.female.second_person"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Age reenter text - female, third person"
+                        info="Ask a female user to re-enter her age (in third person)."
+                        variable="$configCtrl.data.capita.age.age_reenter_text.female.third_person"></config-textbox>
+    </section>
+<% } %>
+
+<section class="config-section" id="Preassessment">
+    <div class="config-section-title">
+        <h3 class="section-name">Preassessment</h3>
+    </div>
+
+    <config-textbox ctrl="$configCtrl"
+                    label="Default reply for utterances that are not understood"
+                    info="Text to show user when no suitable protocols have been found to assess their reported symptoms"
+                    variable="$configCtrl.data.capita.preassessment.rephrase_complain_or_quit_prompt"></config-textbox>
+    <config-textbox ctrl="$configCtrl"
+                    label="Default reply for utterances that fit multiple protocols"
+                    info="Text to show user when multiple suitable protocols have found to the assess the reported symptoms. The user is required to select a single protocol"
+                variable="$configCtrl.data.capita.preassessment.choose_most_important_algorithm"></config-textbox>
+    <config-textbox ctrl="$configCtrl"
+                label="Default reply when user selection is not one of the suggested protocols"
+                info="Text to show user when the user when they do not select one of matched protocols. The user is required to select a single protocol"
+                variable="$configCtrl.data.capita.preassessment.re_prompt_choose_most_important_algorithm"></config-textbox>
+    <config-textbox ctrl="$configCtrl"
+                    label="Default reply when the user selects not of the suggested protocols"
+                    info="Text to show user when the user selects 'None Of The Above' when multiple suitable protocols are identified. The user should rephrase their complaint."
+                variable="$configCtrl.data.capita.preassessment.none_of_the_above_chosen_algorithm"></config-textbox>
+    <config-textbox ctrl="$configCtrl"
+                label="Default reply when the reported symptoms conflict with the reported sex or age"
+                info="Text to show user when the symptoms that the user complained about conflict with the reported sex or age. For example, if a male complains about pregnancy related symptoms"
+                variable="$configCtrl.data.capita.preassessment.zero_filtered_algorithms"></config-textbox>
+</section>
+
+<section class="config-section" id="Conversation">
+    <div class="config-section-title">
+        <h3 class="section-name">Assessment</h3>
+    </div>
+
+    <config-boolean ctrl="$configCtrl"
+                label="Show question's rationale"
+                info="Sets the triage questions to show an optional rationale for the question being asked."
+                variable="$configCtrl.data.capita.conversation.show_rationale"></config-boolean>
+</section>
+
+<section class="config-section" id="Triage results">
+    <div class="config-section-title">
+        <h3 class="section-name">Triage results</h3>
+    </div>
+    <config-boolean ctrl="$configCtrl"
+                    label="Show summary"
+                    info="Sets the triage results to include a summary of the end users symptoms and collected information"
+                    variable="$configCtrl.data.capita.triage_results.symptom_summary.show_summary"></config-boolean>
+
+    <% if (isSysAdmin) { %>
+
+        <section class="config-section-nested system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary title text'
+                            info='Title for the symptom summary.'
+                            variable='$configCtrl.data.capita.triage_results.symptom_summary.title_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary initial complaint text'
+                            info='Title for the initial complaint.'
+                            variable='$configCtrl.data.capita.triage_results.symptom_summary.initial_complaint_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary initial complaints text'
+                            info='Title for the initial complaints.'
+                            variable='$configCtrl.data.capita.triage_results.symptom_summary.initial_complaints_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary protocol title text'
+                            info='Title for the protocol.'
+                            variable='$configCtrl.data.capita.triage_results.symptom_summary.protocol_title_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary selected protocol title text'
+                            info='Title for the selected protocol.'
+                            variable='$configCtrl.data.capita.triage_results.symptom_summary.selected_protocol_title_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary question answered \"Yes\" text'
+                            info='Title for question answered \"Yes\".'
+                            variable='$configCtrl.data.capita.triage_results.symptom_summary.questions_answered_yes_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary question answered \"No\" text'
+                            info='Title for question answered \"No\".'
+                            variable='$configCtrl.data.capita.triage_results.symptom_summary.questions_answered_no_text'></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label='Symptom summary user details'
+                            info='User details.'
+                            variable='$configCtrl.data.capita.triage_results.symptom_summary.user_details'></config-textbox>
+        </section>
+    <% } %>
+
+    <config-boolean ctrl="$configCtrl"
+                label="Show triage disposition"
+                info="Sets the triage results to include the triage disposition"
+                variable="$configCtrl.data.capita.triage_results.show_triage"></config-boolean>
+
+    <config-boolean ctrl="$configCtrl"
+                    label="Show disposition title"
+                    info="Sets the triage results to include the disposition title in the triage outcome message"
+                    variable="$configCtrl.data.capita.triage_results.show_disposition_title"></config-boolean>
+
+    <section class="config-section-nested">
+        <% if (isSysAdmin) { %>
+            <section class="system-admin-field">
+                <config-table ctrl="$configCtrl"
+                              label="Disposition codes"
+                              table-id="capitaDispositionCodes"
+                              info="The triage disposition text to display for each of capita's disposition code"
+                              variable="$configCtrl.data.capita.triage_results.disposition"
+                              fields="[['Disposition code', 'dispositionCode', 2, 'label', '...'], ['Disposition message', 'dispositionMessage', 8, 'localizedText', 'Enter disposition message text']]"
+                              immutable=true></config-table>
+            </section>
+        <% } %>
+    </section>
+
+    <config-textbox ctrl="$configCtrl"
+                label="Title text for the suggested care"
+                info="Sets the title for the suggested care in the triage results"
+                variable="$configCtrl.data.capita.triage_results.symptom_summary.care_instructions_text"></config-textbox>
+
+    <config-option-buttons ctrl="$configCtrl"
+                       label="Suggested care display mode"
+                       info="Select the way suggested care instructions are visually displayed. Buttons allow end-users to expand or collapse each section of the instructions. The text option displays all care instructions as a single continuous message."
+                       variable="$configCtrl.data.capita.triage_results.suggested_care_mode"></config-option-buttons>
+
+    <config-boolean ctrl="$configCtrl"
+                    label="Show main suggested care"
+                    info="Sets the triage results to include the main suggested care"
+                    variable="$configCtrl.data.capita.triage_results.show_main_suggested_care"></config-boolean>
+
+    <config-boolean ctrl="$configCtrl"
+                    label="Show additional suggested care"
+                    info="Sets the triage results to include the additional suggested care"
+                    variable="$configCtrl.data.capita.triage_results.show_additional_suggested_care"></config-boolean>
+
+    <config-boolean ctrl="$configCtrl"
+                    label="Show patient worsening instructions"
+                    info="Sets the triage results to include the patient worsening instructions"
+                    variable="$configCtrl.data.capita.triage_results.show_patient_worsening_fast"></config-boolean>
+
+
+
+</section>

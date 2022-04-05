@@ -1,0 +1,314 @@
+
+.clickable {
+    cursor: pointer
+}
+
+.config-group-container {
+    padding-left: 40px;
+    margin-bottom: 30px;
+    vertical-align: top;
+}
+
+.config-group-title-main {
+    text-decoration: underline;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.config-group-title {
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.config-group-title-added {
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.config-option-container {
+    padding: 3px;
+    border-radius: 10px;
+}
+
+.config-option-container-added {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 3px;
+}
+
+.config-option-container-added > div > table > tbody > tr > td > div > input {
+    background-color: rgba(0, 72, 255, 0.14) !important;
+}
+
+.config-option-title {
+    padding-top:5px;
+}
+
+.config-option-values {
+    position:relative;
+    padding-right:10px;
+}
+
+.config-option-reset{
+    right: 25px;
+}
+
+.config-option-cancel{
+    right: 45px;
+}
+
+.config-option-edit{
+    right: 65px;
+}
+
+.config-option-icon{
+    position: absolute;
+    top: 14px;
+    color: rgba(128, 128, 128, 0.5);
+    cursor: pointer;
+}
+
+.config-option-icon:hover{
+    color: gray;
+}
+
+.config-option-icon2{
+    color: rgba(128, 128, 128, 0.5);
+    cursor: pointer;
+}
+
+.config-option-icon2:hover{
+    color: gray;
+}
+
+.config-array-icons {
+    width: 40px;
+    position: relative
+}
+
+.config-option-icons {
+    width:40px;
+}
+
+.config-option-tooltip {
+    width: 30px;
+}
+
+.config-option-help {
+    font-size: 16px;
+    padding:0;
+    margin:0;
+    line-height:30px;
+    color:#595959;
+    cursor:pointer;
+}
+
+.config-option-help:hover {
+    color:#191919;
+}
+
+.config-option-changed {
+    border-color: #ff0000;
+    background-color: rgba(255, 190, 0, 0.13);
+    padding-right: 70px;
+}
+
+.config-option-unchanged {
+    padding-right: 70px;
+    height: 24px;
+}
+
+select.config-option-unchanged{
+    padding: 0 70px 0 10px;
+    height: 24px;
+}
+
+.config-option-default {
+    padding-right: 70px;
+    background-color: #ece8e8;
+    height: 24px;
+
+}
+.form-control::-webkit-input-placeholder { color: #c1c1c1; }
+.form-control:-moz-placeholder { color: #c1c1c1; }
+.form-control::-moz-placeholder { color: #c1c1c1; }
+.form-control:-ms-input-placeholder { color: #c1c1c1; }
+
+.config-array-item-added {
+    background-color: rgba(0, 72, 255, 0.14) !important;
+}
+
+.config-array-item-changed {
+    background-color: rgba(255, 190, 0, 0.13) !important;
+}
+
+.config-array-item-deleted {
+    background-color: rgba(255, 0, 0, 0.14) !important;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.config-option-number {
+    width: 150px;
+    padding-right: 0;
+}
+
+.disabled-div {
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.disabled-div > * {
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.config-table-cell {
+    padding: 0 !important
+}
+
+.config-table-cell-delete {
+    cursor:pointer;
+    width: 20px !important;
+    color: rgba(128, 128, 128, 0.7);
+}
+
+.config-table-cell-delete:hover {
+    background-color: #e81123;
+    color: white;
+}
+
+.config-table-cell-delete:active {
+    background-color: #b40e1b;
+    color: white;
+}
+
+.config-table-cell-return {
+    cursor:pointer;
+    width: 20px !important;
+    color: rgba(128, 128, 128, 0.7);
+}
+
+.config-table-cell-return:hover {
+    cursor:pointer;
+    background-color: #70c400;
+    color: white;
+}
+
+
+.config-table-cell-return:active {
+
+    background-color: #386300;
+    color: white;
+}
+
+.config-array-icon{
+    position: absolute;
+    left: 5px;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.input-group-addon-button {
+    background-color: #328229;
+    color: white;
+    font-weight: lighter;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.input-group-addon-text {
+    background-color: #c1ecbc;
+    color: black;
+}
+
+.extend-button-container {
+    margin-top: 15px;
+}
+
+.non-scheme-sub-header {
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    background-color: rgba(51, 51, 51, 0.09) !important;
+    padding-top: 8px;
+    margin: 10px 0 0 0;
+    line-height: 15px;
+    border-radius: 20px;
+}
+.scheme-sub-header {
+    position: relative;
+    padding-top: 8px;
+    margin: 10px 0 0 0;
+    line-height: 15px;
+}
+
+.non-scheme-val {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    background-color: rgba(51, 51, 51, 0.01) !important;
+    padding: 2px;
+    margin: 10px;
+    border-radius: 20px;
+}
+
+
+.config-editor-bottom-spacer {
+    height:30px;
+}
+
+.btn-azure {
+    background-color:purple !important;
+    font-size: 15px;
+    font-weight: bolder;
+    padding-right: 13px;
+    padding-left: 13px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+}
+.btn-non-azure {
+    background-color:white !important;
+    color: rgb(179, 173, 173);
+    font-size: 10px;
+    font-weight: bolder;
+    padding-right: 8px;
+    padding-left: 8px;
+    padding-top: 6px;
+    padding-bottom: 5px;
+}
+
+.search-box {
+    top:80px;
+    position: relative;
+    width: calc(100vw - 200px);
+    min-width: 938px;
+    height:60px;
+    left: 200px;
+    z-index:100;
+    background-color: #fbfbfb;
+    border-bottom: 1px solid #d4d4d4;
+    padding-right: 40px;
+    padding-top: 15px;
+}
+
+.search-box input{
+    border: 1px solid #a7b6ff;
+    width: 30%;
+    float:right;
+}
+
+.search-box-spacer {
+    height: 50px;
+    width: 100%;
+}
+
+.row-item-container {
+    position: relative;
+    padding-left: 10px;
+}
+
+.visible-to-tenant {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: #a5b9e6
+}

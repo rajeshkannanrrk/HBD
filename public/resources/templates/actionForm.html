@@ -1,0 +1,27 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header" style="position: relative">
+        <input ng-if="!uibCtrl._labledTitle_" value="Action" name="label" type="text" class="form-control label-editor-field label-editor-field-disabled">
+        <span   ng-if="!uibCtrl._labledTitle_" class="fa fa-pencil label-editor-field-icon" ng-click="uibCtrl._activateLabeledTitle(element, 'Action')"></span>
+
+        <input ng-if="uibCtrl._labledTitle_" ng-model="element.label" name="label" id="label-input-box" type="text" class="form-control label-editor-field">
+        <span  ng-if="uibCtrl._labledTitle_" class="fa fa-eraser label-editor-field-icon" ng-click="uibCtrl._disableLabeledTitle(element, 'Action')"></span>
+    </div>
+    <div class="modal-body">
+         <!-- <div class="form-group">
+             <label>
+                <input type="checkbox" ng-model="element.async" name="async">
+                Asynchronous:
+            </label>
+         </div> -->
+         <div class="form-group">
+            <label for="text">Action javascript Expression:</label>
+             <span class="fa fa-question-circle" data-toggle="tooltip" title={{actionHelp}}></span>
+            <div class="MonacoEditor-XLarge" autocomplete="variables" functions="functions"
+                        ui-monacoeditor ui-monacoeditor-opts="editorOptions" autocomplete="variables" required ng-model="element.onInit" id="action" name="action"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

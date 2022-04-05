@@ -1,0 +1,34 @@
+/**
+ * Types used the monaco editor
+ */
+interface IResult {
+    response:any;
+}
+
+declare class session {
+    static trace(msg: string, level: number): string
+    static saveFeedback(message: string): Promise<any>
+    static send(msg:Messsage);
+    static endDialogWithResult(result:IResult);
+    /**
+     * Logs event that describes the outcome of a scenario
+     * @param outcome Outcome details.
+     */
+    static logOutcomeEvent(outcome: string) :void;
+    static sendChannelData(text: string, data: any): void;
+}
+
+declare class builder {
+    static Message = class {
+        constructor(session);
+    }
+}
+
+declare class Buffer {
+    static from(buffer: string, enc?:  string) : Buffer;
+    toString(encoding: string): string;
+    static isBuffer(obj: any): boolean;
+    copy(target: Buffer, targetStart?: number, sourceStart?: number, sourceEnd?: number): number;
+}
+
+ 

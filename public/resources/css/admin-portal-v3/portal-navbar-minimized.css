@@ -1,0 +1,178 @@
+.hb-navigation-panel-minimized {
+    z-index: 1000;
+    float: left;
+    background-color: #161616;
+    position: relative;
+    width: 50px;
+    height: calc(100% - 50px);
+    min-height: 100px;
+    padding: 0;
+    border-right: none;
+    margin: 0;
+    overflow: visible;
+    user-select: none;
+    font-family: "Segoe UI Light", "Segoe UI Web", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Tahoma, Arial, sans-serif;
+}
+
+.hb-navigation-panel-minimized button.hamburger {
+    background-color: #444444;
+    width: 100%;
+    font-size: 20px;
+    line-height: 20px;
+    padding: 10px 10px;
+    color: white;
+    text-align: right;
+    cursor: pointer;
+}
+
+
+.hb-navigation-panel-minimized .left-menu-buttons a.red-text {
+    color: #ff5966 !important;
+}
+.hb-navigation-panel-minimized .left-menu-buttons {
+    display: inline-block;
+    background-color: #161616;
+    width: 100%;
+}
+.hb-navigation-panel-minimized .left-menu-buttons a.left-menu-button {
+    display: block;
+    background-color: #161616;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    height: 40px;
+    text-align: left;
+}
+
+.hb-navigation-panel-minimized a.left-menu-button i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    height: 40px;
+    width: 50px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 16px;
+}
+
+.hb-navigation-panel-minimized .left-menu-buttons a.left-menu-button:hover,
+.hb-navigation-panel-minimized .left-menu-buttons a.left-menu-sub-button:hover {
+    background-color: #444444 !important;
+}
+
+.hb-navigation-panel-minimized .left-menu-buttons ul {
+    background: #161616;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+.hb-navigation-panel-minimized .left-menu-buttons li {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    width: 100%;
+    font-size: 12px;
+    text-align: left;
+}
+
+
+.hb-navigation-panel-minimized .left-menu-buttons li .dropdown{
+    padding: 8px 0;
+}
+
+.hb-navigation-panel-minimized .left-menu-buttons li a.left-menu-sub-button {
+    background-color: #161616;
+    color: #fff;
+    padding: 0px 30px 0px 25px;
+    width: 100%;
+    padding-top: 2px;
+    text-align: left;
+    font-size: 12px;
+    line-height: 22px;
+    display: block;
+
+}
+
+.hb-navigation-panel-minimized .left-menu-buttons a.left-menu-sub-button.active {
+    font-weight: 700;
+    font-family: Segoe UI;
+    letter-spacing: 0.5px;
+}
+.hb-navigation-panel-minimized .left-menu-buttons a.left-menu-sub-button i {
+    float: right;
+    height: 100%;
+    width: 30px;
+    text-align: center;
+}
+
+.hb-navigation-panel-minimized .left-menu-buttons li:hover button,
+.hb-navigation-panel-minimized .left-menu-buttons li:focus button{
+    cursor: pointer;
+}
+
+.hb-navigation-panel-minimized .left-menu-buttons ul li ul {
+    background: #161616;
+
+    visibility: hidden;
+    opacity: 0;
+    position: absolute !important;
+    left: 100%;
+    top: 0;
+    display: none;
+    width: 200px;
+}
+.hb-navigation-panel-minimized .left-menu-buttons ul li:hover > ul,
+.hb-navigation-panel-minimized .left-menu-buttons ul li.in > ul,
+.hb-navigation-panel-minimized .left-menu-buttons ul li ul:hover {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+}
+
+.hb-navigation-panel-minimized .left-menu-buttons ul li:focus-within > ul {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+}
+
+.hb-navigation-panel-minimized .left-menu-buttons ul,
+.hb-navigation-panel-minimized .left-menu-buttons ul li,
+.hb-navigation-panel-minimized .left-menu-buttons ul li, ul {
+    position: relative;
+
+}
+.hb-navigation-panel-minimized .left-menu-buttons ul,
+.hb-navigation-panel-minimized .left-menu-buttons ul li {
+    position: relative !important;
+}
+.hb-navigation-panel-minimized .left-menu-buttons ul li ul li {
+    clear: both;
+    width: 100%;
+}
+
+.hb-navigation-panel-minimized .section-title {
+    display: none;
+}
+.hb-navigation-panel-minimized .dropdown .section-title {
+    display: block;
+    color: white;
+    width: 200px;
+    padding: 0px 30px 8px 15px;
+    font-weight: 600;
+}
+
+.hb-navigation-panel-minimized li.active:after {
+    content: '';
+    width: 3px;
+    height: 100%;
+    background-color: #0071c6;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+}
+
+.hb-navigation-panel-minimized li.active button i {
+    color: #0071c6;
+}

@@ -1,0 +1,98 @@
+.spinner {
+    position: fixed;
+    width:  100vw;
+    height: 100vh;
+    top: 0;
+    z-index: 7000;
+    background-color: rgba(255, 255, 255, 0.92);
+}
+
+.spinner-container {
+    position: fixed;
+    top: 40%;
+    width: 100%;
+    font-size: 40px;
+    text-align: center;
+}
+
+.spinner-label {
+    padding-top: 20px;
+    display: block;
+    color: #0071c6;
+}
+
+.spinner-icon{
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    color: #0071c6;
+    border-left: 3px solid #0071c6;
+    border-radius: 50%;
+    -webkit-animation: spinner-icon-spin 1.2s infinite linear;
+    animation: spinner-icon-spin 1.2s infinite linear;
+}
+
+@-webkit-keyframes spinner-icon-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes spinner-icon-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+.processing-blocker {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    z-index: 100;
+    text-align: center;
+    cursor: progress
+}
+
+.processing-blocker div {
+    position: relative;
+    margin-top: 350px;
+    color: #0071c6;
+    font-size: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-top: 1px solid rgba(0,0,0, 0.05);
+    border-bottom: 1px solid rgba(0,0,0, 0.05);
+    padding: 100px 0 10px 0;
+}
+
+.processing-blocker div:after {
+    content: '';
+    width: 200px;
+    height: 200px;
+    border-left: 3px solid #0071c6;
+    border-radius: 50%;
+    position: absolute;
+    left: calc(50% - 100px);
+    top: -88px;
+    -webkit-animation: spinner-icon-spin 1.2s infinite linear;
+    animation: spinner-icon-spin 1.2s infinite linear;
+}
+
+.processing-blocker div:after {
+    width: 80px;
+    height: 80px;
+    left: calc(50% - 40px);
+    top: 10px;
+}

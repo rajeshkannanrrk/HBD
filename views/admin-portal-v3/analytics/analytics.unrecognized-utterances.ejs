@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-feedback.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/analytics.unrecognized-utterances.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="unrecognizedUtterancesCtrl as $unrecognizedUtterancesCtrl" ng-init="$unrecognizedUtterancesCtrl.readData()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <select aria-label="date filter"
+                    id="dateFilter"
+                    ng-model="$unrecognizedUtterancesCtrl.dateFilter" ng-change="$unrecognizedUtterancesCtrl.readData()">
+                <option value="day">Last 24 hours</option>
+                <option value="week">Last week</option>
+                <option value="month">Last month</option>
+                <option value="year">Last year</option>
+                <option value="forever">All</option>
+            </select>
+            <button aria-label="refresh unrecognized utterance list" class="control-button" ng-click="$unrecognizedUtterancesCtrl.readData()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+            <button aria-label="export unrecognized utterance list to CSV file - up to 50,000 items"
+                    class="control-button"
+                    ng-disabled="$unrecognizedUtterancesCtrl.items.length === 0"
+                    ng-click="$unrecognizedUtterancesCtrl.exportData()" data-toggle="tooltip" data-placement="bottom" title="Export top 50k to CSV">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Download"></i></span>
+                <span class="control-button-label">Export</span>
+            </button>
+            <div style="float: right; position: relative;">
+                <input role="searchbox" aria-label="search for unrecognized utterances" style="margin: 5px 5px 0 0; width: 400px; padding: 0 30px 0 30px" type="text" ng-model="$unrecognizedUtterancesCtrl.textFilter" ng-change="$unrecognizedUtterancesCtrl.applyFilter()" ng-keypress="$event.charCode === 13 && $unrecognizedUtterancesCtrl.applyFilter()" placeholder=" Search" ng-style="{'background-color': ($unrecognizedUtterancesCtrl.textFilter !== $unrecognizedUtterancesCtrl.textFilterOnline) ? 'rgb(255, 228, 228)' : ''}" ng-disabled="$unrecognizedUtterancesCtrl.loading || $unrecognizedUtterancesCtrl.processing">
+                <i class="hb-icons hb-icons-Search" style="position: absolute; top: 8px; left: 8px;"></i>
+                <button aria-label="cancel search" style="position: absolute; background-color: transparent; right: 12px" ng-click="$unrecognizedUtterancesCtrl.clearFilter()">
+                    <i class="hb-icons hb-icons-Cancel"></i>
+                </button>
+            </div>
+        </div>
+        <div class="data-container" ng-if="!$unrecognizedUtterancesCtrl.loading && $unrecognizedUtterancesCtrl.items.length === 0">
+            <hb-page-header title="Unrecognized utterances"
+                            sub-title-line1="List of utterances end-users provided that the bot didn't have any mapped action to activate for."
+                            learn-more="https://aka.ms/HealthcareBotDocs/feedback"></hb-page-header>
+            <div class="text-center" style="padding: 150px">No utterances found. Try changing the current filter.</div>
+        </div>
+        <div class="data-container" ng-if="$unrecognizedUtterancesCtrl.items.length > 0">
+            <div class="hb-section-details">
+                <div class="title">Unrecognized utterances</div>
+                <div class="sub-title">
+                    Review top-level utterances that did not trigger any scenario.
+                </div>
+            </div>
+            <div style="height: calc(100% - 70px); width: 100%; overflow-y: scroll; overflow-x: hidden; border-top: 1px solid #a6a6a6; border-bottom: 1px solid #a6a6a6;">
+                <table class="table table-striped table-bordered" style="margin: 0;">
+                    <tr>
+                        <th class="sticky-header" width="150px">
+                            Time
+                        </th>
+                        <th class="sticky-header">
+                            Text
+                        </th>
+                    </tr>
+                    <tr ng-repeat="item in $unrecognizedUtterancesCtrl.items track by $index" ng-if="item.selected">
+                        <td width="150px">
+                            {{item.timestamp}}
+                        </td>
+                        <td>
+                            <span class="elipsis-tooltip" data-toggle="tooltip" data-placement="bottom" title="{{item.full}}">{{item.short}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="padding: 6px;">
+                showing {{$unrecognizedUtterancesCtrl.filtered}} out of {{$unrecognizedUtterancesCtrl.items.length}} results
+                <span class="clickable-text" ng-click="$unrecognizedUtterancesCtrl.readData(true)" ng-if="!$unrecognizedUtterancesCtrl.loading && !$unrecognizedUtterancesCtrl.processing && $unrecognizedUtterancesCtrl.nextRequest.continuationToken"> Load More</span>
+                <span ng-if="$unrecognizedUtterancesCtrl.loading" style="color:gray"> Loading</span>
+                <span ng-if="!$unrecognizedUtterancesCtrl.loading && $unrecognizedUtterancesCtrl.processing" style="color:gray"> Processing</span>
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

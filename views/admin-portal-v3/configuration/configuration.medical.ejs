@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <%- include('../common/configuration.ejs'); %>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="configurationCommonController as $configCtrl" ng-init="$configCtrl.initTabsView()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel" role="tablist" aria-label="medical configuration tabs">
+            <button role="tab"
+                    aria-label="triage"
+                    aria-selected="{{$configCtrl.selectedTab === 'triage' ? 'true' : 'false'}}"
+                    id="triage" class="tab-selector" ng-click="$configCtrl.selectTab('triage')">
+                Triage
+            </button>
+            <button role="tab"
+                    aria-label="medical information"
+                    aria-selected="{{$configCtrl.selectedTab === 'information' ? 'true' : 'false'}}"
+                    id="information" class="tab-selector" ng-click="$configCtrl.selectTab('information')">
+                Medical Information
+            </button>
+            <div style="float: right; margin-right: 10px">
+                <% if (isSysAdmin) { %>
+                <button class="control-button" ng-click="$configCtrl.toggleSysAdminView()">
+                    <span class="control-button-icon"><i class="hb-icons" ng-class="$configCtrl.showSysAdminFields ? 'hb-icons-CheckMark' : 'hb-icons-CheckBox'"></i></span>
+                    <span class="control-button-label">System admin fields</span>
+                </button>
+                <% } %>
+                <button class="control-button" ng-click="$configCtrl.loadData()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                    <span class="control-button-label">Refresh</span>
+                </button>
+                <button class="control-button" <% if (isSysAdmin || isAdmin || isEditor) { %> ng-disabled="$root.activeChanges === 0" ng-click="$configCtrl.save()" <% } else { %> disabled <% } %> >
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Save"></i></span>
+                    <span class="control-button-label">Save</span>
+                </button>
+                <button class="control-button" <% if (isSysAdmin || isAdmin || isEditor) { %> ng-disabled="$root.activeChanges === 0" ng-click="$configCtrl.cancel()" <% } else { %> disabled <% } %> >
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Cancel"></i></span>
+                    <span class="control-button-label">Cancel changes</span>
+                </button>
+                <button class="control-button" <% if (isSysAdmin || isAdmin || isEditor) { %> ng-click="$configCtrl.reset()"  <% } else { %> disabled <% } %>>
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Delete"></i></span>
+                    <span class="control-button-label">Reset</span>
+                </button>
+            </div>
+        </div>
+        <div class="data-container">
+            <div id="triage" class="application-data-container data-container-tab">
+                <%- include('./medical/configuration.medical.triage.ejs'); %>
+            </div>
+            <div id="information" class="application-data-container data-container-tab">
+                <%- include('./medical/configuration.medical.information.ejs'); %>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../common/configuration-reset-warning.ejs'); %>
+
+</section>
+</body>
+</html>

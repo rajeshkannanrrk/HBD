@@ -1,0 +1,520 @@
+.eval-message {
+    cursor: context-menu;
+    background-color: #b40e1b;
+    position: absolute;
+    width: calc(100% - 50px);
+    left: 50px;
+    top: 0;
+    height: 12px;
+    padding: 1px;
+    color: #fff;
+    font-size: 10px;
+    line-height: 10px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    z-index: 10000;
+}
+
+.eval-message a {
+    text-decoration: underline;
+    font-weight: bold;
+    color: white;
+}
+
+
+.hb-banner{
+    display: none;
+    width: 100%;
+    height: 30px;
+    font-size: 14px;
+    vertical-align: middle;
+    z-index: 1000;
+    text-align: center;
+    cursor: context-menu;
+    position: relative;
+    padding: 5px 5px;
+}
+
+body[banner=visible] .hb-banner {
+    display:block;
+}
+
+.limited-deleted-account-message {
+    background-color: #ad0c0c;
+    color: #fff;
+}
+
+.application-header-new {
+    width: 100%;
+    min-width: 1300px;
+    z-index: 1001;
+    position: relative;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    background-color: #161616;
+}
+
+.application-header-new .logo {
+    float: left;
+    background-image: url('/resources/images/logo.png');
+    background-position: center;
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    cursor: context-menu;
+}
+
+.application-header-new .brand-name {
+    float: left;
+    width: 300px;
+    height: 50px;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    font-weight: lighter;
+    line-height: 26px;
+    padding: 11px 23px;
+    cursor: context-menu;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.application-header-new .right-side {
+    float: right;
+    height: 50px;
+}
+
+.application-header-new .right-side .tenant-name {
+    color: white;
+    float: left;
+    width: 450px;
+    height: 50px;
+    padding: 15px 8px !important;
+    margin: 0;
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: lighter !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+    text-align: right;
+
+}
+
+.application-header-new .right-side .buttons {
+    background-color: purple;
+    float: left;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+}
+.sysadmin-write {
+    background-color: #aa162c;
+    position: absolute;
+    top: 15px;
+    left: 2px;
+    width: 46px;
+    height: 28px;
+    font-size: 10px;
+    line-height: 28px;
+    font-weight: 600;
+    padding: 0;
+}
+
+.sysadmin-readonly {
+    background-color: #0aae00;
+    position: absolute;
+    top: 15px;
+    left: 2px;
+    width: 46px;
+    height: 28px;
+    font-size: 10px;
+    line-height: 28px;
+    font-weight: 600;
+    padding: 0;
+}
+
+.header-menu {
+    cursor: auto;
+    display: none;
+    width: 250px;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid #eaeaea;
+    padding: 2px 0 0 0;
+    box-shadow: -2px 1px 3px 0 rgba(0, 0, 0, 0.23);
+    font-weight: 400;
+    letter-spacing: 0;
+
+}
+
+.header-button.sub-menu.active .header-menu {
+    display: block;
+}
+
+.header-button.sub-menu:focus {
+    background-color: #fff;
+    color: black;
+}
+
+.header-button.sub-menu a,
+.header-menu-item {
+    display: block;
+    color: black;
+    width: 100%;
+    height: 30px;
+    font-size: 14px;
+    line-height: 30px;
+    text-align: left;
+    padding: 0 10px 0 10px;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.header-menu-item:hover {
+    background-color: #eaeaea;
+}
+
+.header-menu-item i {
+    float: right;
+    font-size: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.right-menu-buttons .plan-details {
+    background-color: white;
+    height: auto;
+    text-align: left;
+    font-size: 12px;
+    border-bottom: 1px solid #eaeaea;
+    padding: 4px 5px 15px 5px;
+
+    letter-spacing: 0;
+}
+.right-menu-buttons .plan-details .plan-id {
+    display: inline;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.right-menu-buttons .plan-details .plan-month {
+    float: right;    
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.right-menu-buttons .plan-details .message-count {
+    font-size: 14px;
+    line-height: 20px;
+}
+.right-menu-buttons .plan-details .plan-status .progress {
+    margin: 5px 0;;
+    height: 10px !important;
+    border-radius: 0;
+}
+.right-menu-buttons .plan-details .plan-status .progress {
+    height: 15px !important;
+    border-radius: 0;
+    background: #eaeaea none !important;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin: 5px 5px 5px 0;
+}
+.right-menu-buttons .plan-details .progress-bar {
+    background: none !important;
+    outline: none;
+    box-shadow: none;
+}
+.right-menu-buttons .plan-details .progress-bar.progress-bar-good {
+    background-color: #0071c6 !important;
+}
+.right-menu-buttons .plan-details .progress-bar.progress-bar-warning {
+    background-color: #ffb900 !important;
+}
+.right-menu-buttons .plan-details .progress-bar.progress-bar-danger {
+    background-color: #e81123 !important;
+}
+.right-menu-button .user-initials {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #0071c6;
+    font-size: 12px;
+    line-height: 30px;
+    color: #fff;
+}
+.right-menu-buttons .menu-title .user-initials {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #0071c6;
+    font-size: 18px;
+    line-height: 40px;
+    color: #fff;
+}
+.right-menu-buttons .menu-title .user-info {
+    position: relative;
+    border-bottom: 1px solid #eaeaea;
+    margin: 0 10px;
+    padding: 2px 0 10px 0;
+}
+.right-menu-buttons .menu-title .user-info .user-name {
+    text-align: left;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 55px;
+    margin-right: 10px;
+    font-size: 16px;
+    line-height: 26px;
+    font-family: Segoe UI WestEuropean, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    font-weight: 600;
+}
+.right-menu-buttons .menu-title .user-info .user-email {
+    text-align: left;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 55px;
+    margin-right: 10px;
+    font-size: 10px;
+    line-height: 14px;
+    font-family: Segoe UI WestEuropean, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    font-weight: 400;
+}
+.right-menu-buttons .menu-title .user-info .user-role {
+    text-align: left;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 55px;
+    margin-right: 10px;
+    font-size: 10px;
+    line-height: 14px;
+    font-family: Segoe UI WestEuropean, Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    font-weight: 400;
+}
+.right-menu-buttons li button.red-text,
+.right-menu-buttons li:hover button.red-text,
+.right-menu-buttons li:focus button.red-text{
+    color: #e81123 !important;
+    font-weight: 600;
+}
+.right-menu-buttons {
+    display: inline-block;
+    margin-right: 5px;
+}
+.right-menu-buttons button.right-menu-button {
+    display: block;
+    background-color: #161616;
+    color: #fff;
+    font-size: 20px;
+    font-weight: lighter !important;
+    cursor: pointer;
+    transition-duration: 0.2s;
+    width: 50px !important;
+    height: 50px !important;
+    line-height: 20px;
+
+}
+.right-menu-buttons button.right-menu-button:hover {
+    background-color: #ffffff;
+    color: black;
+}
+
+/*.right-menu-buttons button.right-menu-button:focus,*/
+/*.right-menu-buttons button.right-menu-button.active {*/
+.right-menu-buttons ul li.in {
+    background-color: #fff;
+    color: black;
+}
+.right-menu-buttons button {
+    text-decoration: none;
+}
+.right-menu-buttons ul {
+    background: #161616;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+.right-menu-buttons li {
+    background: #161616;
+    display: block;
+    float: left;
+    position: relative;
+    text-decoration: none;
+    transition-duration: 0.2s;
+    width: 50px;
+    font-size: 12px;
+    padding: 0;
+    text-align: center;
+}
+
+.right-menu-buttons li.right-menu-button-green,
+.right-menu-buttons li.right-menu-button-red {
+    width: 80px;
+}
+.right-menu-buttons li.right-menu-button-red {
+    background: #ad0c0c !important;
+
+}
+
+.right-menu-buttons li.right-menu-button-green {
+    background: #099209 !important;
+}
+
+.right-menu-buttons li.right-menu-button-red button,
+.right-menu-buttons li.right-menu-button-green button {
+    background-color: transparent;
+    width: 80px !important;
+    font-size: 20px;
+    line-height: 20px;
+}
+
+.right-menu-buttons button.right-menu-sub-button {
+    background-color: #fff;
+    color: black;
+    width: 100%;
+    display: block;
+    text-align: left;
+    padding-left: 10px;
+    font-size: 14px;
+    line-height: 30px;
+    letter-spacing: 0;
+}
+.right-menu-buttons button.right-menu-sub-button i {
+    float: right;
+    height: 100%;
+    width: 30px;
+    text-align: center;
+}
+.right-menu-buttons button.right-menu-sub-button:hover {
+    background-color: #fff;
+
+}
+.right-menu-buttons li:hover button,
+.right-menu-buttons li.in button,
+.right-menu-buttons li:focus button{
+    background: white;
+    color: black !important;
+    cursor: pointer;
+}
+.right-menu-buttons button.right-menu-sub-button:hover {
+    background-color: #eaeaea;
+}
+.right-menu-buttons ul li ul {
+    background: white;
+    color: black;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute !important;
+    right: 0;
+    display: none;
+    width: 200px;
+}
+.right-menu-buttons ul li:hover > ul,
+.right-menu-buttons ul li.in > ul,
+.right-menu-buttons ul li ul:hover {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+}
+
+.right-menu-buttons ul li:focus-within > ul /* this is the line we add */ {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+}
+
+.right-menu-buttons ul,
+.right-menu-buttons ul li,
+.right-menu-buttons ul li, ul {
+    position: relative;
+
+}
+.right-menu-buttons ul, .right-menu-buttons ul li {
+    position: relative !important;
+}
+.right-menu-buttons ul li ul li {
+    clear: both;
+    width: 100%;
+}
+.right-menu-buttons .dropdown {
+    box-shadow: 1px 1px 1px 1px #9b9b9b;
+}
+
+.survey-section {
+    margin-bottom: 20px;
+}
+
+.survey-radio-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.survey-radio-group label {
+    font-weight: normal;
+}
+
+.survey-radio-group .survey-radio-option {
+    margin-right: 15px;
+}
+
+.survey-radio-group .last-radio-option {
+    margin-right: 0px !important;
+}
+
+.survey-radio-group label {
+    margin-right: 15px;
+}
+
+.checkbox-label {
+    font-weight: normal;
+    display: block;
+}
+
+.survey-question {
+    font-size: 20px;
+}
+
+.btn-close-survey {
+    background: none;
+    width: fit-content;
+    color: #015cda;
+}
+
+.privacy-statement {
+    padding-left: 0px !important;
+}
+
+.survey-bottom {
+    display: flex;
+    flex-direction: row;
+    margin-top: 70px;
+}
+
+.survey-bottom .hb-btn {
+    width: 130px;
+}
+
+.dont-show-div {
+    margin-left: 140px;
+}

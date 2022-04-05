@@ -1,0 +1,121 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Scenarios Managment API
+  description: |
+    # Overview
+    This API allows the account admins to get, upload and delete scenarios. This can be used for tasks such as version control or backups
+    # Autorization
+    In order to call these APIs, *authorization* request header must be supplied with a valid encoded JWT. This token is signed with the API_JWT_secret that can be seen under "Keys" tab
+    ### JWT payload
+    tenantName and iat (issued at unix timestamp) must be provided in order to validate the token. The token expires after 60 minutes
+    ```json
+    {
+      "tenantName": "myTenant",
+      "iat": 1523117684
+    }
+    ```
+    You can generate the token to test this API by going to [JWT Debugger](https://jwt.io/) filling the payload and signing it with the API_JWT_secret. 
+    Paste the encoded token into the authorization value.
+
+servers:
+  - url: https://healthbot.microsoft.com/api/account/{accountId}
+    variables:
+      accountId:
+        default: "healthagentprod"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT with payload of tenantName and iat signed with a valid API_JWT secret of an account
+  schemas:
+    Scenario:
+      type: object
+      properties:
+        name:
+          type: string
+        scenario_trigger:
+          type: string
+        description:
+          type: string
+        active:
+          type: boolean
+        updated:
+          type: string
+        userDisplayName:
+          type: string
+        code:
+          type: string
+          description: JSON representation of a scenario
+paths:
+  /scenarios:
+    get:
+      summary: Get list of scenarios
+      tags:
+        - scenarios
+      parameters:
+        - in: query
+          name: scenarioName
+          description: Gets scenarios with the specified name. Leave blank to get all the scenarios
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: List of scenarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Scenario'
+        400:
+          description: Invalid or missing parameters
+        401:
+          description: Invalid or expired JWT
+      security:
+        - bearerAuth: []
+    post:
+      summary: Import Scenario object or array of Scenario objects
+      tags:
+        - scenarios
+      requestBody:
+        description: Scenario or Scenario array
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Scenario'
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid or missing parameters
+        401:
+          description: Invalid or expired JWT
+      security:
+        - bearerAuth: []
+  /scenarios/{id}:
+    delete:
+      summary: Delete scenario by given scenario id
+      tags:
+        - scenarios
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id of a scenario file
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid or missing parameters
+        401:
+          description: Invalid or expired JWT
+
+

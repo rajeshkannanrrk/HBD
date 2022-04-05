@@ -1,0 +1,260 @@
+
+.StatementElement {
+    width: 80px;
+    background: #a1dbff;
+}
+
+.AssignVariableElement  {
+    width: 80px;
+    background: #a1ffeb;
+}
+
+.InvokeSkillElement {
+    width: 60px;
+    height: 60px;
+    background: rgb(255, 140, 0);
+    border-radius: 50%;
+    line-height: 54px;
+}
+
+.InvokeSkillElement.jsplumb-drag-selected:after, .InvokeSkillElement.first-element:after {
+    border-radius: 50%;
+}
+
+.ActionElement {
+    width: 70px;
+    height: 50px;
+    line-height: 44px;
+    background: rgb(246, 246, 246);
+}
+.WaitElement {
+    width: 70px;
+    height: 35px;
+    line-height: 35px;
+    background: rgb(152, 152, 152);
+}
+
+.LUISElement {
+    width: 80px;
+    background: rgb(67, 137, 204);
+    color: white;
+}
+
+.LUISElement .steplabel {
+    color: white;
+}
+
+.EndWithResultElement {
+    width: 80px;
+    border-radius: 20px;
+    background: rgba(73, 155, 234, 1);
+}
+
+.EndWithResultElement .steplabel {
+    color: white;
+}
+
+.EndWithResultElement.jsplumb-drag-selected:after, .EndWithResultElement.first-element:after {
+    border-radius: 20px;
+}
+
+.DatasourceElement {
+    width: 80px;
+    background: #ffb4ad;
+    border-radius: 50%;
+}
+
+.DatasourceElement.jsplumb-drag-selected:after, .DatasourceElement.first-element:after {
+    border-radius: 50%;
+}
+
+.GlobalContextElement {
+    border: none;
+    width: 60px;
+    height: 60px;
+}
+
+.GlobalContextElement:before {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    content: "";
+    width: 60px;
+    height: 20px;
+    background-color: #bb4c4c;
+}
+
+.GlobalContextElement > .steplabel:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 20px solid #bb4c4c;
+    border-left: 15px solid #bf161600;
+    border-right: 15px solid transparent;
+    width: 100%;
+    height: 0;
+}
+
+.GlobalContextElement > .steplabel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px 0 20px 0;
+    line-height: 20px;
+    color: white;
+    z-index: 20;
+}
+
+.GlobalContextElement > .steplabel:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 20px solid #bb4c4c;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    width: 100%;
+    height: 0;
+}
+
+.ChoiceElement {
+    border: none;
+    width: 62px;
+    height: 62px;
+}
+
+.ChoiceElement .steplabel:before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    width: 42px;
+    height: 42px;
+    background-color: #000000;
+    z-index: -10;
+    transform: rotate(45deg);
+}
+
+.ChoiceElement .steplabel:after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: #fde925;
+    z-index: -10;
+    transform: rotate(45deg);
+}
+
+.ChoiceElement .steplabel {
+    position: absolute;
+    line-height: 58px;
+    color: black;
+}
+
+.YesNoElement {
+    border: none;
+    width: 62px;
+    height: 62px;
+}
+
+.YesNoElement .steplabel:before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    width: 42px;
+    height: 42px;
+    background-color: #000000;
+    z-index: -10;
+    transform: rotate(45deg);
+}
+
+.YesNoElement .steplabel:after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: #80f96f;
+    z-index: -10;
+    transform: rotate(45deg);
+}
+
+.YesNoElement .steplabel {
+    position: absolute;
+    line-height: 58px;
+    color: black;
+}
+
+
+.SwitchElement{
+    border: none;
+    width: 122px;
+    height: 62px;
+}
+
+.SwitchElement:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 60px solid #000;
+    border-left: 60px solid transparent;
+    border-right: 60px solid transparent;
+    z-index: -10;
+}
+
+.SwitchElement .steplabel {
+    position:absolute;
+    top: -1px;
+    padding: 35px 14px 0 14px;
+}
+
+
+.SwitchElement .steplabel:after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 1px;
+    width: 0;
+    height: 0;
+    border-bottom: 57px solid #f25abd;
+    border-left: 58px solid transparent;
+    border-right: 58px solid transparent;
+    z-index: -10;
+}
+
+.QuestionInputElement {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    -webkit-transform: skew(-20deg);
+    -moz-transform: skew(-20deg);
+    -o-transform: skew(-20deg);
+    border: 1px solid #0000004f;
+    background: #b7df2d;
+}
+
+.QuestionInputElement .steplabel {
+    -webkit-transform: skew(20deg);
+    -moz-transform: skew(20deg);
+    -o-transform: skew(20deg);
+}
+
+.BeginScenarioElement {
+    width: 60px;
+    height: 60px;
+    background: rgb(212, 192, 254);
+    border-radius: 50%;
+    line-height: 54px;
+}
+
+.BeginScenarioElement.jsplumb-drag-selected:after, .BeginScenarioElement.first-element:after {
+    border-radius: 50%;
+}

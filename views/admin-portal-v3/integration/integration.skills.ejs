@@ -1,0 +1,159 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <%- include('../common/configuration.ejs'); %>
+    <script src="/resources/angularApps/admin-portal-v3/controllers/integration.skills.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="skillsCtrl as $skillsCtrl" ng-init="$skillsCtrl.initTabsView()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel" role="tablist" aria-label="skills configuration tabs">
+            <button role="tab"
+                    aria-label="Expose as Skill"
+                    aria-selected="{{$skillsCtrl.selectedTab === 'expose' ? 'true' : 'false'}}"
+                    id="expose" class="tab-selector" ng-click="$skillsCtrl.selectTab('expose')">
+                Expose as Skill
+            </button>
+            <button role="tab"
+                    aria-label="Consume Skills"
+                    aria-selected="{{$skillsCtrl.selectedTab === 'consume' ? 'true' : 'false'}}"
+                    id="consume" class="tab-selector" ng-click="$skillsCtrl.selectTab('consume')">
+                Consume Skills
+            </button>
+            <div style="float: right; margin-right: 10px">
+                    <div class="controls-panel" role="tablist" aria-label="skills configuration tabs">
+                        <button role="tab"
+                                class="control-button"
+                                aria-label="Refresh skill configuration"
+                                ng-click="$skillsCtrl.readSkillsConfiguration()">
+                            <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                            <span class="control-button-label">Refresh</span>
+                        </button>
+                        <button role="tab"
+                                class="control-button"
+                                aria-label="Save skill configuration"
+                        <% if (isAdmin || isSysAdmin) { %> ng-disabled="$root.activeChanges === 0 || $skillsCtrl.selectedTab === 'consume'" ng-click="$skillsCtrl.save()" <% } else { %> disabled <% } %>>
+                            <span class="control-button-icon"><i class="hb-icons hb-icons-Save"></i></span>
+                            <span class="control-button-label">Save</span>
+                        </button>
+                        <button role="tab"
+                                class="control-button" role="button"
+                                aria-label="Cancel changes for skill configuration"
+                        <% if (isAdmin || isSysAdmin) { %> ng-disabled="$root.activeChanges === 0 || $skillsCtrl.selectedTab === 'consume'" ng-click="$skillsCtrl.cancelChanges()" <% } else { %> disabled <% } %>>
+                            <span class="control-button-icon"><i class="hb-icons hb-icons-Cancel"></i></span>
+                            <span class="control-button-label">Cancel Changes</span>
+                        </button>
+                        <button role="tab"
+                                class="control-button" role="button"
+                                aria-label="Reset skills configuration"
+                        <% if (isEditor || isAdmin || isSysAdmin) { %> ng-click="$skillsCtrl.showResetModal()" <% } else { %> disabled <% } %>>
+                            <span class="control-button-icon"><i class="hb-icons hb-icons-Delete"></i></span>
+                            <span class="control-button-label">Reset</span>
+                        </button>
+                    </div>
+            </div>
+        </div>
+        <div class="data-container">
+            <div id="expose" class="application-data-container data-container-tab">
+                <%- include('./skills/integration.skill-expose.ejs'); %>
+            </div>
+            <div id="consume" class="application-data-container data-container-tab">
+                <%- include('./skills/integration.skill-consume.ejs'); %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal Reset Skills configuration warning -->
+    <div class="portal-modal">
+        <div id="resetSkills" class="modal fade" role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content" >
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Are you sure you want to reset the page?
+                        </div>
+                        <div class="content">
+                            <span>All settings will return to defaults. This action cannot be undone.</span><br><br>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" ng-click="$skillsCtrl.reset()" data-dismiss="modal">Reset</button>
+                            <button id="dismissReset" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Health Bot Portal Expose as Skill configuration warning -->
+    <div class="portal-modal">
+        <div id="warningSkills" class="modal fade" role="dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content" >
+                    <div class="modal-body">
+                        <div class="title">
+                            <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                            Are you sure you want to enable the Skill?
+                        </div>
+                        <div class="content">
+                            <span>All messages from bots that consume this skill will count towards the billing and usage for this bot.</span><br><br>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="hb-btn hb-btn-primary" data-dismiss="modal">Continue</button>
+                            <button id="SkillExposeDismissReset" type="button" class="hb-btn hb-btn-secondary" ng-click="$skillsCtrl.toggleBoolean($skillsCtrl.monitoredData.isExposed)" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal New Skill Drawer -->
+    <div class="drawer" id="newSkillDrawer">
+        <div class="drawer-container">
+            <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$skillsCtrl.closeNewSkillForm()">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4>New Skill</h4>
+            <div class="drawer-main-body">
+                <div class="data-item">
+                    <label for="modelName" class="required">Manifest URL</label>
+                    <input aria-required="true" id="manifestUrl" type="text" class="form-control"
+                           aria-label="manifest URL"
+                           ng-model="$skillsCtrl.newSkill.data.manifestUrl"
+                           ng-style="{'border-color': ($skillsCtrl.newSkill.validation.manifestUrl) ? 'red' : ''}">
+                    <span ng-if="$skillsCtrl.newSkill.validation.manifestUrl"
+                          role="alert"
+                          class="form-err-message">{{$skillsCtrl.newSkill.validation.manifestUrl}}</span>
+                </div>
+                <a href="#" ng-click="$skillsCtrl.fetchSkillManifest();" style="float: right">Fetch skill manifest</a>
+                <div class="data-container" ng-if="$skillsCtrl.newSkill.data.name || $skillsCtrl.newSkill.data.description">
+                    <div class="data-item">
+                        <h6 style="font-weight: bold">Name</h6>
+                        <h6>{{$skillsCtrl.newSkill.data.name}}</h6>
+                    </div>
+                    <br>
+                    <div class="data-item">
+                        <h6 style="font-weight: bold">Description</h6>
+                        <h6>{{$skillsCtrl.newSkill.data.description}}</h6>
+                    </div>
+                    <br>
+                    <div class="data-item">
+                        <h6 style="font-weight: bold">Publisher Name</h6>
+                        <h6>{{$skillsCtrl.newSkill.data.publisherName}}</h6>
+                    </div>
+                </div>
+                <div class="drawer-buttons">
+                    <button class="hb-btn hb-btn-primary drawer-button" ng-click="$skillsCtrl.addFetchedSkill()">Save</button>
+                    <button class="hb-btn hb-btn-secondary drawer-button" ng-click="$skillsCtrl.closeNewSkillForm()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

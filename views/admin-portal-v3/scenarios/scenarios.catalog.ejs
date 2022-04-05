@@ -1,0 +1,98 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-icons.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-scenarios-catalog.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/scenarios.catalog.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/directives/readfile.directive.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="scenariosCatalogCtrl as $catalogCtrl" ng-init="$catalogCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+        </div>
+        <div id ="catalogPage" class="data-container welcome-to-catalog hidden">
+            <hb-page-header title="Scenario Template Catalog"
+                            icon="ShowAllFilesLegacy"
+                            sub-title-line1="Templates enable you to quickly add and customize multiple scenarios in your bot."
+                            learn-more="https://aka.ms/HealthcareBotDocs/Scenario_templates"
+            ></hb-page-header>
+
+            <div ng-repeat="category in $catalogCtrl.templatesCategories track by $index">
+                <h4>{{category}}</h4>
+                <section>
+                    <button ng-repeat="entity in $catalogCtrl.catalogEntities track by $index"
+                            role="button"
+                            aria-label="{{entity.itemOrder}} - {{ entity.Name}} - {{entity.Description}}"
+                            class="cube {{entity.Status}}"
+                            ng-class="entity.New ? 'new' : ''"
+                            ng-if="entity.show && entity.Category === category" ng-disabled="!entity.available"
+                            ng-click="entity.available ? $catalogCtrl.import('begin', entity) : '' ">
+                        <div class="title"> {{ entity.Name}} </div>
+                        <div class="last-modified"> {{ entity.PublishedAt}} </div>
+                        <img class="icon" alt ng-src="{{entity.Icon}}">
+                        <div class="source-description" ng-if="entity.UsingSourceImage">
+                            <div class = "description-half"> {{entity.Description}} </div>
+                            <div>
+                                <div class="text-left">Source:</div>
+                                <img alt class="source-img" ng-src="{{entity.SourceImg}}">
+                            </div>
+                        </div>
+                        <div ng-if="!entity.UsingSourceImage">
+                            <div class = "description"> {{entity.Description}} </div>
+                        </div>
+                    </button>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal Catalog Import Template Drawer -->
+    <div class="drawer" id="catalogImportDrawer">
+        <div class="drawer-container">
+            <button aria-label="close" class="hb-btn hb-btn-drawer-close" ng-click="$catalogCtrl.import('cancel')">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4> Import {{$catalogCtrl.chosenTemplate.Name}} template</h4>
+            <div class="drawer-main-body">
+                <section>
+                    <div class="last-modified" ng-if="$catalogCtrl.chosenTemplate.PublishedAt">Last update: {{$catalogCtrl.chosenTemplate.PublishedAt}}</div>
+                    <p> {{$catalogCtrl.chosenTemplate.Description}}</p>
+                    <section ng-if="$catalogCtrl.chosenTemplate.MoreInformationBullets.length > 0">
+                        <i class="hb-icons hb-icons-Education" aria-hidden="true"></i>
+                        <b>You will learn how to:</b>
+                        <div ng-repeat="infoline in $catalogCtrl.chosenTemplate.MoreInformationBullets">
+                            <div style="text-indent: 5mm"> &#x26AC {{infoline}} </div>
+                        </div>
+                        <br>
+                    </section>
+                    <div ng-bind-html="$catalogCtrl.chosenTemplate.ExtraDataHTML"></div>
+                    <div class="data-item" ng-repeat="field in $catalogCtrl.customFields track by $index">
+                        <label id="templateInput{{$index}}" class="required">{{field.name}}</label>
+                        <hb-info-button label="{{field.description}}" class="ng-isolate-scope"><button role="tooltip" aria-label="{{field.description}}" class="info-button" ng-disabled="disabled" tabindex="60">
+                                <div class="hb-hover-info ng-binding">{{field.description}}</div>
+                        </button></hb-info-button>
+                        <input aria-required="true"
+                               aria-label="{{field.name}}"
+                               type="text" ng-if="field.inputType === 'Text'" class="form-control" id="value" name="value" autocomplete="off" ng-model="field.value" ng-style="{'border-color': ($catalogCtrl.validation[field.name]) ? 'red' : ''}">
+                        <span ng-if="$catalogCtrl.validation[field.name]" role="alert" class="form-err-message">{{$catalogCtrl.validation[field.name]}}</span>
+                        <select aria-labelledby="templateInput{{$index}}" ng-if="field.inputType === 'Dropdown'" class="form-control" ng-model="field.value">
+                            <option value="{{option.value}}" ng-repeat="option in field.dropdownOptions">{{option.name}}</option>
+                        </select>
+                    </div>
+                    <img alt class = "catalog-info-img" ng-src="{{$catalogCtrl.chosenTemplate.Img}}"> </img><br>
+                </section>
+            </div>
+            <div class="drawer-buttons">
+                <button class="hb-btn hb-btn-primary drawer-button catalog-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } %>
+                        ng-click="$catalogCtrl.import('import')">Import template</button>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

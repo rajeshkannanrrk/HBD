@@ -1,0 +1,48 @@
+#auditTrailsTable_outsideWrapper {
+    display: grid;
+    grid-template: auto 1fr auto / auto 1fr 10% 45%;
+    grid-row-gap: 15px;
+}
+
+#auditTrailsTable_wrapper {
+    display: contents;
+}
+
+#auditTrailsTable_length {
+    grid-area: 3 / 3 / 4 / 4;
+    justify-self: center;
+    align-self: center;
+}
+
+#auditTrailsTable_length label {
+    font-weight: normal;
+}
+
+#auditTrailsTable_filter {
+    grid-area: 1 / 4 / 2 / 5;
+}
+
+#auditTrailsTable {
+    grid-area: 2 / 1 / 3 / 5;
+    width: 100% !important;
+}
+
+#auditTrailsTable_info {
+    grid-area: 3 / 1 / 4 / 2;
+    align-self: center;
+    padding: 0;
+    width: fit-content;
+}
+
+#auditTrailsTable_paginate {
+    grid-area: 3 / 4 / 4 / 5;
+}
+
+#auditTrailsTable_outsideWrapper button {
+    grid-area: 3 / 2 / 4 / 3;
+    align-self: center;
+    padding: 0 0 0 1rem;
+    width: fit-content;
+    height: fit-content;
+    background: none;
+}

@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-feedback.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/analytics.feedback.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="feedbacksCtrl as $feedbackCtrl" ng-init="$feedbackCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <% if (isAdmin || isSysAdmin) { %> 
+            <div style="float: left">
+                <button class="control-button" ng-click="$feedbackCtrl.init()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                    <span class="control-button-label">Refresh</span>
+                </button>
+                <button class="control-button" ng-click="$feedbackCtrl.exportData()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Download"></i></span>
+                    <span class="control-button-label">Export</span>
+                </button>
+            </div>
+            <div style="float: left; margin-left: 10px">
+                <div class="control-input">
+                    <input id="filterUser" type="text" class="form-control search-box-input" placeholder="User Name" ng-model="$feedbackCtrl.filterString" ng-change="$feedbackCtrl.applyFilter()">
+                </div>
+                <div class="control-input">
+                    <div class="input-group-datepicker input-append date">
+                        <label id="filterDateStartValLabel" style="display: none;">of start date</label>
+                        <input aria-labelledby="filterDateStartValLabel" placeholder="Start date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="filterDateStartVal" class="form-control " ng-model="$feedbackCtrl.filter.dateFrom" ng-change="$feedbackCtrl.applyFilter(true)">
+                    </div>
+                    <div class="input-group-datepicker input-append date">
+                        <label id="filterDateEndValLabel" style="display: none;">of end date</label>
+                        <input aria-labelledby="filterDateEndValLabel" placeholder="End date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="filterDateEndVal" class="form-control" ng-model="$feedbackCtrl.filter.dateTo" ng-change="$feedbackCtrl.applyFilter()">
+                    </div>
+                </div>
+            </div>
+            <div style="float: left; margin-left: 10px">
+                <button class="control-button control-button-small"
+                        ng-class="$feedbackCtrl.selected === 'today' ? 'selected' : ''"
+                        ng-click="$feedbackCtrl.today()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-CalendarDay"></i></span>
+                    <span class="control-button-label">Today</span>
+                </button>
+                <button class="control-button control-button-small"
+                        ng-class="$feedbackCtrl.selected === 'thisWeek' ? 'selected' : ''"
+                        ng-click="$feedbackCtrl.thisWeek()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-CalendarWeek"></i></span>
+                    <span class="control-button-label">Week</span>
+                </button>
+                <button class="control-button control-button-small"
+                        ng-class="$feedbackCtrl.selected === 'thisMonth' ? 'selected' : ''"
+                        ng-click="$feedbackCtrl.thisMonth()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-CalendarLegacyMirrored"></i></span>
+                    <span class="control-button-label">Month</span>
+                </button>
+                <button class="control-button control-button-small" ng-click="$feedbackCtrl.clearFilter()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-EraseTool"></i></span>
+                    <span class="control-button-label">Clear</span>
+                </button>
+            </div>
+            <% } %> 
+        </div>
+        <div class="data-container">        
+            <%if (isSysAdmin || isAdmin) {%>
+            <hb-page-header title="End user feedback"
+                            sub-title-line1="Review feedback provided by end users."
+                            learn-more="https://aka.ms/HealthcareBotDocs/feedback"></hb-page-header>
+            <section class="feedbacks">
+                <div id="feedbacksContinaer">
+                    <section ng-show="$feedbackCtrl.ready && $feedbackCtrl.feedbacks.length > 0">
+                        <section ng-repeat="feedback in $feedbackCtrl.feedbacks  | orderBy: timestampString : true  | startFrom:$feedbackCtrl.currentPage() * $feedbackCtrl.pageSize | limitTo:$feedbackCtrl.pageSize">
+                            <button class="accordion" ng-click="$feedbackCtrl.fetch(feedback)">
+                                {{feedback.userName}} <span style="float: right">({{feedback.timestampString}})</span>
+                            </button>
+                            <div class="accordion-panel">
+                                <p ng-class="feedback.text === undefined ? 'loading' : 'loaded'">
+                                    {{feedback.displayedText || 'Loading...'}}
+                                </p>
+                            </div>
+                        </section>
+                        <button ng-disabled="$feedbackCtrl.currentPage() == 0" ng-click="$feedbackCtrl.prevPage()">
+                            Previous
+                        </button>
+
+                        Page {{$feedbackCtrl.currentPage() + 1}} of {{$feedbackCtrl.numberOfPages()}}
+
+                        <button ng-disabled="$feedbackCtrl.currentPage() >= $feedbackCtrl.lastPage()" ng-click="$feedbackCtrl.nextPage()">
+                            Next
+                        </button>
+                    </section>
+                    <div id="feedbacksExportProgressContainer" class="progress" style="position: fixed;width: 60%;left: 20%;bottom: 10%; z-index: 1001; display:none; background-color: #d1e5ff; background-image: none">
+                        <div id="feedbacksExportProgress" class="progress-bar" role="progressbar" aria-valuenow="70"
+                             aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                            <span class="sr-only">70% Complete</span>
+                        </div>
+                    </div>
+
+                    <div ng-if="$feedbackCtrl.ready && ($feedbackCtrl.nothingToShow || $feedbackCtrl.feedbacks.length === 0)" style="" class="messsage-container text-center">
+                        <h4 class="message-text">No feedback available</h4>
+                    </div>
+                </div>
+            </section>
+            <% } else { %> 
+                <hb-page-off title="You don't have permission to view or export feedbacks"
+                sub-title-line="Ask your service admin to grant access to this view"
+                icon="hb-icons hb-icons-Hide"></hb-page-off>
+            <% } %> 
+        </div>
+    </div>
+</section>
+</body>
+</html>

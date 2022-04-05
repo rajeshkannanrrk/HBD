@@ -1,0 +1,304 @@
+.reports-data-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+}
+
+.reports-navigator {
+    width: 280px;
+    display: inline-block;
+    position: absolute;
+    top: 100px;
+    height: 200px;
+    left: 0;
+    text-align: left;
+    padding: 10px;
+    border-right: 1px solid #eaeaea;
+}
+
+.reports-navigator > div {
+    margin-bottom: 10px;
+}
+
+.reports-container .total {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: white;
+    color: #0071ca;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 3px;
+    width: 140px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.reports-container .total-doughnut {
+    position: absolute;
+    top: 185px;
+    left: 70px;
+    font-weight: 700;
+    width: 100px;
+    text-align: center;
+    font-size: 23px;
+}
+
+.reports-container .rightTitleText1 {
+    position: absolute;
+    top: 8px;
+    right: 150px;
+    background-color: white;
+    color: #0071ca;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 3px;
+    width: 85px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.reports-container .rightTitleText2 {
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    background-color: white;
+    color: #0071ca;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 3px;
+    width: 115px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.reports-container {
+    position: absolute;
+    left: 280px;
+    top: 100px;
+    height: calc(100% - 150px);
+    width: calc(100% - 280px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: left;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+.report-item {
+    background-color: white;
+    display: inline-block;
+    position: relative;
+    flex-basis: 700px;
+    flex-grow: 1;
+    margin: 0px 10px 10px 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 3px 0 #bdbdbd;
+    border-top: 1px solid #ececec;
+}
+
+.report-item.loading .report-chart:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.2;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+}
+
+.report-item.loading .report-chart:after {
+    content: 'Loading...';
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    z-index: 2000;
+    top: calc(50% - 10px);
+    left: 0;
+    font-size: 20px;
+    font-weight: bolder;
+    color: white;
+    text-shadow: 0 0 4px black;
+}
+
+.report-chart.no-activity:after {
+    content: 'No activity found';
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    z-index: 2000;
+    top: calc(50% - 10px);
+    left: 0;
+    font-size: 20px;
+    font-weight: lighter;
+    color: #939393;
+}
+
+.report-item {
+    user-select: none;
+}
+
+.report-item > .title {
+    font-size: 18px;
+    padding: 10px 10px 20px 10px;
+    margin: 0 0 20px 0;
+    background-color: #0071ca;
+    color:  white;
+}
+.report-chart {
+    z-index: 10;
+}
+
+.information {
+    position: relative;
+    top: -20px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #f4faff;
+    user-select: all;
+    border:1px solid #c3e5ff;
+}
+
+.scenario-completion-item-container {
+    user-select: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.scenario-completion-item {
+    flex-basis: 325px;
+    margin: 5px 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #248f8d;
+}
+
+.scenario-completion-item .scenario-name:before {
+    content: "Scenario id - ";
+    font-weight: 400;
+}
+
+.scenario-completion-item .scenario-name {
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: underline;
+    background-color: #248f8d;
+    border: 1px solid #248f8d;
+    color: white;
+    padding: 5px;
+    margin: 0;
+}
+
+
+
+.report-item .summary {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 14px;
+    background-color: white;
+    color: black;
+    z-index: 1;
+    padding: 10px 10px;
+    line-height: 10px;
+}
+
+.report-item .summary div {
+    display: inline-block;
+}
+
+.report-item .summary .value {
+    font-weight: 700;
+}
+
+
+
+.option-buttons-group {
+    display: inline-block;
+    margin: 0 3px;
+}
+
+.option-buttons {
+    position: absolute;
+    top: 6px;
+    right: 20px;
+}
+.option-buttons button {
+    width: 70px;
+    text-align: center;
+    padding: 0;
+
+    height: auto !important;
+}
+
+#uniqueUsers, #messages, #unrecognizedUtterances, #customScenariosSessions, #builtinScenariosSessions, #feedbacksScore {
+    height: 300px;
+}
+
+#capitaTriageByOutcomeTime, #infermedicaTriageByOutcomeTime, #capitaTriageByComplaintTime, #infermedicaTriageByComplaintTime, #customScenariosOutcomesTime, #feedbacksDistributionTime {
+    display: inline-block;
+    width: calc(100% - 230px);
+    height: 280px;
+    margin-left: 230px;
+}
+
+#capitaTriageByOutcomeTotal, #capitaTriageByComplaintTotal, #infermedicaTriageByComplaintTotal, #infermedicaTriageByOutcomeTotal, #customScenariosOutcomesTotal, #feedbacksDistributionTotal {
+    position: absolute;
+    top: 90px;
+    left: 10px;
+    display: inline-block;
+    width: 220px;
+    height: 220px;
+    z-index: 100;
+}
+
+.badge-data {
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    color: black;
+    width: 80px;
+    border: 1px solid lightgray;
+}
+
+.badge-data.badge-level-0 {
+    background-color: #b30000;;
+    color: white;
+}
+.badge-data.badge-level-1 {
+    background-color: #b37d00;;
+    color: white;
+}
+
+.badge-data.badge-level-2 {
+    background-color: #faff00;
+    color: black;
+}
+
+
+.badge-data.badge-level-3 {
+    background-color: #a4d907;
+    color: black;
+}
+
+
+.badge-data.badge-level-4 {
+    background-color: #02ff00;
+    color: black;
+}
+
+
+.badge-data.badge-level-5 {
+    background-color: #019d00;
+    color: white;
+}

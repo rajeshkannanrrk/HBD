@@ -1,0 +1,173 @@
+<hb-page-header title="Privacy"
+                sub-title-line1="Configure how end users can manage their data."
+></hb-page-header>
+<div class="hb-section-details">
+    <section class="config-section" id="view-personal-data">
+        <div class="config-section-title">
+            <h4 class="section-name">View personal data</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">View personal data</h3>
+                        <div class="preview-text">End users can type "What do you know about me" to see a log of saved variables associated with their user ID.</div>
+                        <div class="preview-learn-more"><a class="clickable-text" href="https://aka.ms/HealthBotDocs/viewing_data" target="_blank">Learn more</a></div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/viewPersonalData.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Confirmation message"
+                        info="This message is displayed before presenting the end user with the personal information the bot has stored. "
+                        variable="$configCtrl.data.view_personal_data.intro"></config-textbox>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label="view_personal_data.no_info"
+                            variable="$configCtrl.data.view_personal_data.no_info"></config-textbox>
+            <config-boolean ctrl="$configCtrl"
+                            label="view_personal_data.interrupting"
+                            variable="$configCtrl.data.view_personal_data.interrupting"></config-boolean>
+            <config-boolean ctrl="$configCtrl"
+                            label="view_personal_data.breaking"
+                            variable="$configCtrl.data.view_personal_data.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+    <section class="config-section" id="view-conversation-history">
+        <div class="config-section-title">
+            <h4 class="section-name">View conversation history</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">View conversation history</h3>
+                        <div class="preview-text">End users can type "Conversation history" to see a log of their conversations with the bot.</div>
+                        <div class="preview-learn-more"><a class="clickable-text" href="https://aka.ms/HealthBotDocs/viewing_data" target="_blank">Learn more</a></div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/viewConversationHistory.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Title text for conversation history"
+                        variable="$configCtrl.data.view_conversation_history.title"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Footer text for confirmation history"
+                        variable="$configCtrl.data.view_conversation_history.foot_note"></config-textbox>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label="conversation./builtin/log.more"
+                            variable="$configCtrl.data.view_conversation_history.more"></config-textbox>
+            <config-boolean ctrl="$configCtrl"
+                            label="conversation./builtin/log.interrupting"
+                            variable="$configCtrl.data.view_conversation_history.log.interrupting"></config-boolean>
+            <config-boolean ctrl="$configCtrl"
+                            label="view_conversation_history.log.breaking"
+                            variable="$configCtrl.data.view_conversation_history.log.breaking"></config-boolean>
+            <config-boolean ctrl="$configCtrl"
+                            label="view_conversation_history.log_before.interrupting"
+                            variable="$configCtrl.data.view_conversation_history.log_before.interrupting"></config-boolean>
+            <config-boolean ctrl="$configCtrl"
+                            label="view_conversation_history.log_before.breaking"
+                            variable="$configCtrl.data.view_conversation_history.log_before.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+    <section class="config-section" id="delete-all-data">
+        <div class="config-section-title">
+            <h4 class="section-name">Delete all data</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Delete all data</h3>
+                        <div class="preview-text">End users can type "Forget me" to delete all their data</div>
+                        <div class="preview-learn-more"><a class="clickable-text" href="https://aka.ms/HealthBotDocs/deleting_data" target="_blank">Learn more</a></div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/deleteAllData.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Completion message"
+                        info="This message is displayed after the end users data has been deleted"
+                        variable="$configCtrl.data.delete_all_data.confirmation"></config-textbox>
+
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-textbox ctrl="$configCtrl"
+                            label="conversation./builtin/forget_me.warning"
+                            variable="$configCtrl.data.delete_all_data.warning"></config-textbox>
+            <config-textbox ctrl="$configCtrl"
+                            label="delete_all_data.abort_confirmation"
+                            variable="$configCtrl.data.delete_all_data.abort_confirmation"></config-textbox>
+            <config-boolean ctrl="$configCtrl"
+                            label="delete_all_data.interruptible"
+                            variable="$configCtrl.data.delete_all_data.interruptible"></config-boolean>
+            <config-textbox ctrl="$configCtrl"
+                            label="delete_all_data.returning_message"
+                            variable="$configCtrl.data.delete_all_data.returning_message"></config-textbox>
+            <config-boolean ctrl="$configCtrl"
+                            label="delete_all_data.interrupting"
+                            variable="$configCtrl.data.delete_all_data.interrupting"></config-boolean>
+            <config-boolean ctrl="$configCtrl"
+                            label="delete_all_data.breaking"
+                            variable="$configCtrl.data.delete_all_data.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+    <section class="config-section" id="privacy-queries">
+        <div class="config-section-title">
+            <h4 class="section-name">Privacy queries</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Privacy queries</h3>
+                        <div class="preview-text">End users can type "Why do you need to know? to query why the bot is asking for personal information.</div>
+                        <img alt class="preview-img"
+                             src="/resources/images/configPreviews/privacyQuery.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Query response"
+                        variable="$configCtrl.data.privacy_queries.reply"></config-textbox>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-boolean ctrl="$configCtrl"
+                            label="privacy_queries.interrupting"
+                            variable="$configCtrl.data.privacy_queries.interrupting"></config-boolean>
+            <config-boolean ctrl="$configCtrl"
+                            label="privacy_queries.breaking"
+                            variable="$configCtrl.data.privacy_queries.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+    <% if (isSysAdmin) { %>
+    <section class="config-section system-admin-field" id="data-retention">
+        <div class="config-section-title">
+            <h4 class="section-name">Data retention</h4>
+        </div>
+        <config-option-buttons ctrl="$configCtrl"
+                               label="Conversation history retention period"
+                               special="data-retention"
+                               variable="$configCtrl.data.data_retention.trails_delete_policy"></config-option-buttons>
+
+        <section>
+            <config-boolean ctrl="$configCtrl"
+                            label="Store conversation history"
+                            info="An indication whether to show the triage outcome or not."
+                            variable="$configCtrl.data.data_retention.save_conversation_trails"></config-boolean>
+            <config-boolean ctrl="$configCtrl"
+                            label="Store end user feedback"
+                            info="Prevents storing end user feedback through built-in feedback scenario or using feedback function in action steps"
+                            variable="$configCtrl.data.data_retention.enable_feedback"></config-boolean>
+        </section>
+    </section>
+    <% } %>
+</div>

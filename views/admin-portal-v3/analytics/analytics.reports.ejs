@@ -1,0 +1,163 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-reports.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/analytics.reports.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/services/analytics.reports.bar-report-by-time.service.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/services/analytics.reports.bar-report-by-time-and-total.service.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/services/analytics.reports.bar-and-line-report-by-time.service.js?build=#{Build.BuildNumber}#"></script>
+
+    <script type="text/javascript" src="/node_modules/chart.js/dist/Chart.bundle.min.js"></script>
+    <script>
+        CanvasRenderingContext2D.prototype.clear =
+            CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
+                if (preserveTransform) {
+                    this.save();
+                    this.setTransform(1, 0, 0, 1, 0, 0);
+                }
+                this.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                if (preserveTransform) {
+                    this.restore();
+                }
+            };
+    </script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="reportsCtrl as $reportsCtrl" ng-init="$reportsCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <button class="control-button" ng-click="$reportsCtrl.reloadMode()" style="float: left">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+            <div class="option-buttons" role="listbox" aria-label="date and time range selector">
+                <div class="option-buttons-group" ng-repeat="groupName in ['hours', 'days', 'months', 'other']">
+                    <button role="option"
+                            aria-selected="{{$reportsCtrl.mode === mode ? 'true' : 'false'}}"
+                            aria-label="{{$reportsCtrl.modeToLabel[mode] || mode}}"
+                            ng-repeat="mode in $reportsCtrl.dayModes[groupName]"
+                            ng-click="$reportsCtrl.loadMode(mode)"
+                            ng-class="$reportsCtrl.mode === mode ? 'hb-btn hb-btn-primary' : 'hb-btn hb-btn-secondary'">{{mode}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="data-container reports-data-container text-center">
+            <hb-page-header style="display: block; text-align: left; padding: 15px"
+                            title="Reports"
+                            sub-title-line1="Review real-time insights for your bot instance."
+                            learn-more="https://aka.ms/HealthcareBotDocs/reports"></hb-page-header>
+            <div class="reports-navigator">
+            </div>
+            <div id="reports-container" class="reports-container">
+                <div id="/report_messages" class="report-item report-messages">
+                    <div class="title">Messages</div>
+                    <div class="report-chart" id="messages"></div>
+                </div>
+                <div id="/report_unique_users" class="report-item report-uniqueUsers">
+                    <div class="title">Unique users</div>
+                    <div class="report-chart" id="uniqueUsers"></div>
+                </div>
+                <div id="/report_built_in_scenarios" class="report-item report-builtinScenariosSessions">
+                    <div class="title">Built-in scenario sessions</div>
+                    <div class="report-chart" id="builtinScenariosSessions"></div>
+                </div>
+                <div id="/report_custom_scenarios_sessions_start" class="report-item report-customScenariosSessions">
+                    <div class="title">Custom scenario Start</div>
+                    <div class="report-chart" id="customScenariosSessions"></div>
+                </div>
+                <div id="/custom_scenario_completion" class="report-item report-customScenarioCompletion">
+                    <div class="title">Custom scenario completion</div>
+                    <div class="report-chart" id="customScenarioCompletion">
+                        <div class="information">
+                            <div>This report is based on new events that were introduced on the 3rd April 2020 at 12AM UTC . Data before that time will not be displayed.</div>
+                        </div>
+                        <div class="scenario-completion-item-container">
+                            <div ng-repeat="scenario in $reportsCtrl.customScenarioCompletionData track by $index" class="scenario-completion-item">
+                                <div class="scenario-name">{{scenario.name}}</div>
+                                <table>
+                                    <tr>
+                                        <td>Scenario started</td>
+                                        <td><b>{{scenario.started | number:0}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Scenario ended</td>
+                                        <td><b>{{scenario.ended | number:0}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Completion rate</td>
+                                        <td><span class="badge badge-pill badge-data badge-right" ng-class="'badge-level-' + scenario.endedLevel">{{scenario.endedRate}}%</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div ng-if="$reportsCtrl.customScenarioCompletion.length === 0">
+                            No Activity Found
+                        </div>
+                    </div>
+                </div>
+                <div id="/report_custom_scenario_outcomes" class="report-item report-item-60 report-customScenariosOutcomes">
+                    <div class="title">Custom scenario outcomes</div>
+                    <div class="report-chart" id="customScenariosOutcomesTime"></div>
+                    <div class="report-chart" id="customScenariosOutcomesTotal"></div>
+                    <div class="total-doughnut"></div>
+                </div>
+                <div id="/report_infermedica_triage_by_complaint" class="report-item report-item-60 report-infermedicaTriageByComplaint">
+                    <div class="title">Triage by complaint (Infermedica)</div>
+                    <div class="report-chart" id="infermedicaTriageByComplaintTime"></div>
+                    <div class="report-chart" id="infermedicaTriageByComplaintTotal"></div>
+                    <div class="total-doughnut"></div>
+                </div>
+`                <div id="/report_infermedica_triage_by_outcome" class="report-item report-item-60 report-infermedicaTriageByOutcome">
+                    <div class="title">Triage by outcome (Infermedica)</div>
+                    <div class="report-chart" id="infermedicaTriageByOutcomeTime"></div>
+                    <div class="report-chart" id="infermedicaTriageByOutcomeTotal"></div>
+                    <div class="total-doughnut"></div>
+                </div>
+                <div id="/report_capita_triage_by_complaint" class="report-item report-item-60 report-capitaTriageByComplaint">
+                    <div class="title">Triage by complaint (Capita)</div>
+                    <div class="report-chart" id="capitaTriageByComplaintTime"></div>
+                    <div class="report-chart" id="capitaTriageByComplaintTotal"></div>
+                    <div class="total-doughnut"></div>
+                </div>
+                <div id="/report_capita_triage_by_outcome" class="report-item report-item-60 report-capitaTriageByOutcome">
+                    <div class="title">Triage by outcome (Capita)</div>
+                    <div class="report-chart" id="capitaTriageByOutcomeTime"></div>
+                    <div class="report-chart" id="capitaTriageByOutcomeTotal"></div>
+                    <div class="total-doughnut"></div>
+                </div>
+
+                <div id="/feedback_score" class="report-item report-feedbacksScore">
+                    <div class="title">
+                        <span class="navigatorTitle">Customer satisfaction scores</span>
+                        <button id="csat-tooltip-button" class="info-button ng-scope" tabindex="59">
+                            <div  id="csat-tooltip" class="hb-hover-info ng-binding">AVG CSAT = Sum of scores / Number of scores
+                                <br />NSAT = 100% + VS% - (SDS% + VDS%)
+                            </div>
+                        </button>
+                    </div>
+                    <div class="report-chart" id="feedbacksScore"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas id="feedbacksScore-chart" width="804" height="240" style="display: block; height: 300px; width: 1005px;" class="chartjs-render-monitor"></canvas></div>
+                    <div class="rightTitleText1" id="feedbacksScoreRightTitleText1"></div>
+                    <div class="rightTitleText2" id="feedbacksScoreRightTitleText2"></div>
+                </div>
+
+                <div id="/report_feedback" class="report-item report-item-60 report-feedbacksDistribution">
+                    <div class="title">Customer satisfaction submissions</div>
+                    <div class="report-chart" id="feedbacksDistributionTime"></div>
+                    <div class="report-chart" id="feedbacksDistributionTotal"></div>
+                    <div class="total-doughnut"></div>
+                </div>
+                <div id="/report_unrecognized_utterances" class="report-item report-unrecognizedUtterances">
+                    <div class="title">Unrecognized & unhandled utterances</div>
+                    <div class="report-chart" id="unrecognizedUtterances"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,535 @@
+.hb-icons {
+    font-family: 'FullMDL2';
+    text-decoration: none;
+    font-style: normal;
+    display: inline-block;
+}
+
+.hb-icons-spin {
+    -webkit-animation: hb-spin 2s infinite linear;
+    animation: hb-spin 2s infinite linear;
+}
+
+@-webkit-keyframes hb-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes hb-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@-webkit-keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
+.hb-icons-Settings:before {
+    content: "\E713";
+}
+
+.hb-icons-ShowAllFilesLegacy:before {
+    content: "\E154";
+}
+.hb-icons-Education:before {
+    content: "\E7BE";
+}
+
+.hb-icons-Search:before {
+    content: "\E721";
+}
+
+.hb-icons-Add:before {
+    content: "\E710";
+}
+
+.hb-icons-Remove:before {
+    content: "\E738";
+}
+
+.hb-icons-Refresh:before {
+    content: "\E72C";
+}
+
+.hb-icons-Delete:before {
+    content: "\E74D";
+}
+
+.hb-icons-Download:before {
+    content: "\E896";
+}
+
+.hb-icons-Contact:before {
+    content: "\E77B";
+}
+
+.hb-icons-Edit:before {
+    content: "\E70F";
+}
+
+.hb-icons-Clone:before {
+    content: "\E8C8";
+}
+
+.hb-icons-Save:before {
+    content: "\E74E";
+}
+
+.hb-icons-EraseTool:before {
+    content: "\E75C";
+}
+
+.hb-icons-Cancel:before {
+    content: "\E711";
+}
+
+.hb-icons-Blocked:before {
+    content: "\E733";
+}
+
+.hb-icons-CheckMark:before {
+    content: "\E73E";
+}
+
+.hb-icons-CheckBox:before {
+    content: "\E739";
+}
+
+.hb-icons-CheckboxComposite:before {
+    content: "\E73A";
+}
+
+.hb-icons-Upload:before {
+    content: "\E898";
+}
+
+.hb-icons-FlowChart:before {
+    content: "\E9D4";
+}
+
+.hb-icons-GitGraph:before {
+    content: "\F2CA";
+}
+
+.hb-icons-Group:before {
+    content: "\E902";
+}
+
+.hb-icons-BarChart4:before {
+    content: "\EAE7";
+}
+
+.hb-icons-Database:before {
+    content: "\EFC7";
+}
+
+.hb-icons-TwoKeys:before {
+    content: "\F229";
+}
+
+.hb-icons-QueryList:before {
+    content: "\F2B8";
+}
+
+.hb-icons-Documentation:before {
+    content: "\EC17";
+}
+.hb-icons-CallingApp:before {
+    content: "\EC33";
+}
+
+.hb-icons-FieldNotChanged:before {
+    content: "\F2C4";
+}
+
+.hb-icons-CalendarWeek:before {
+    content: "\E8C0";
+}
+
+.hb-icons-CalendarDay:before {
+    content: "\E8BF"
+}
+
+.hb-icons-CalendarLegacyMirrored:before {
+    content: "\E1DC";
+}
+
+.hb-icons-LocalAdmin:before {
+    content: "\F1FB";
+}
+
+.hb-icons-Chat:before {
+    content: "\E901";
+}
+
+.hb-icons-Help:before {
+    content: "\E897";
+}
+
+.hb-icons-Feedback:before {
+    content: "\E170";
+}
+
+.hb-icons-PowerButton:before {
+    content: "\E7E8";
+}
+
+.hb-icons-RedEye:before {
+    content: "\E7B3";
+}
+
+.hb-icons-Lock:before {
+    content: "\E72E";
+}
+
+.hb-icons-SortLinesUp:before {
+    content: "\E9D0";
+    display: inline-block;
+    -webkit-transform: scale(1, -1);
+    -moz-transform: scale(1, -1);
+    -o-transform: scale(1, -1);
+    -ms-transform: scale(1, -1);
+    transform: scale(1, -1);
+}
+
+.hb-icons-SortLinesDown:before {
+    content: "\E9D0";
+}
+
+.hb-icons-Process:before {
+    content: "\E9F3";
+}
+
+.hb-icons-Warning:before {
+    content: "\E7BA";
+}
+
+.hb-icons-StatusWarning:before {
+    content: "\EA84";
+}
+
+.hb-icons-ClipboardSolid:before {
+    content: "\F5DC";
+}
+
+.hb-icons-KeyboardStandard:before {
+    content: "\F5DC";
+}
+
+.hb-icons-Running:before {
+    content: "\EADA"
+}
+
+.hb-icons-Play:before {
+    content: "\E768"
+}
+
+.hb-icons-Bug:before {
+    content: "\EBE8"
+}
+
+.hb-icons-Prompt:before {
+    content: "\E756"
+}
+
+.hb-icons-LikeDislike:before {
+    content: "\E8DF"
+}
+
+.hb-icons-ContactArt112:before {
+    content: "\F458"
+}
+
+.hb-icons-StatusCircleQuestionMark:before {
+    content: "\F142"
+}
+
+.hb-icons-FunctionalManagerDashboard:before {
+    content: "\F542"
+}
+
+.hb-icons-Reshare:before {
+    content: "\E8EB"
+}
+
+.hb-icons-SearchData:before {
+    content: "\F3F1"
+}
+
+.hb-icons-Globe2:before {
+    content: "\F49A"
+}
+
+.hb-icons-LightningBolt:before {
+    content: "\E945"
+}
+
+.hb-icons-Variable:before {
+    content: "\F86D"
+}
+
+.hb-icons-Skill:before {
+    content: "\EE38"
+}
+
+.hb-icons-Comment:before {
+    content: "\E90A"
+}
+
+.hb-icons-DownloadMap:before {
+    content: "\E826"
+}
+
+.hb-icons-ProgressRing6:before {
+    content: "\EDF7"
+}
+
+.hb-icons-LivingImage:before {
+    content: "\ED26"
+}
+
+.hb-icons-TextCallout:before {
+    content: "\F2A2"
+}
+
+.hb-icons-CodeEdit:before {
+    content: "\F544"
+}
+
+.hb-icons-ContactCard:before {
+    content: "\EEBD"
+}
+
+.hb-icons-LocationDot:before {
+    content: "\E827"
+}
+
+.hb-icons-SignOut:before {
+    content: "\F3B1"
+}
+
+.hb-icons-BackToWindow:before {
+    content: "\E73F"
+}
+
+.hb-icons-InfoSolid:before {
+    content: "\F167"
+}
+
+.hb-icons-BarChartVertical:before {
+    content: "\E9EC"
+}
+
+.hb-icons-ExportToExcel:before {
+    content: "\F050"
+}
+
+.hb-icons-FileCode:before {
+    content: "\F30E"
+}
+
+.hb-icons-Timer:before {
+    content: "\E91E"
+}
+
+.hb-icons-OpenInNewWindow:before {
+    content: "\E8A7";
+}
+.hb-icons-CollapseMenu:before {
+    content: "\E712";
+}
+
+.hb-icons-Home:before {
+    content: "\E80F";
+}
+.hb-icons-ResizeTouchLarger:before {
+    content: "\E741";
+}
+.hb-icons-ResizeTouchSmaller:before {
+    content: "\E742";
+}
+.hb-icons-GlobalNavButton:before {
+    content: "\E700";
+}
+hb-icons-Blocked:before {
+    content: "\E733";
+}
+
+.hb-icons-resources:before {
+    content: "\EB9F";
+}
+
+.hb-icons-users:before {
+    content: "\F497";
+}
+
+.hb-icons-scenarios:before {
+    content: "\F003";
+}
+
+.hb-icons-language-models:before {
+    content: "\ED3E";
+}
+
+
+
+.hb-icons-configuration:before {
+    content: "\E9F5";
+}
+
+.hb-icons-integration:before {
+    content: "\E73F";
+}
+
+.hb-icons-analytics:before {
+    content: "\E9E6";
+}
+
+.hb-icons-History:before {
+    content: "\F31C";
+}
+
+.hb-icons-FolderHorizontal:before {
+    content: "\F12B";
+}
+
+.hb-icons-TVMonitor:before {
+    content: "\E7F4";
+}
+
+.hb-icons-ProgressRing4:before {
+    content: "\EDF5";
+}
+
+.hb-icons-arrow:before {
+    content: "\EA62";
+}
+
+.hb-icons-Info2:before {
+    content: "\EA1F";
+}
+
+.hb-icons-CloudDownload:before {
+    content: "\EBD3";
+}
+
+.hb-icons-FolderOpen:before {
+    content: "\E838";
+}
+
+.hb-icons-Read:before {
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif !important;
+    content: 'Read';
+}
+
+.hb-icons-Write:before {
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif !important;
+    content: 'Write';
+}
+
+.hb-icons-ExcelFile:before {
+    content: "\F1E5";
+    color: rgb(0, 128, 0);
+}
+
+.hb-icons-WordFile:before {
+    content: "\F1E3";
+    color: rgb(42, 86, 150);
+}
+
+.hb-icons-JSFile:before {
+    content: "\EBF0";
+}
+
+.hb-icons-PdfFile:before {
+    content: "\EA90";
+    color: rgb(200, 0, 0);
+}
+
+.hb-icons-Hide:before {
+    content: "\ED1A"
+}
+
+.hb-icons-Show:before {
+    content: "\ED1B"
+}
+
+.profile-picture {
+    height: 100%;
+    max-width: 100%;
+}
+
+.upload-button {
+    background-color: cornflowerblue;
+    color: white;
+    font-size: 17px;
+}
+
+.hb-icons-Train:before {
+    content: "\E72c"
+}
+
+.hb-icons-Magic:before {
+    content: "\F53F"
+}
+
+.hb-icons-Undo:before {
+    content: "\E7A7"
+}
+
+.hb-icons-Next:before {
+    content: "\EECD"
+}
+
+.hb-icons-Previous:before {
+    content: "\EECC"
+}
+
+.hb-icons-Compare:before {
+    content: "\F294";
+}
+
+.hb-icons-PromoteSnapshot:before {
+    content: "\F5ED";
+}
+
+.hb-icons-View:before {
+    content: "\E890";
+}
+
+.hb-icons-Version:before {
+    content: "\F295";
+}
+
+
+.hb-channel-icon {
+    display: inline-block;
+    color: #0071ca;
+    border: 2px solid #0071ca;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    padding: 0px;
+    margin: 0 4px 0 4px;
+}

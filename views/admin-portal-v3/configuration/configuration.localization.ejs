@@ -1,0 +1,278 @@
+<html lang="en">
+<head>
+    <script>
+        function auto_grow(element) {
+            if (element.offsetWidth < element.scrollWidth) {
+                element.style.height = ((element.value.split("\n").length) * 14 + 26)+"px";
+            } else {
+                element.style.height = ((element.value.split("\n").length) * 14 + 6)+"px";
+            }
+        }
+    </script>
+    <!-- Engines -->
+    <%- include('../common/head.ejs'); %>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-localization.css?build=#{Build.BuildNumber}#">
+    <!-- Angular Application -->
+    <script src="/resources/angularApps/admin-portal-v3/controllers/localization.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/directives/readLocalizationFile.directive.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/directives/set-focus.directive.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+    <section ng-controller="localizationCtrl as $localizationCtrl" ng-init="$localizationCtrl.init()">
+        <%- include('../common/body.ejs'); %>
+        <%- include('../common/portal-header.ejs'); %>
+        <%- include('../common/portal-navigation-panel.ejs'); %>
+        <div class="application-body">
+            <div class="controls-panel">
+                <button role="button"
+                        aria-label="refresh localization data"
+                        class="control-button"
+                        ng-click="$localizationCtrl.init()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                    <span class="control-button-label">Refresh</span>
+                </button>
+                <button role="button"
+                        aria-label="save changes"
+                        class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %>
+                        ng-disabled="$localizationCtrl.activeChanges <= 0"
+                        ng-click="$localizationCtrl.save()" <% } %>>
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Save"></i></span>
+                    <span class="control-button-label">Save</span>
+                </button>
+                <button role="button"
+                        aria-label="import localization data"
+                        class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else  { %> ng-click="$localizationCtrl.openImportDrawer()" <% } %>>
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Upload"></i></span>
+                    <span class="control-button-label">Import</span>
+                </button>
+                <button role="button"
+                        aria-label="export localization data"
+                        class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %>  ng-click="$localizationCtrl.export()" <% } %>>
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Download"></i></span>
+                    <span class="control-button-label">Export</span>
+                </button>
+                <button role="button"
+                        aria-label="discard changes"
+                        ng-disabled="$localizationCtrl.activeChanges <= 0"
+                        class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %>
+                        ng-click="$localizationCtrl.discard()" <% } %>>
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Cancel"></i></span>
+                    <span class="control-button-label">Discard changes</span>
+                </button>
+                <button role="tab"
+                        aria-label="custom localization - {{$localizationCtrl.localizationType === 'custom' ? 'selected' : ''}}"
+                        class="control-button section-choice-array"
+                        ng-class="($localizationCtrl.localizationType === 'custom') ? 'option active' : 'option'"
+                        ng-click="$localizationCtrl.updateSelectedLocalizationType('custom')">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Edit"></i></span>
+                    <span class="control-button-label">Custom</span>
+                </button>
+                <button role="tab"
+                        aria-label="system localization - {{$localizationCtrl.localizationType === 'system' ? 'selected' : ''}}"
+                        class="control-button section-choice-array"
+                        ng-class="($localizationCtrl.localizationType === 'system') ? 'option active' : 'option'" ng-click="$localizationCtrl.updateSelectedLocalizationType('system')">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-TVMonitor"></i></span>
+                    <span class="control-button-label">System</span>
+                </button>
+                <div class="right-section">
+                    <div class="control-button-label" style="font-size: 14px">Enable Localization Helper Tool</div>
+                    <button role="switch"
+                            aria-label="localization feature state"
+                            aria-checked="{{$localizationCtrl.isLocalizationEnabled ? 'true' : 'false'}}"
+                            class="control-button hb-btn hb-btn-toggle" ng-click="$localizationCtrl.toggleLocalization()">
+                        <div ng-class="$localizationCtrl.isLocalizationEnabled ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off" class="hb-toggle"></div>
+                    </button>
+                </div>
+                <button role="button"
+                        ng-disabled="$localizationCtrl.localizationType !== 'custom'"
+                        title="Fetch all scenario strings"
+                        aria-label="export localization data"
+                        class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %>  ng-click="$localizationCtrl.fetchScenarioStrings()" <% } %>>
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Magic"></i></span>
+                    <span class="control-button-label">Fetch</span>
+                </button>
+                <button role="button"
+                        aria-label="reset localization"
+                        class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %>  ng-click="$localizationCtrl.showResetModal()" <% } %> style="margin-right: 5px">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Delete"></i></span>
+                    <span class="control-button-label">Reset</span>
+                </button>
+            </div>
+            <div class="data-container">
+                <hb-page-header ng-if="$localizationCtrl.localizationType === 'custom'"
+                                title="Custom Scenario Localization"
+                                sub-title-line1="Manage the languages and text that your custom scenarios will display."
+                ></hb-page-header>
+                <hb-page-header ng-if="$localizationCtrl.localizationType === 'system'"
+                                title="System Scenario Localization"
+                                sub-title-line1="Manage the languages that your bot instance will support."
+                ></hb-page-header>
+                <br />
+                <br />
+                <div class="string-list-actions">
+                    <div class="new-locale">
+                        <select name="Languages"
+                                aria-label="new locale select"
+                                ng-model="$localizationCtrl.newLocale">
+                            <option value="" selected disabled hidden>Select new locale... </option>
+                            <%for (var key in localesObject) {%>
+                            <option value="<%=key%>">{{$localizationCtrl.languagesObject['<%=key%>']['List_Name']}}</option>
+                            <%}%>
+                        </select>
+                        <button class="hb-btn hb-btn-icon" id="add-new-locale" ng-click="$localizationCtrl.addNewLocale()"><span aria-label="add new locale" class="hb-icons hb-icons-Add"></span></button>
+                    </div>
+                    <div class="search-box-container">
+                        <input aria-label="enter String ID or regular expression"
+                               placeholder="Enter String ID or regular expression"
+                               type="text"
+                               ng-keyup="$event.keyCode === 27 && $localizationCtrl.clearSearch()"
+                               ng-keypress="$event.charCode === 13 && $localizationCtrl.search()"
+                               ng-change="$localizationCtrl.search()"
+                               ng-model="$localizationCtrl.stringIdSearchRegexp.value">
+                        <button ng-click="$localizationCtrl.clearSearch()" class="hb-btn hb-btn-icon" id="clear-search"><span aria-label="clear search" class="hb-icons hb-icons-Cancel"></span></button>
+                        <button ng-click="$localizationCtrl.search()" class="hb-btn hb-btn-icon" id="execute-search"><span aria-label="execute search" class="hb-icons hb-icons-Search"></span></button>
+                    </div>
+                    <button class="hb-btn hb-btn-icon" id="add-new-string" ng-click="$localizationCtrl.addNewString()"><span class="hb-icons hb-icons-Add"></span> Add new string</button>
+                </div>
+                <div class="locales-container">
+                    <div id="locals-list-container">
+                        <div ng-repeat="locale in $localizationCtrl.data[$localizationCtrl.localizationType].locales track by $index">
+                            <button role="tab"
+                                    aria-label="{{$index + 1}} - {{$localizationCtrl.languagesObject[locale]['List_Name'] || locale}}"
+                                    class="hb-btn hb-btn-locale"
+                                    ng-class="$localizationCtrl.selectedLocale === locale ? 'active' : ''"
+                                    ng-click="$localizationCtrl.pickLocale(locale)">
+                                {{$localizationCtrl.languagesObject[locale]["List_Name"] || locale}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="strings-container">
+                    <div class="string-title">
+                        <div class="cell small-cell">
+                            string id
+                        </div>
+                        <div class="cell normal-cell">{{$localizationCtrl.languagesObject[$localizationCtrl.defaultLocale]["Column_Name"]}}</div>
+                        <div class="cell normal-cell" ng-if="$localizationCtrl.selectedLocale !== $localizationCtrl.defaultLocale">{{$localizationCtrl.languagesObject[$localizationCtrl.selectedLocale]["Column_Name"] || $localizationCtrl.selectedLocale}}</div>
+                    </div>
+                    <div class="string-list">
+                        <div ng-repeat="item in $localizationCtrl.data[$localizationCtrl.localizationType].strings track by $index"
+                             ng-if="!item.state.hidden"
+                             class="string-list-item"
+                             ng-class="(item.state.new ? ' new ' : '') + (item.state.changed ? ' changed ' : '')"
+                        >
+                            <div class="cell small-cell" title="{{item.stringId}}">
+                                <p ng-if="!item.state.new">{{item.stringId.value}}</p>
+                                <input ng-if="item.state.new"
+                                       aria-label="enter new string id"
+                                       placeholder="Enter new String ID..."
+                                       type="text"
+                                       ng-model="item.stringId.value"
+                                       ng-change="$localizationCtrl.changeListener(item)">
+                            </div>
+                            <div ng-class="($localizationCtrl.selectedLocale !== $localizationCtrl.defaultLocale) ? 'cell normal-cell' : 'cell double-cell'">
+<!--                                <p ng-if="item[$localizationCtrl.defaultLocale].readonly" title="{{item[$localizationCtrl.defaultLocale].value}}"> {{item[$localizationCtrl.defaultLocale].value}}</p>-->
+                                <textarea wrap="off"
+                                          oninput="auto_grow(this)"
+                                          aria-label="{{$localizationCtrl.defaultLocale}}"
+                                          ng-disabled="item[$localizationCtrl.defaultLocale].readonly"
+                                          placeholder="Enter {{$localizationCtrl.defaultLocale}} version"
+                                          ng-model="item[$localizationCtrl.defaultLocale].value"
+                                          ng-change="$localizationCtrl.changeListener(item)"></textarea>
+                            </div>
+                            <div ng-if="$localizationCtrl.selectedLocale !== $localizationCtrl.defaultLocale" class="cell normal-cell">
+                                <textarea wrap="off"
+                                          oninput="auto_grow(this)"
+                                          lang="{{$localizationCtrl.selectedLocale}}"
+                                          aria-label="{{$localizationCtrl.selectedLocale}}"
+                                          placeholder="Enter {{$localizationCtrl.selectedLocale}} version"
+                                          ng-disabled="item[$localizationCtrl.selectedLocale].readonly"
+                                          ng-model="item[$localizationCtrl.selectedLocale].value"
+                                          ng-change="$localizationCtrl.changeListener(item)"></textarea>
+                            </div>
+                            <div class="string-actions">
+                                <button ng-if="item.state.new" aria-label="remove string" class="hb-btn hb-btn-icon hb-icons hb-icons-Cancel" ng-click="$localizationCtrl.removeString($index)"></button>
+                                <button ng-if="item.state.changed && !item.state.new" class="hb-btn hb-btn-icon hb-icons hb-icons-Undo" ng-click="$localizationCtrl.undoChanges(item)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-modal">
+            <div id="resetLocalization" class="modal fade" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content" >
+                        <div class="modal-body">
+                            <div class="title">
+                                <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                                Reset localization manager
+                            </div>
+                            <div class="content">
+                                <section>
+                                    Except for default system strings, all other localized strings will be deleted.
+                                    Any scenario steps referencing the deleted string IDs will need to be updated to reference a new string ID or will need static text.
+                                    <span class="warning">This action cannot be reverted</span>, if the localized strings are still required, <strong>make sure to export your data first</strong>.
+                                    <br>
+                                    Are you sure you want to reset the localization manager?
+                                </section>
+                            </div>
+                            <div class="actions">
+                                <button type="button" class="hb-btn hb-btn-primary" ng-click="$localizationCtrl.reset()" data-dismiss="modal">Reset</button>
+                                <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="portal-modal">
+            <div id="importLocalization" class="modal fade" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content" >
+                        <div class="modal-body">
+                            <div class="title">
+                                <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                                Import {{$localizationCtrl.localizationType}} localization
+                            </div>
+                            <div class="content">
+                                <label for="fileToUpload" style="display: none;">File upload</label>
+                                <h4>File upload</h4>
+                                <div class="data-item upload" ng-click="$localizationCtrl.pickFilesToImport()">
+                                    <input id="fileToUpload" disabled !importanttype="text" class="form-control" ng-model="$localizationCtrl.importFilePath" style="cursor: pointer">
+                                    <button aria-label="upload localization data file" class="upload-button">
+                                        <i class="hb-icons hb-icons-FolderHorizontal upload-button">
+                                        </i>
+                                    </button>
+                                </div>
+                                <h6 class="file-valid-text" ng-if="$localizationCtrl.showValidFileMsg">The localization file has been loaded</h6>
+                                <h6 class="file-invalid-text" ng-if="$localizationCtrl.showInvalidFileWarning">Localization file contains the following issues:</h6>
+                                <div class="string-import-errors" ng-repeat="item in $localizationCtrl.importIssues track by $index">
+                                    <p ng-if="item.stringId"><strong >{{item.stringId}}</strong> - {{item.errMsg}}</p>
+                                    <p ng-if="!item.stringId"><b >{{item.errMsg}}</b></p>
+                                </div>
+
+                                <p ng-if="$localizationCtrl.showValidFileMsg">
+                                    The localization file will be uploaded, <strong>but the changes are not saved</strong>.<br>
+                                    Click "Preview changes" to see the impact of the importing the localization file and <strong>press save to commit the changes</strong>.
+                                </p>
+                            </div>
+                            <div class="actions">
+                                <button ng-disabled="!$localizationCtrl.showValidFileMsg" class="hb-btn hb-btn-primary drawer-button" ng-click="$localizationCtrl.import()">Preview changes</button>
+                                <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div hidden align="center">
+            <input id="fileReaderButton" type="file" onclick="this.value = null" read-file="$localizationCtrl.processLocalizationSheet($fileContent)">
+        </div>
+    </section>
+</body>
+</html>

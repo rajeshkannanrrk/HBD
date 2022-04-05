@@ -1,0 +1,47 @@
+<div class="config-item" ng-class="variable._changed ? 'not-saved' :  ''">
+    <div ng-if="label !== undefined" class="config-item-name">
+        {{label}}
+        <button aria-label="{{label}} - {{info}}"
+                ng-if="info !== undefined" class="info-button">
+            <div class="hb-hover-info">{{info}}</div>
+        </button>
+    </div>
+    <div role="table" id="{{listId}}"
+         class="hb-config-table">
+        <div role="rowgroup" class="hb-config-table-header">
+            <div role="row">
+                <div role="columnheader"
+                     aria-label="{{colName}}"
+                     class="hb-cell-8">{{colName}}</div>
+                <div role="columnheader"
+                     aria-label="remove buttons"
+                     class="hb-cell-1"></div>
+            </div>
+        </div>
+        <div role="rowgroup"
+             aria-label="{{label}} rows">
+            <div role="row"
+                 class="hb-config-table-row"
+                 ng-repeat="item in variable._tenant track by $index"
+                 ng-init="rowIndex = $index + 1; rowsCount = variable._tenant.length">
+                <div role="cell"
+                     class="hb-cell-8">
+                    <input type="text"
+                           aria-label="item {{rowIndex}} of {{rowsCount}}"
+                           placeholder="{{placeholder}}"
+                           ng-model="variable._tenant[$index]"
+                           ng-change="ctrl.changeHandler(variable)">
+                </div>
+                <div role="cell"
+                     class="hb-cell-1">
+                    <button aria-label="row {{rowIndex}} of {{rowsCount}} - remove item"
+                            class="clickable-text"
+                            ng-click="ctrl.removeArrayItem(variable, $index)">Remove item</button>
+                </div>
+            </div>
+        </div>
+        <button aria-label="{{label}} - add new item"
+                class="clickable-text"
+                ng-click="ctrl.addArrayItem(variable, '', listId)">Add new item</button>
+    </div>
+</div>

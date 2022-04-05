@@ -1,0 +1,20 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header" style="position: relative">
+        <input ng-if="!uibCtrl._labledTitle_" value="Wait" name="label" type="text" class="form-control label-editor-field label-editor-field-disabled">
+        <span   ng-if="!uibCtrl._labledTitle_" class="fa fa-pencil label-editor-field-icon" ng-click="uibCtrl._activateLabeledTitle(element, 'Wait')"></span>
+
+        <input ng-if="uibCtrl._labledTitle_" ng-model="element.label" name="label" id="label-input-box" type="text" class="form-control label-editor-field">
+        <span  ng-if="uibCtrl._labledTitle_" class="fa fa-eraser label-editor-field-icon" ng-click="uibCtrl._disableLabeledTitle(element, 'Wait')"></span>
+    </div>
+    <div class="modal-body">
+         <div class="form-group">
+            <label for="time">Time to wait (ms):</label>
+            <div class="MonacoEditor-Inline" autocomplete="variables" functions="functions"
+                        ui-monacoeditor ui-monacoeditor-opts="editorOptions" autocomplete="variables" required ng-model="element.time" id="time" name="time"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

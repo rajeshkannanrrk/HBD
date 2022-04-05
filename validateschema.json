@@ -1,0 +1,376 @@
+{
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "version": {"type":"integer"},
+        "interrupting": {"type":"boolean"},
+        "breaking": {"type":"boolean"},
+        "returningMessage": {"type": ["string", "object"]},
+        "steps": {
+            "type": "array",
+            "minItems":0,
+            "items":{
+              	"type":"object",
+                "oneOf":[
+                    { "$ref": "#/definitions/promptDef" },
+                    { "$ref": "#/definitions/statementDef"},
+                    { "$ref": "#/definitions/actionDef"},
+                    { "$ref": "#/definitions/waitDef"},
+                    { "$ref": "#/definitions/LUISDef"},
+                    { "$ref": "#/definitions/branchDef"},
+                    { "$ref": "#/definitions/replaceScenarioDef"},
+                    { "$ref": "#/definitions/beginScenarioDef"},
+                    { "$ref": "#/definitions/datasourceDef"},
+                    { "$ref": "#/definitions/globalContextDef"},
+                    { "$ref": "#/definitions/switchDef"},
+                    { "$ref": "#/definitions/yesnoPromptDef"},
+                    { "$ref": "#/definitions/endWithResultDef"},
+                    { "$ref": "#/definitions/assignVariableDef"},
+                    { "$ref": "#/definitions/invokeSkillDef"}
+                 ]                  
+            }
+        }
+    },
+    "required":["steps"],
+    "additionalProperties": false,
+
+
+    "definitions": {
+        "promptDef":{
+            "properties":{
+                  "type":    {"enum":["prompt"]},
+                  "visible": {"type":["string","boolean"]},
+                  "dataType":{"type":["string","array"]},
+                  "suggestions": {"type":["string","array"]},
+                  "id":      {"type":"string"},
+                  "text":    {"type":"string"},
+                  "stringId":{"type":"string"},
+                  "label":   {"type":"string"},
+                  "designer":{"type":"object"},
+                  "layout": {"enum":["vertical","carousel"]},                  
+                  "attachment":{
+                      "$ref":"#/definitions/attachmentDef"
+                  },
+                  "entity":  {"type":"string"},
+                  "variable":{"type":"string"},
+                  "onInit":  {"type":"string"},
+                  "maxRetries": {"type":"number"},
+                  "choiceType": {"enum":["choice","multi-choice"]},
+                  "submitTitle": {"type":"string"}
+            },
+            "required":["type","variable","designer"],
+            "additionalProperties":false
+        },
+        "yesnoPromptDef":{
+            "properties":{
+              "type":     {"enum":["yesnoprompt"] },
+              "visible":  { "type":[ "string", "boolean" ] },
+              "dataType": {"enum":["boolean"]},
+              "variable":{"type":"string"},                
+              "text":     {"type":"string"},
+              "stringId":{"type":"string"},
+              "id":       {"type":"string"},
+              "label":    {"type":"string"},
+              "designer":{"type":"object"},
+              "targetStepId":{"type":"string"},
+              "maxRetries": {"type":"number"},            
+              "layout": {"enum":["vertical","carousel"]},                  
+              "attachment":{
+                  "$ref":"#/definitions/attachmentDef"
+              }
+            },
+            "required":["type","text", "variable","designer"],
+            "additionalProperties": false
+        },      
+        "statementDef":{
+          	"properties":{
+                "type":    { "enum":["statement"]},
+                "visible": { "type":[ "string", "boolean" ] },
+                "id":      {"type":"string"},
+                "text":    {"type":"string"},
+                "stringId":{"type":"string"},
+                "label":   {"type":"string"},
+                "designer":{"type":"object"},
+                "layout": {"enum":["vertical","carousel"]},                  
+                "attachment":{
+                    "$ref":"#/definitions/attachmentDef"
+                },
+              "entity":  {"type":"string"},                
+                "onInit":  {"type":"string"}
+            },
+            "required":["type","designer"],
+          	"additionalProperties": false
+        },
+        "actionDef":{
+          	"properties":{
+                "type":    { "enum":["action"]},
+                "visible": { "type":[ "string", "boolean" ] },
+                "id":      {"type":"string"},
+                "label":   {"type":"string"},
+                "designer":{"type":"object"},
+                "async"   :{"type":"boolean"},
+                "onInit":  {"type":"string"}
+            },
+            "required":["type","onInit","designer"],
+          	"additionalProperties": false
+        },
+        "LUISDef":{
+          	"properties":{
+                "type":     { "enum":["luis"]},
+                "id":       {"type":"string"},
+                "label":    {"type":"string"},
+                "designer": {"type":"object"},
+                "utterance":{"type":"string"},
+                "modelName":{"type":"string"},
+                "modelUrl": {"type":"string"},
+                "variable": {"type":"string"},
+                "error":    {"type":"string"}
+            },
+            "required":["type","utterance","variable","designer"],
+          	"additionalProperties": false
+        },
+		    "branchDef":{
+          	"properties":{
+                "type":     {"enum":["branch"] },
+                "visible":  { "type":[ "string", "boolean" ] },
+                "id":       {"type":"string"},
+                "label":    {"type":"string"},
+                "condition":{"type":["string","boolean"]},
+                "onInit":  {"type":"string"},
+                "designer":{"type":"object"},
+                "targetStepId":{"type":"string"}
+            },
+            "required":["type","condition","designer"],
+          	"additionalProperties": false
+        },
+        "endWithResultDef":{
+          	"properties":{
+                "type":     {"enum":["endwithresult"] },
+                "label":    {"type":"string"},
+                "endScope": {"enum":["scenario","conversation"]},
+                "returnValue": {"type":"string"},                
+                "id":    {"type":"string"},
+                "designer":  {"type":"object"}
+            },
+            "required":["type","returnValue","designer"],
+          	"additionalProperties": false
+        },
+		    "switchDef":{
+          	"properties":{
+                "type":     {"enum":["switch"] },
+                "id":       {"type":"string"},
+                "label":    {"type":"string"},
+                "condition":{"type":["string","boolean"]},
+                "designer": {"type":"object"},
+                "cases" :   {"type":"array","items":{"type":"object","oneOf":[{"$ref":"#/definitions/caseDef"}]}}
+            },
+            "required":["type","condition","designer"],
+          	"additionalProperties": false
+        },
+        "replaceScenarioDef":{
+            "properties":{
+                "type":     {"enum":["replaceScenario"] },
+                "visible":  { "type":[ "string", "boolean" ] },
+                "id":       {"type":"string"},
+                "label":   {"type":"string"},
+                "designer":{"type":"object"},
+                "onInit":  {"type":"string"},
+                "scenario": {"type":"string"},
+                "args": {"type":"string"}
+            },
+            "required":["scenario","designer"],
+          	"additionalProperties": false
+        },
+        "beginScenarioDef":{
+          "properties":{
+            "type":     {"enum":["beginScenario"] },
+            "visible":  { "type":[ "string", "boolean" ] },
+            "id":       {"type":"string"},
+            "label":    {"type":"string"},
+            "designer":{"type":"object"},
+            "onInit":   {"type":"string"},
+            "scenario": {"type":"string"},
+            "args": {"type":"string"},
+            "variable":{"type":"string"}
+          },
+          "required":["scenario","designer"],
+          "additionalProperties": false
+        },
+        "waitDef":{
+          "properties":{
+            "type":     {"enum":["wait"] },
+            "visible":  { "type":[ "string", "boolean" ] },
+            "id":       {"type":"string"},
+            "label":    {"type":"string"},
+            "designer": {"type":"object"},
+            "time":     {"type":"string"}
+          },
+          "required":["time","designer"],
+          "additionalProperties": false
+        },
+        "assignVariableDef": {
+          "properties":{
+            "type":     {"enum":["assignVariable"] },
+            "id":       {"type":"string"},
+            "label":    {"type":"string"},
+            "designer": {"type":"object"},
+            "variable": {"type":"string"},
+            "scope":    {"enum":["scenario","user","conversation"]},
+            "operation":{"enum":["set", "incrementBy", "multiplyBy", "push"]},
+            "value":    {"type":"string"}
+          },
+          "required":["variable", "designer", "operation", "scope", "value"],
+          "additionalProperties": false
+        },
+        "invokeSkillDef": {
+          "properties":{
+            "type":     {"enum":["invokeSkill"] },
+            "id":       {"type":"string"},
+            "label":    {"type":"string"},
+            "designer": {"type":"object"},
+            "skillId": {"type":"string"},
+            "skillManifestUrl": {"type":"string"},
+            "utterance": {"type":"string"}
+          },
+          "required":["utterance", "designer"],
+          "oneOf": [
+            {
+              "required": ["skillId"]
+            },
+            {
+              "required": ["skillManifestUrl"]
+            }
+          ],
+          "additionalProperties": false
+        },
+        "datasourceDef":{
+            "properties":{
+                "type":     {"enum":["datasource"] },
+                "visible":  {"type":[ "string", "boolean" ] },
+                "id":       {"type":"string"},
+                "label":    {"type":"string"},
+                "designer": {"type":"object"},
+                "response": {"type":"string"},
+                "error":    {"type":"string"},
+
+                "provider":   {"type":"string"},
+                "onInit":     {"type":"string"},
+                "input":      {"type":"string"},
+                "typeId":     {"type":"string"},
+                "sinceDate":  {"type":"string"},
+                "url":          {"type":"string"},
+
+                "dataConnection":         {"type": "string"},
+                "authenticationProvider": {"type": "string"},
+                "urlBase":      {"type":"string"},
+                "urlPath":      {"type":"string"},
+                "urlParams":    {"type":"string"},
+                "endpoint":     {"type":"string"},
+                "method":       {"enum":["get","put","post","delete","patch"]},
+                "contentType":  {"enum":["raw", "form-data", "x-www-form-urlencoded"]},
+                "headers":      {"type":"string"},
+                "payload":      {"type":"string"},
+                "fhirResource": {"type":"string"},
+                "fhirAction":   {"type":"string"},
+
+                "opJson":  {"type":"boolean"},
+                "opResolveWithFullResponse": {"type":"boolean"}
+
+            },
+            "required":["response","designer"],
+            "additionalProperties": false
+        },
+        "globalContextDef":{
+          "properties":{
+            "type":     {"enum":["globalContext"] },
+            "id":       {"type":"string"},
+            "label":    {"type":"string"},
+            "designer":{"type":"object"},
+            "operation": {"enum":["Set","Get"]},
+            "contextName": {"type":"string"},
+            "contextValue": {"type":"string"},
+            "variable": {"type":"string"},
+            "error": {"type":"string"}
+          },
+          "required":["designer", "operation", "contextName"],
+          "additionalProperties": false
+        },
+        "heroCardDef":{
+          	"properties":{
+              	"type":{"enum":["HeroCard"]},
+                "title":{"type":"string"},
+                "titleStringId":{"type":"string"},
+                "subtitle":{"type":"string"},
+                "subtitleStringId":{"type":"string"},
+                "image":{"type":"string"},
+                "buttons":{"type":"string"},
+                "actions" :   {"type":"array","items":{"type":"object","oneOf":[{"$ref":"#/definitions/actionButtonDef"}]}}
+            },
+          	"required":["type"],
+            "additionalProperties": false
+        },
+        "thumbnailCardDef":{
+          	"properties":{
+              	"type":{"enum":["ThumbnailCard"]},
+                "title":{"type":"string"},
+                "titleStringId":{"type":"string"},
+                "subtitle":{"type":"string"},
+                "subtitleStringId":{"type":"string"},
+                "image":{"type":"string"},
+                "buttons":{"type":"string"},
+                "actions" :   {"type":"array","items":{"type":"object","oneOf":[{"$ref":"#/definitions/actionButtonDef"}]}}
+            },
+          	"required":["type"],
+            "additionalProperties": false
+        },
+        "adaptiveCardDef":{
+          	"properties":{
+              	"type":{"enum":["AdaptiveCard"]},
+                "cardCode": {"type":"string"}
+            },
+          	"required":["type","cardCode"],
+            "additionalProperties": false
+        },
+        "carouselCardDef":{
+            "properties":{
+              "type":{"enum":["Carousel"]},
+              "carouselCode": {"type":"string"}
+          },
+          "required":["type","carouselCode"],
+          "additionalProperties": false
+        },     
+        "caseDef" : {
+            "properties":{
+                "value":{"type":["string","integer"]},
+                "targetStepId":{"type":"string"}
+            },
+            "additionalProperties": false
+        },
+        "actionButtonDef": {
+            "properties" : {
+                "type": {"type":"string"},
+                "parameter" :{"type":"string"},
+                "caption" : {"type":"string"},
+                "captionStringId": {"type":"string"}
+            }
+        },
+        "attachmentDef":{
+            "anyOf":[
+                {"type":"string"},
+                {"type":"array","items":{"type":"string"}},
+                {"type":"object", "anyOf":[
+                    {"$ref":"#/definitions/heroCardDef"},
+                    {"$ref":"#/definitions/thumbnailCardDef"},
+                    {"$ref":"#/definitions/adaptiveCardDef"},
+                    {"$ref":"#/definitions/carouselCardDef"}                                  
+                ]},
+                {"type":"array", "items" :{"type":["object", "string"], "anyOf":[
+                    {"$ref":"#/definitions/heroCardDef"},
+                    {"$ref":"#/definitions/thumbnailCardDef"},
+                    {"$ref":"#/definitions/adaptiveCardDef"},
+                    {"$ref":"#/definitions/carouselCardDef"}                                  
+                ]}}
+            ]
+        }
+   }
+}

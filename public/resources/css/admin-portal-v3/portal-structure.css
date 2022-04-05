@@ -1,0 +1,321 @@
+@font-face {
+    font-family: 'FullMDL2';
+    src: url('/resources/fonts/FullMDL2.eot'); /* IE9 Compat Modes */
+    src: url('/resources/fonts/FullMDL2.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/resources/fonts/FullMDL2.woff') format('woff'), /* Modern Browsers */ url('/resources/fonts/FullMDL2.ttf') format('truetype'), /* Safari, Android, iOS */ url('/resources/fonts/FullMDL2.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+body {
+    min-width: 1300px;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+body > section:first-child {
+    height: 100%;
+    width: 100%;
+}
+
+a:hover, a:focus, a:active, a:visited {
+    text-decoration: none;
+}
+
+
+.hb-portal-container {
+    display: none; height: 100%;width: 100%;
+}
+
+.application-header {
+    position: relative;
+    width: 100%;
+    min-width: 1280px;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    z-index: 6001;
+}
+.application-navbar {
+    float: left;
+    background-color: #222222;
+    position: relative;
+    width: 250px;
+    height: calc(100% - 50px);
+    min-height: 100px;
+    padding: 0;
+    border-right: none;
+    margin: 0;
+    overflow-y: auto;
+    user-select: none;
+}
+
+.application-body {
+    float: left;
+    position: relative;
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+    padding: 0;
+}
+
+body[banner=visible] .application-body,
+body[banner=visible] .hb-navigation-panel,
+body[banner=visible] .hb-navigation-panel-minimized
+{
+    height: calc(100% - 50px - 30px);
+}
+
+.application-body.navbar-maximized {
+    width: calc(100% - 250px);
+}
+
+.dropdown-show {
+    visibility: visible !important;
+}
+
+.data-container {
+    position: relative;
+    padding: 15px;
+    height: calc(100% - 36px);
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.toast-top-right {
+    top: 90px !important;
+}
+
+
+#toast-container>div {
+    /*border-radius: 0;*/
+    /*opacity: 1;*/
+    /*padding: 3px 10px;*/
+    /*font-size: 11px;*/
+    font-family: Segoe UI;
+    /*background-image:none!important;*/
+    /*box-shadow: 1px 1px 2px 1px  #9b9b9b;*/
+    /*margin-bottom: 3px*/
+}
+
+/*#toast-container>.toast {*/
+/*background-image:none!important;*/
+/*}*/
+
+/*#toast-container>.toast button, #toast-container>.toast button:hover, #toast-container>.toast button:active {*/
+/*font-size: 20px;*/
+/*font-family: Segoe UI!important;*/
+/*outline: none;*/
+/*border: none;*/
+/*color: inherit;*/
+/*opacity: 1;*/
+/*text-shadow: none;*/
+/*font-weight: 100;*/
+/*}*/
+
+/*#toast-container>.toast-info {*/
+/*background-color: #0071c6;*/
+/*color: white;*/
+/*}*/
+
+/*#toast-container>.toast-warning {*/
+/*background-color: #ffb900;*/
+/*color: black;*/
+/*}*/
+/*#toast-container>.toast-error {*/
+/*background-color: #e81123;*/
+/*color: white;*/
+/*}*/
+/*#toast-container>.toast-success {*/
+/*background-color: #107c10;*/
+/*color: white;*/
+/*}*/
+.elipsis-tooltip {
+    width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+span.elipsis-span {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: calc(100% - 20px);
+}
+
+.clickable-text {
+    color: #015cda;
+    padding-left: 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.learn-more:hover, .learn-more:visited, .learn-more:link, .learn-more:active
+{
+    color: #0071C6;
+    text-decoration: none;
+}
+
+.locatemp {
+    display:inline-block;
+    margin-top: 6px;
+    margin-right: 3px!important;
+}
+
+.locatemp .hb-btn-onoff-unselected {
+    color: #015cda;
+}
+
+.modal-dialog {
+    margin-top: 60px;
+    max-width: 700px;
+}
+
+.ng-confirm-box {
+    width: 620px;
+}
+
+.webchat-locale-picker {
+    position: absolute;
+    top: 6px;
+    right: 50px;
+}
+
+.webchat-locale-picker input {
+    width: 100px;
+    height: 26px;
+    float: left;
+    text-align: center;
+}
+
+.data-container-title .title{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.data-container-title .sub-title, .data-container-title .clickable-text {
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0;
+}
+
+.data-container-title {
+    margin-bottom: 30px;
+}
+
+.hb-section-details {
+    width: calc(100% - 300px);
+    min-width: 800px;
+    font-family: Segoe UI;
+    margin-bottom: 20px;
+}
+
+.hb-section-details .hb-config-table {
+    width: 100%;
+}
+
+.hb-section-details h1 {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+
+.hb-section-details .title {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.hb-section-details .sub-title, .hb-section-details .sub-title .clickable-text {
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0;
+}
+
+.application-body .section-title {
+    font-weight: 600;
+}
+
+.page-section {
+    margin-bottom: 30px;
+}
+
+.page-section .page-section-title {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.page-section input,
+.page-section select,
+.page-section button {
+    width: 320px;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.page-section span {
+    display: inline-block;
+    width: 50px;
+}
+
+.page-section input[type="date"],
+.page-section input[type="time"] {
+    width: 130px;
+
+}
+
+.page-off-content {
+    width: 100%;
+    position: relative;
+    margin-top: 100px;
+    text-align: center;
+    padding: 0;
+}
+
+.page-off-content .blocked-content-message-icon,
+.page-off-content .blocked-content-message-text {
+    display: inline-block;
+    margin: 10px;
+    height: 54px;
+    text-align: left;
+}
+
+
+.page-off-content .blocked-content-message-icon i {
+    font-size: 40px;
+}
+.page-off-content .blocked-content-message-text title {
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    height: 34px;
+}
+
+.page-off-content .blocked-content-message-text sub-title,
+.page-off-content button {
+    height: auto;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+
+.hb-header-directive  {
+    display: inline-block;
+}
+
+.hb-header-directive .title {
+    font-size: 30px;
+}
+.hb-header-directive span {
+    display: inline-block;
+    width: 25px;
+    height: 20px;
+    position: relative;
+    font-size: 30px;
+    font-weight: 200;
+    line-height: 23px;
+
+    /* height: 74px; */
+}
+.hb-header-directive span i {
+    position: absolute;
+}

@@ -1,0 +1,62 @@
+<div class="data-container">
+    <div class="application-data-container">
+        <hb-page-header title="Skill"
+                        sub-title-line1="A skill is a bot that can perform a set of tasks for another bot. Configure Skill settings for your bot instance."
+                        learn-more="https://docs.microsoft.com/en-us/HealthBot/skills_howto#expose-healthcare-bot-as-a-skill">
+        </hb-page-header>
+            <config-boolean ctrl="$skillsCtrl"
+                            ng-click="$skillsCtrl.ShowSkillExposureWarning()"
+                            label="Skill Exposure Toggle"
+                            variable="$skillsCtrl.monitoredData.isExposed"
+                            text-on="Enabled"
+                            text-off="Disabled">
+            </config-boolean>
+        <table class="table table-striped table-bordered" aria-label="information">
+            <td width="250px">
+                Skill manifest URL
+            </td>
+            <td>
+                {{$skillsCtrl.manifestUrl}}
+            </td>
+            <td  width="250px">
+                <button aria-label="copy {{$skillsCtrl.manifestUrl}} to clipboard"
+                        class="hb-btn hb-btn-icon hb-btn-secondary"
+                        ng-click="$app.copyToClipboard($skillsCtrl.manifestUrl)">
+                    <i class="hb-icons hb-icons-ClipboardSolid" aria-hidden="true" ng-click="$app.copyToClipboard($skillsCtrl.manifestUrl)"></i> Copy to clipboard
+                </button>
+            </td>
+        </table>
+        <div class="data-container" style="padding-left: 0">
+            <h4>Skill Properties</h4>
+            <div class="hb-section-details" style="width: 300px">
+                <config-textbox ctrl="$skillsCtrl"
+                                label= "Name"
+                                info="The name of the skill."
+                                variable="$skillsCtrl.monitoredData.name">
+                </config-textbox>
+                <config-textbox ctrl="$skillsCtrl"
+                                label="Description"
+                                info="A human-readable description of the skill (optional)."
+                                variable="$skillsCtrl.monitoredData.description">
+                </config-textbox>
+                <config-textbox ctrl="$skillsCtrl"
+                                label="Publisher Name"
+                                info="The name of the skill publisher."
+                                variable="$skillsCtrl.monitoredData.publisherName"></config-textbox>
+            </div>
+                <h4>Skill Consumers</h4>
+                <config-boolean ctrl="$skillsCtrl"
+                                label="Accept requests from any skill consumer"
+                                variable="$skillsCtrl.monitoredData.isPublic">
+                </config-boolean>
+                <config-table ng-if="!$skillsCtrl.monitoredData.isPublic._tenant"
+                              ctrl="$skillsCtrl"
+                              variable="$skillsCtrl.monitoredData.authorizedAppIds"
+                              table-id="AuthorizedAppIds"
+                              info="The skill accepts requests only from the listed skill consumers."
+                              label="List of skill consumers that can call your bot"
+                              fields="[['Skill Consumer App ID', 'appId', 5, 'text', 'Enter consumer bot app ID'], ['Skill Consumer Description', 'description', 7, 'text', 'Enter description (optional)']]"
+                </config-table>
+        </div>
+    </div>
+</div>

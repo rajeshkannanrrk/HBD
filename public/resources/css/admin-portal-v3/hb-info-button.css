@@ -1,0 +1,95 @@
+.info-button:before {
+    content: "\E946";
+    font-family: 'FullMDL2';
+    position: absolute;
+    top: 6px;
+    left: 0;
+    width: 14px;
+    padding: 1px;
+    height: 14px;
+    font-size: 12px;
+    line-height: 12px;
+    cursor: pointer;
+}
+
+#csat-tooltip-button:before {
+    position: unset;
+    color: white;
+}
+
+.info-button:focus:before {
+    outline: 1px dashed #0071c6
+}
+.info-button {
+    vertical-align: text-bottom;
+    display: inline-block;
+    position: relative;
+    color: #000000;
+    height: 21px;
+    width: 20px;
+    border: none !important;
+    outline: none !important;
+    background-color: transparent;
+    cursor: default;
+    margin-left: 5px;
+}
+
+#csat-tooltip {
+    position: absolute;
+    top:-5px;
+    width: 308px;
+    right: -320px;
+    color: black;
+}
+
+.hb-hover-info {
+    display: none;
+}
+
+.hb-hover-info:before {
+    content: '';
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid gray;
+    position: absolute;
+    top: 6px;
+    filter: blur(1px);
+    left: -20px;
+    z-index: 0;
+}
+
+.hb-hover-info:after {
+    content: '';
+    border: 10px solid white;
+    border-right-color:transparent;
+    border-top-color:transparent;
+    position: absolute;
+    transform: rotate(45deg);
+    top: 5px;
+    left: -5px;
+}
+
+.hb-hover-info a {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    line-height: 30px;
+}
+
+.info-button:hover .hb-hover-info, .info-button:focus .hb-hover-info, .info-button:focus-within .hb-hover-info, .hb-hover-info:hover {
+    position: absolute;
+    display: inline-block;
+    white-space: normal;
+    text-align: left;
+    padding: 10px 20px;
+    top: -4px;
+    right: -305px;
+    width: 300px;
+    background-color: white;
+    box-shadow: 1px 1px 5px 1px #9b9b9b;
+    z-index: 1;
+    letter-spacing: 0;
+    line-height: 15px;
+    font-size: 13px;
+}

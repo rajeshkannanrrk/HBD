@@ -1,0 +1,21 @@
+<div class="config-item" ng-class="variable._changed ? 'not-saved' :  ''">
+    <div ng-if="label !== undefined" class="config-item-name">
+        {{label}}
+        <button aria-label="{{label}} - {{info}}"
+                ng-if="info !== undefined" class="info-button">
+            <div class="hb-hover-info">{{info}}
+                <span ng-if="learnMore !== undefined">
+                    <br>
+                    <a aria-label="learn more" href="{{learnMore}}" target="_blank" class="clickable-text">Learn more</a>
+                </span>
+            </div>
+        </button>
+    </div>
+    <div class="config-select">
+        <select aria-label="{{label}}" id="{{selectionId}}"
+                ng-options="(option < 60 ? option + ' minutes' : (option === 60 ? '1 hour' : (option/60) + ' hours')) for option in options track by option"
+                ng-model="variable._tenant"
+                ng-change="ctrl.selectionChanged(variable, type, selectionId)">
+        </select>
+    </div>
+</div>

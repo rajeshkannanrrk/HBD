@@ -1,0 +1,132 @@
+<div class="hb-section-details">
+    <hb-page-header title="Human Handoff" sub-title-line1="Configure scenarios that allow handoff to human agents."
+        learn-more="https://aka.ms/HealthcareBotDocs/human-handoff"></hb-page-header>
+    <section class="config-section" id="user-consent">
+        <div class="config-section-title" style="width: 600px;">
+            <h3 role="heading" class="section-name">Human Handoff</h3>
+            <config-section-enable-toggle ctrl="$configCtrl" variable="$configCtrl.data.enable">
+            </config-section-enable-toggle>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Human Handoff</h3>
+                        <div class="preview-text">
+                            Allows end users to chat with a human agent<br><br>
+                        </div>
+                        <div>
+                            <img alt class="preview-img" src="/resources/images/configPreviews/handoff.png">
+                        </div>
+
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <config-select-time-options ctrl="$configCtrl"
+            selection-id="endUserTimeout"
+            label="End user timeout"
+            variable="$configCtrl.data.userTimeout"
+            type="number"
+            options="[5, 10, 15, 30, 60, 120, 300, 720, 1440]"></config-select-time-options>
+
+        <config-select-time-options ctrl="$configCtrl"
+            selection-id="agentTimeout"
+            label="Agent timeout"
+            variable="$configCtrl.data.agentTimeout"
+            type="number"
+            options="[5, 10, 15, 30, 60, 120, 300, 720, 1440]"></config-select-time-options>
+
+        <config-textbox ctrl="$configCtrl"
+                        label="Waiting message"
+                        info="This message is shown when an end user is waiting for an agent to connect"
+                        variable="$configCtrl.data.agentMessages.waiting"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Cancellation message"
+                        info='This message is shown when an end user is waiting for an agent to connect and then types "Cancel"'
+                        variable="$configCtrl.data.agentMessages.cancellation"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Timeout message"
+                        info="This message is shown when the conversation times out whilst the end user is waiting for the agent to connect"
+                        variable="$configCtrl.data.agentMessages.timeout"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Agent connection message (1 of 2)"
+                        info="This message is shown when an agent connects to a conversation"
+                        variable="$configCtrl.data.agentMessages.agentConnection1"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Agent connection message (2 of 2)"
+                        info="This message is shown when an agent connects to a conversation"
+                        variable="$configCtrl.data.agentMessages.agentConnection2"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="End of conversation message"
+                        info="This message is show when an agent leaves a conversation"
+                        variable="$configCtrl.data.agentMessages.endConversation"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="All agents unavailable message"
+                        info="This message is shown when there are no agents logged into the agent application"
+                        variable="$configCtrl.data.agentMessages.noAvailableAgents"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Connection error message"
+                        info="This message is shown when there is a run time error that causes the agent connection to fail"
+                        variable="$configCtrl.data.agentMessages.connectionError"></config-textbox>
+    </section>
+    <section class="config-section" id="bingSpeller">
+        <div class="config-section-title">
+            <h3 role="heading" class="section-name">Agent Authentication (Microsoft Teams)
+                <button aria-label="All fields in this section must be provided for handoff support with teams." class="info-button">
+                    <div class="hb-hover-info">All fields in this section must be provided for handoff support with teams.
+                        <span>
+                            <br>
+                            <a href="https://aka.ms/HealthcareBotDocs/TeamsHandoff" target="_blank" class="clickable-text">Learn more</a>
+                        </span>
+                    </div>
+                </button>
+            </h3>
+        </div>
+        
+        <config-textbox ctrl="$configCtrl" label="Active Directory Tenant ID"
+            placeholder="Enter your active directory tenant ID"
+            info="Directory ID for your Azure Active Directory. This can be found in the Azure portal under the AAD properties"
+            variable="$configCtrl.data.teams.tenantId"></config-textbox>
+        <config-textbox ctrl="$configCtrl" placeholder="Enter your authorised agent group ID"
+            label="Azure Active Directory Group Object ID"
+            info="Object ID for the Azure Active Directory group that is authorised to access agent functionality. This can be found in the Azure portal under AAD groups. 	"
+            variable="$configCtrl.data.teams.groupObjectId"></config-textbox>
+        <config-textbox ctrl="$configCtrl" placeholder="Enter your application (client) ID" 
+            label="Application (client) ID"
+            info="The client ID for the Azure AD application registration. This can be found in the Azure portal under AAD App registrations"
+            variable="$configCtrl.data.teams.clientId"></config-textbox>
+        <config-textbox ctrl="$configCtrl" placeholder="Enter your application (client) secret"
+            label="Application (client) Secret"
+            info="The client secret for the Azure AD application registration. This can be found in the Azure portal under AAD App registrations > Certificates and Secrets"
+            variable="$configCtrl.data.teams.clientSecret"></config-textbox>
+
+    </section>
+    <section class="config-section" id="bingSpeller">
+        <div class="config-section-title">
+            <h4 class="section-name">Online Meetings (Microsoft Teams)</h4>
+        </div>
+        <config-textbox ctrl="$configCtrl" placeholder="Enter an object ID for default meeting organizer (optional)"
+            label="Default Meeting Organizer Object ID (optional)"
+            info="Object ID for the User that will be used to create online meetings using the Teams API. By default the meeting creator is the organizer, otherwise the default user is assigned as the organizer."
+            variable="$configCtrl.data.teams.organizerObjectId"></config-textbox>
+    </section>
+    <section class="config-section" id="omnichannel">        
+        <div class="config-section-title">
+            <h4 class="section-name">Dynamics 365 OmniChannel</h4>
+            <button aria-label="Integration with Dynamics requires additional configuration." class="info-button">
+            <div style="z-index: 1000;" class="hb-hover-info">Integration with Dynamics requires additional configuration.
+                <span>
+                    <br>
+                    <a href="https://aka.ms/HealthcareBotDocs/Dynamics" target="_blank" class="clickable-text">Learn more</a>
+                </span>
+            </div>    
+            </button>   
+        </div>
+        <div class="config-section-title" style="width: 600px;">
+            <div class="config-item-name">Bridge Messages</div>
+            <config-section-enable-toggle ctrl="$configCtrl" variable="$configCtrl.data.omnichannel.bridge">
+            </config-section-enable-toggle>
+        </div>
+    </section>
+</div>

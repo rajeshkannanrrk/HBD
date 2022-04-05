@@ -1,0 +1,21 @@
+<div class="portal-modal">
+    <div id="resetConfiguration" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-body">
+                    <div class="title">
+                        <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                        Are you sure you want to reset the page?
+                    </div>
+                    <div class="content">
+                        <span>All settings will return to defaults. This action cannot be undone.</span><br><br>
+                    </div>
+                    <div class="actions">
+                        <button type="button" class="hb-btn hb-btn-primary" ng-click="$configCtrl.executeReset()" data-dismiss="modal">Reset</button>
+                        <button id="dismissReset" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

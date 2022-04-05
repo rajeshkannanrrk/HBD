@@ -1,0 +1,498 @@
+<sction ng-controller="headerCtrl as $headerCtrl" ng-init="$headerCtrl.init()">
+
+<% if (evalExpires !== undefined && !evalExpired) { %>
+<div class="eval-message eval-active">
+    Evaluation expires on <%=evalExpires%> should not be used for live customer data.
+    <a class="button" href="mailto:healthbotbd@microsoft.com?subject=I would like to upgrade to a pilot version">Upgrade to Pilot!</a>
+</div>
+<% } %>
+<% if (evalExpired) { %>
+    <div class="eval-message eval-expired">
+        Your evaluation period is now over
+        <a href="mailto:healthbotbd@microsoft.com?subject=I would like to upgrade to a pilot version">Upgrade to Pilot!</a>
+    </div>
+<% } %>
+
+<div class="application-header-new">
+    <div class="logo"></div>
+    <div class="brand-name">Azure Health Bot</div>
+    <div class="right-side" >
+        <div class="tenant-name" title="<%=friendly_name%>"><%=friendly_name%></div>
+        <div class="right-menu-buttons">
+            <nav role="navigation">
+                <ul role="menu">
+                    <% if (isSysAdmin) { %>
+                    <li role="menuitem" ng-class="($root.readonly === true) ? 'right-menu-button-green' : 'right-menu-button-red'">
+                        <button role="button"
+                                ng-mouseenter="$headerCtrl.menuFocused($event)"
+                                class="right-menu-button"
+                                ng-click="$headerCtrl.toggleReadOnly()"
+                                aria-label="system admin toggle for read only and read write mode">
+                            <i class="header-button-icon hb-icons" ng-class="($root.readonly === true) ? 'hb-icons-Read' : 'hb-icons-Write'" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                    <li role="menuitem">
+                        <button role="link"
+                                ng-mouseenter="$headerCtrl.menuFocused($event)"
+                                class="right-menu-button"
+                                ng-click="$headerCtrl.openAdminPortal('<%=systemPortalBaseUrl%>')"
+                                aria-label="system admin portal">
+                            <i class="header-button-icon hb-icons hb-icons-LocalAdmin" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                        <% } %>
+                    <li role="menuitem">
+                        <button role="link" ng-mouseenter="$headerCtrl.menuFocused($event)"
+                                class="right-menu-button"
+                                ng-class="$root.currentOpenedDrawer === 'webchatDrawer' ? 'active' : ''"
+                                ng-click="$headerCtrl.openWebchatDrawer()"
+                                aria-label="webchat demo">
+                            <i class="header-button-icon hb-icons hb-icons-Chat" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                    <li role="menuitem">
+                        <button role="link" class="right-menu-button"
+                                ng-mouseenter="$headerCtrl.menuFocused($event)"
+                                ng-class="$root.currentOpenedDrawer === 'feedbackDrawer' ? 'active' : ''"
+                                ng-click="$headerCtrl.openFeedbackDrawer()"
+                                aria-label="feedback">
+                            <i class="header-button-icon hb-icons hb-icons-Feedback" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                    <li role="menuitem">
+                        <button title="portal setting" aria-roledescription="3 items" class="right-menu-button"
+                                ng-mouseenter="$headerCtrl.menuFocused($event);$headerCtrl.readPlanData()"
+                                ng-click="$headerCtrl.readPlanData()">
+                            <i class="header-button-icon hb-icons hb-icons-Settings" aria-hidden="true"></i>
+                        </button>
+                        <ul role="menu" class="dropdown" style="width: 300px;">
+                            <div class="plan-details" ng-if="$headerCtrl.planData">
+                                <div class="plan-id"><b>Plan:</b> {{$headerCtrl.planData.plan}}</div>
+                                <div class="plan-month"><b>Month:</b> {{$headerCtrl.planData.month}}</div>
+                                <div class="plan-status">
+                                    <div class="progress" style="height: 1px;">
+                                        <div ng-class="$headerCtrl.planData.cls" role="progressbar" ng-style="{'width': $headerCtrl.planData.perc + '%'}" aria-valuenow="{{$headerCtrl.planData.perc}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="message-count"><b>Included Messages: </b>{{$headerCtrl.planData.usage}}</div>
+                                <div ng-show="$headerCtrl.planData.isConsumptionPlan" class="message-count"><b>Metered Messages: </b>{{$headerCtrl.planData.meteredMsgs}}</div>
+
+                                <div ng-show="$headerCtrl.planData.isConsumptionPlan || (['free', 'F0'].includes($headerCtrl.planData.planId) && $headerCtrl.planData.maxMCUs)">
+                                    <div class="plan-status" style="margin-top: 20px;">
+                                        <div class="progress" style="height: 1px;">
+                                            <div ng-class="$headerCtrl.planData.clsMcu" role="progressbar" ng-style="{'width': $headerCtrl.planData.percMcu + '%'}" aria-valuenow="{{$headerCtrl.planData.percMcu}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="message-count"><b>Included MCUs: </b>{{$headerCtrl.planData.mcuUsage}}</div>
+                                    <div ng-show="$headerCtrl.planData.isConsumptionPlan" class="message-count"><b>Metered MCUs: </b>{{$headerCtrl.planData.meteredMCUs}}</div>
+                                    <div style="margin-top: 10px;">
+                                        <a href="https://aka.ms/HealthcareBotDocs/pricing_details" target="_blank" class="learn-more">Learn more about Medical Consumption Units (MCUs)</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <li role="menuitem">
+                                <button role="link" class="right-menu-sub-button"
+                                        ng-click="$headerCtrl.openPortalInfoDrawer()"
+                                        aria-label="1 - Portal information">Portal information</button>
+                            </li>
+                            <li role="menuitem">
+                                <button role="link" class="right-menu-sub-button"
+                                        ng-click="$headerCtrl.backup()"
+                                        aria-label="2 - Backup">Backup</button>
+                            </li>
+                            <li role="menuitem">
+                                <button role="link" class="right-menu-sub-button"
+                                        ng-click="$headerCtrl.showRestore()"
+                                        aria-label="3 - Restore">Restore</button>
+                            </li>
+                            <% if (isSysAdmin) { %>
+                                <li role="menuitem">
+                                    <button role="link" class="right-menu-sub-button red-text"
+                                            ng-click="$headerCtrl.backup('json')"
+                                            aria-label="hidden. Backup not encrypted">Backup not encrypted</button>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </li>
+                    <li role="menuitem">
+                        <button title="help" aria-roledescription="2 items"
+                                ng-mouseenter="$headerCtrl.menuFocused($event)"
+                                class="right-menu-button">
+                            <i class="header-button-icon hb-icons hb-icons-Help" aria-hidden="true"></i>
+                        </button>
+                        <ul role="menu" class="dropdown">
+                            <li role="menuitem">
+                                <button role="link"
+                                        class="right-menu-sub-button"
+                                        ng-click="$headerCtrl.openSupportLink()"
+                                        aria-label="1 - Support">
+                                    Support
+                                    <i class="hb-icons hb-icons-CallingApp" aria-hidden="true"></i>
+                                </button>
+                            </li>
+                            <li role="menuitem">
+                                <button role="link"
+                                        class="right-menu-sub-button"
+                                        ng-click="$headerCtrl.openDocumentationLink()"
+                                        aria-label="2 -  Documentation">
+                                    Documentation
+                                    <i class="hb-icons hb-icons-Documentation" aria-hidden="true"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li role="menuitem">
+                        <button title="user" aria-roledescription="2 items" ng-mouseenter="$headerCtrl.menuFocused($event)"
+                                class="right-menu-button">
+                            <div class="user-initials"><%=user.initials%></div>
+                        </button>
+                        <ul role="menu" class="dropdown">
+                            <div class="menu-title">
+                                <div class="user-initials"><%=user.initials%></div>
+                                <div class="user-info">
+                                    <div class="user-name"><%=user.displayName%></div>
+                                    <div class="user-email"><%=user.email%></div>
+                                    <div class="user-role">
+                                        <% if (isSysAdmin) {%>
+                                            System Admin
+                                        <%} else if (isAdmin) {%>
+                                            Admin
+                                        <%} else if (isEditor) {%>
+                                            Editor
+                                        <%} else if (isCSS) {%>
+                                            Customer Services
+                                        <%} else {%>
+                                            Reader
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <% if (azureResourceId) { %>
+                            <li role="menuitem">
+                                <button role="link"
+                                        class="right-menu-sub-button"
+                                        ng-click="$headerCtrl.openAzureResource('<%=azureResourceLink%>')"
+                                        aria-label="Manage Azure resource">
+                                    Manage Azure resource
+                                </button>
+                            </li>
+                            <% } %>
+                            <li role="menuitem">
+                                <button role="link"
+                                        class="right-menu-sub-button"
+                                        ng-click="$headerCtrl.openAdminPortal('<%=adminPortalBaseUrl%>')"
+                                        aria-label="Manage marketplace bots">
+                                    Manage marketplace bots
+                                </button>
+                            </li>
+                            <li role="menuitem">
+                                <button role="link"
+                                        class="right-menu-sub-button"
+                                        ng-click="$headerCtrl.logout()"
+                                        aria-label="sign out">
+                                    Sign out
+                                    <i class="hb-icons hb-icons-PowerButton" aria-hidden="true"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<% if (isDeletionStatusLimited) { %>
+<div class="hb-banner limited-deleted-account-message">
+    This bot has been deleted by your account administrator. Data will remain accessible until &nbsp<%=accessExpirationDate%>
+</div>
+<% } %>
+
+    <!-- Health Bot Portal Feedback Drawer -->
+    <div class="drawer" id="feedbackDrawer">
+        <div class="drawer-container">
+            <button class="hb-btn hb-btn-drawer-close" ng-click="$headerCtrl.closeDrawer('feedbackDrawer')" aria-label="close feedback drawer">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h4 class="feedback-header">Azure Health Bot</h4>
+            <label>How satisfied are you with the Azure Health Bot?<span class="mandatory-field">*</span></label>
+            <div class="data-item">
+                <div style="margin-bottom: 11px;">
+                    <div class="radio">
+                        <input type="radio" id="reason1" name="reason" value="5" ng-model="$headerCtrl.feedbackScore">
+                        <label for="reason1" aria-label="reason for feedback - Very satisfied">Very satisfied</label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" id="reason2" name="reason" value="4" ng-model="$headerCtrl.feedbackScore">
+                        <label for="reason2" aria-label="reason for feedback - Somewhat satisfied">Somewhat satisfied</label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" id="reason3" name="reason" value="3" ng-model="$headerCtrl.feedbackScore">
+                        <label for="reason3" aria-label="reason for feedback - Not satisfied or dissatisfied">Not satisfied or dissatisfied</label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" id="reason4" name="reason" value="2" ng-model="$headerCtrl.feedbackScore">
+                        <label for="reason4" aria-label="reason for feedback - Somewhat dissatisfied">Somewhat dissatisfied</label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" id="reason5" name="reason" value="1" ng-model="$headerCtrl.feedbackScore">
+                        <label for="reason5" aria-label="reason for feedback - Very dissatisfied">Very dissatisfied</label>
+                    </div>
+                    <label for="modelName" class="required">Feedback and Suggestions</label>
+                    <textarea id="feedback-text" class="form-control" style="width: 100%; height: 250px;"
+                              placeholder="Tell us about your experience..."
+                              ng-style="{'border-color': ($headerCtrl.feedbackValidation.feedbackErrReason == 'MissingText') ? 'red' : 'lightgray'}"
+                              ng-model="$headerCtrl.feedbackText" aria-required="true" aria-label="{{$headerCtrl.feedbackValidation.emptyFeedbackErr || 'feedback text'}}"></textarea>
+                    <span ng-if="$headerCtrl.feedbackValidation.emptyFeedbackErr"
+                          class="form-err-message">{{$headerCtrl.feedbackValidation.emptyFeedbackErr}}</span>
+            </div>
+            <label class="email-confirmation-label">
+                <input type="checkbox" class="email-confirmation-input" ng-model="$headerCtrl.includeEmail" name="email"> Yes, it's OK to email me about my feedback.
+            </label>
+            <a href="https://privacy.microsoft.com/en-gb/privacystatement" style="float: right;padding-top: 5px;" target="_blank" class="clickable-text">Your privacy is important to us</a>
+        </div>
+        <div class="drawer-buttons-feedback">
+            <button ng-if="!$headerCtrl.sendingFeedback" type="submit" class="hb-btn hb-btn-primary drawer-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else {%> ng-click="$headerCtrl.submitFeedback()" <%}%>>Submit</button>
+            <button ng-if="!$headerCtrl.sendingFeedback" type="button" class="hb-btn hb-btn-secondary drawer-button" ng-click="$headerCtrl.closeDrawer('feedbackDrawer')">Cancel</button>
+            <i ng-if="$headerCtrl.sendingFeedback" class='hb-icons hb-icons-ProgressRing6 hb-icons-spin'></i>
+            <span ng-if="$headerCtrl.sendingFeedback"> sending feedback, please wait</span>
+        </div>
+    </div>
+</div>
+
+<!-- Health Bot Portal settings drawer -->
+<div class="drawer" id="portalSettingsDrawer">
+    <div class="drawer-container">
+        <button class="hb-btn hb-btn-drawer-close" ng-click="$headerCtrl.closeDrawer('portalSettingsDrawer')" aria-label="close portal info drawer">
+            <i class="hb-icons hb-icons-Cancel"></i>
+        </button>
+        <h4>Portal info</h4>
+            <div class="data-item">
+                <div class="data-item-title">Tenant name:</div>
+                <div class="data-item-sub-title"><%=friendly_name%></div>
+            </div>
+            <div class="data-item">
+                <div class="data-item-title">Login method:</div>
+                <div class="data-item-sub-title"><%if (user_management === 'portal') {%>Live ID<%} else {%>Azure Active Directory<%}%></div>
+            </div>
+            <div class="data-item">
+                <div class="data-item-title">Portal version</div>
+                <div class="data-item-sub-title"><%=build_version%></div>
+            </div>
+            <div class="drawer-buttons">
+                <button type="button" class="hb-btn hb-btn-primary drawer-button" ng-click="$headerCtrl.closeDrawer('portalSettingsDrawer')">Done</button>
+            </div>
+    </div>
+</div>
+
+<!-- Health Bot Portal WebChat Demo Drawer -->
+<div class="drawer" id="webchatDrawer">
+    <div class="drawer-container" style="">
+        <div class="data-item">
+            <button class="hb-btn hb-btn-drawer-close" ng-click="$headerCtrl.closeDrawer('webchatDrawer')" style="z-index: 10; color: white;top: 5px;height: 30px;background-color: transparent;" aria-label="close webchat demo drawer">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+        </div>
+        <div class="data-item">
+            <div class="webchat-loading">Webchat is loading, please wait</div>
+            <iframe role="application" title="bot chat window" id="webChatIframe" style="position: absolute; top:38px; left: 0; width: 100%; height: calc(100% - 38px); border: 0; background-color: white; opacity: 0; transition: opacity 0.2s linear" webchat="/resources/webchat/index.html" domain="<%=directlineDomain%>"></iframe>
+            <label style="display: none" id="webchat-locale">webchat language, current locale is</label>
+            <select aria-labelledby="webchat-locale" id="webchat-locale-picker" class="webchat-locale-picker form-control"
+                    ng-if = "$headerCtrl.webchat_locales.length > 0"
+                    ng-model="$headerCtrl.webchat_locale.selected"
+                    ng-change="$headerCtrl.changeWebChatLocale()">
+                <option ng-repeat="locale in $headerCtrl.webchat_locales track by $index">{{locale}}</option>
+            </select>
+            <span style="position: absolute; color: white;top: 10px; left: 10px;">Web Chat v4 </span>
+        </div>
+    </div>
+</div>
+
+<!-- Health Bot Portal Restore Drawer -->
+<div class="drawer" id="portalRestoreDrawer">
+    <div class="drawer-container">
+        <button class="hb-btn hb-btn-drawer-close" ng-click="$headerCtrl.closeDrawer('portalRestoreDrawer')" aria-label="close restore drawer">
+            <i class="hb-icons hb-icons-Cancel"></i>
+        </button>
+        <h4>Restore from backup</h4>
+        <form ng-submit="">
+            <p>Easily restore bot assets and configurations</p>
+            <div class="data-item">
+                <label for="fileSelector">Select the file you would like to restore</label>
+                <div class="hb-file-selector" onclick="$('#fileSelector').trigger('click')">
+                    <input disabled type="text" id="filePath" aria-label="dsa"/>
+                    <button class="hb-btn hb-btn-primary" aria-label="restore file selector"><i class="hb-icons hb-icons-FolderOpen"></i></button>
+                </div>
+                <input type="file" id="fileSelector" style="display: none" onchange='$("#filePath").val($(this).val().split("\\").pop());'/>
+            </div>
+            <span ng-if="$headerCtrl.validationError" class="form-err-message">{{$headerCtrl.validationError}}</span>
+            <div class="footnote">
+                <div class="bullet"><b>Configurations</b> will be deleted and replaced by the configurations in the backup image.</div>
+                <div class="bullet"><b>Assets with matching names</b> will be replaced by respective assets in the backup image.</div>
+                <div class="bullet"><b>Assets with unique names</b> will be merged with the assets in the backup image.</div>
+                <div class="warning">This action cannot be undone. type "<b>Restore</b>" to confirm this action</div>
+                <input type="text" ng-model="$headerCtrl.ack" ng-change="$headerCtrl.ackChanged()" aria-label="verification field. type restore">
+            </div>
+            <div class="drawer-buttons">
+                <% if (isSysAdmin || isAdmin || isEditor) { %>
+                    <button ng-disabled="$headerCtrl.ack !== 'Restore'" type="button" ng-click="$headerCtrl.restore()" class="hb-btn hb-btn-primary drawer-button">Restore</button>
+                <% } %>
+                <button type="button" class="hb-btn hb-btn-secondary drawer-button" ng-click="$headerCtrl.closeDrawer('portalRestoreDrawer')">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Health Bot Portal Logged-Out Modal -->
+<div class="portal-modal">
+    <div id="loggedOut" class="modal fade" role="dialog" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="title text-center">
+                        Signed out successfully
+                    </div>
+                    <div class="content text-center">
+                        <button class="hb-btn hb-btn-primary" ng-click="$headerCtrl.login()">Login</button>
+                    </div>
+                    <div class="actions">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tenant Satisfaction Survey Modal -->
+<div class="portal-modal">
+    <div id="tenant-satisfaction-survey-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" >
+                <div class="modal-body">
+                    <div class="title">
+                        <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal" ng-click="$headerCtrl.closeSurvey($headerCtrl.tenantSatisfaction)" >
+                            <i class="hb-icons hb-icons-Cancel"></i>
+                        </button>
+                        <h4>Provide Feedback</h4>
+                    </div>
+                    <div class="content">
+                        
+                        <div class="survey-section">
+                            <div class="survey-question">
+                                How likely are you to recommend the Azure Health Bot service to another person?
+                            </div>
+                            <div class="survey-radio-group">
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.nps" value="1" id="survey-nps-very-unlikely">
+                                    <label for="survey-nps-very-unlikely">Very unlikely</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.nps" value="2" id="survey-nps-unlikely">
+                                    <label for="survey-nps-unlikely">Unlikely</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.nps" value="3" id="survey-nps-neither">
+                                    <label for="survey-nps-neither">Neither likely or unlikely</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.nps" value="4" id="survey-nps-likely">
+                                    <label for="survey-nps-likely">Likely</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.nps" value="5" id="survey-nps-very-likely">
+                                    <label for="survey-nps-very-likely">Very likely</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="survey-section">
+                            <div class="survey-question">
+                                How easy or difficult was it to use the Azure Health Bot service?
+                            </div>
+                            <div class="survey-radio-group">
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.ces" value="1" id="survey-ces-very-difficult">
+                                    <label for="survey-ces-very-difficult">Very difficult</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.ces" value="2" id="survey-ces-difficult">
+                                    <label for="survey-ces-difficult">Difficult</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.ces" value="3" id="survey-ces-neither">
+                                    <label for="survey-ces-neither">Neither easy or difficult</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.ces" value="4" id="survey-ces-easy">
+                                    <label for="survey-ces-easy">Easy</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.ces" value="5" id="survey-ces-very-easy">
+                                    <label for="survey-ces-very-easy">Very easy</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="survey-section">
+                            <div class="survey-question">
+                                How valuable is the Azure Health Bot service?
+                            </div>
+                            <div class="survey-radio-group">
+                                <label>Not valuable</label>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.cva" value="1" id="survey-cva-1">
+                                    <label for="survey-cva-1">1</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.cva" value="2" id="survey-cva-2">
+                                    <label for="survey-cva-2">2</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.cva" value="3" id="survey-cva-3">
+                                    <label for="survey-cva-3">3</label>
+                                </div>
+                                <div class="survey-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.cva" value="4" id="survey-cva-4">
+                                    <label for="survey-cva-4">4</label>
+                                </div>
+                                <div class="survey-radio-option last-radio-option">
+                                    <input type="radio" ng-model="$headerCtrl.tenantSatisfaction.cva" value="5" id="survey-cva-5">
+                                    <label for="survey-cva-5">5</label>
+                                </div>
+                                <label>Very valuable</label>
+                            </div>
+                        </div>
+                        <div class="survey-section">
+                            <textarea id="surveyText" class="form-control" style="width: 100%; height: 250px;"
+                                placeholder="Tell us more about your experience"
+                                ng-model="$headerCtrl.tenantSatisfaction.text">
+                            </textarea>
+                        </div>
+                        <div class="survey-section">
+                            <label class="checkbox-label" for="can-email">
+                                <input type="checkbox" style="height: 15px;" ng-model="$headerCtrl.tenantSatisfaction.canEmail" id="can-email">
+                                Microsoft can email you about your feedback
+                                <a href="https://privacy.microsoft.com/en-gb/privacystatement" target="_blank" class="clickable-text">
+                                    Microsoft Privacy Statement
+                                </a>
+                            </label>
+                        </div>
+                        <div class="survey-section survey-bottom">
+                            <div class="survey-actions">
+                                <button type="button" class="hb-btn hb-btn-primary" ng-click="$headerCtrl.submitSurvey($headerCtrl.tenantSatisfaction)" data-dismiss="modal" ng-disabled="!$headerCtrl.canSubmitSurvey()">Submit</button>
+                                <button type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal" ng-click="$headerCtrl.closeSurvey($headerCtrl.tenantSatisfaction)" >
+                                    Not right now
+                                </button>
+                            </div>
+                            <div class="dont-show-div">
+                                <label class="checkbox-label" for="dont-show-survey">
+                                    <input type="checkbox" style="height: 15px;" ng-model="$headerCtrl.tenantSatisfaction.dontShow" id="dont-show-survey">
+                                    Don't show this again
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</sction>

@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Mocha Tests Dashboard",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/test"
+            ],
+            "cwd": "${workspaceRoot}",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "Launch Dashboard (local)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/app.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "restart": true,
+            "preLaunchTask": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_CONFIG_DIR": "../config",
+                "NODE_APP_INSTANCE": "local",
+                "HOST": "dev",
+                "PORT": "8082",
+                "ApplicationInsightsInstrumentationKey": "e23b065c-d72b-46e6-a3b7-62680a044337"
+            },
+            "console": "integratedTerminal",
+            "sourceMaps": true
+        }
+    ]
+}

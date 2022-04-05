@@ -1,0 +1,96 @@
+<hb-page-header title="Navigation"
+                sub-title-line1="Built-in scenarios that help the end user navigate conversations."
+></hb-page-header>
+<div class="hb-section-details">
+    <section class="config-section" id="cancel">
+        <div class="config-section-title">
+            <h4 class="section-name">Cancel</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Cancel</h3>
+                        <div class="preview-text">
+                            End users can type "cancel" to end the currently active scenario.
+                        </div>
+                        <div class="preview-learn-more"><a class="clickable-text" href="https://aka.ms/HealthBotDocs/cancelling" target="_blank">Learn more</a></div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/cancel.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Cancellation message"
+                        info="This message is displayed to the end user after cancelling the scenario"
+                        variable="$configCtrl.data.cancel.cancel_reply"></config-textbox>
+    </section>
+    <section class="config-section" id="startOver">
+        <div class="config-section-title">
+            <h4 class="section-name">Start over</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Start over</h3>
+                        <div class="preview-text">End users can type "Start over" to return to the beginning of an active scenario.</div>
+                        <img alt class="preview-img"
+                             src="/resources/images/configPreviews/startover.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Confirmation message"
+                        info="This message is displayed to the end user before starting over the current scenario"
+                        variable="$configCtrl.data.start_over.start_over_reply"></config-textbox>
+    </section>
+    <% if (isSysAdmin) { %>
+    <section class="config-section system-admin-field" id="version">
+        <div class="config-section-title">
+            <h4 class="section-name">Version</h4>
+        </div>
+        <config-boolean ctrl="$configCtrl"
+                        label="Interrupting scenario"
+                        variable="$configCtrl.data.version.interrupting"></config-boolean>
+        <config-boolean ctrl="$configCtrl"
+                        label="Breaking scenario"
+                        variable="$configCtrl.data.version.breaking"></config-boolean>
+    </section>
+    <section class="config-section system-admin-field" id="begin">
+        <div class="config-section-title">
+            <h4 class="section-name">Begin</h4>
+        </div>
+        <config-boolean ctrl="$configCtrl"
+                        label="Interrupting scenario"
+                        variable="$configCtrl.data.begin.interrupting"></config-boolean>
+        <config-boolean ctrl="$configCtrl"
+                        label="Breaking scenario"
+                        variable="$configCtrl.data.begin.breaking"></config-boolean>
+    </section>
+    <% } %>
+
+    <section class="config-section" id="help">
+        <div class="config-section-title">
+            <h4 class="section-name">Help</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Help</h3>
+                        <div class="preview-text">End users can type "Help" to see a menu of helpful commands.</div>
+                        <div class="preview-learn-more"><a class="clickable-text" href="https://aka.ms/HealthBotDocs/help" target="_blank">Learn more</a></div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/help.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-textbox ctrl="$configCtrl"
+                        label="Help menu title"
+                        variable="$configCtrl.data.help.reply"></config-textbox>
+        <config-table ctrl="$configCtrl"
+                      fields="[['', 'text', 8, 'localizedText', 'Enter text'], ['Interrupting', 'interrupting', 1, 'boolean']]"
+                      label="Help menu"
+                      table-id="helpMenu"
+                      variable="$configCtrl.data.help.menuItems"></config-table>
+    </section>
+</div>

@@ -1,0 +1,22 @@
+<div class="config-item" ng-class="variable._changed ? 'not-saved' :  ''">
+    <div ng-if="label !== undefined" class="config-item-name">
+        {{label}}
+        <button aria-label="{{label}} - {{info}}"
+                ng-if="info !== undefined" class="info-button">
+            <div class="hb-hover-info">{{info}}</div>
+        </button>
+    </div>
+    <div class="rangeContainer">
+        <input role="range"
+               type="range"
+               aria-label="{{label}}"
+               id="{{id}}"
+               class="slider"
+               min="{{min}}"
+               max="{{max}}"
+               ng-model="variable._tenant"
+               ng-change="ctrl.selectSingleRange(id, variable)">
+        <output aria-hidden="true" class="slider-value"
+                ng-style="{'padding-left': (205 * (variable._tenant - min) / (max - min)) + 'px'}">{{variable._tenant}}</output>
+    </div>
+</div>

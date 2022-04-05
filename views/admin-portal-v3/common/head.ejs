@@ -1,0 +1,125 @@
+<meta charset="UTF-8">
+<title>Azure Health Bot</title>
+
+<!-- Icon -->
+<link rel="icon" type="image/png" href="/resources/images/logo.jpg" />
+
+<!-- jQuery Engine -->
+<script src="/node_modules/jquery/dist/jquery.min.js?build=#{Build.BuildNumber}#"></script>
+<script src="/node_modules/jquery-migrate/dist/jquery-migrate.min.js?build=#{Build.BuildNumber}#"></script>
+
+<!-- jQueryUI-->
+<script src="/node_modules/jquery-ui-dist/jquery-ui.js?build=#{Build.BuildNumber}#"></script>
+<link rel="stylesheet" href="/node_modules/jquery-ui-dist/jquery-ui.css?build=#{Build.BuildNumber}#"/>
+<!-- Bootstrap 3.x -->
+<link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css?build=#{Build.BuildNumber}#">
+<script src="/node_modules/popper.js/dist/umd/popper.min.js?build=#{Build.BuildNumber}#"></script>
+<script src="/node_modules/bootstrap/dist/js/bootstrap.min.js?build=#{Build.BuildNumber}#"></script>
+<script src="/node_modules/bootstrap-confirmation2/dist/bootstrap-confirmation.js?build=#{Build.BuildNumber}#"></script>
+
+<!-- toastr -->
+<script src="/node_modules/toastr/build/toastr.min.js?build=#{Build.BuildNumber}#"></script>
+<link rel="stylesheet" href="/node_modules/toastr/build/toastr.min.css?build=#{Build.BuildNumber}#">
+
+<!-- underscoreJS -->
+<script src="/node_modules/underscore/underscore.js?build=#{Build.BuildNumber}#"></script>
+
+<!-- momentJS -->
+<script src="/node_modules/moment/min/moment.min.js?build=#{Build.BuildNumber}#"></script>
+
+<!--SheetJS-->
+<script src="/node_modules/xlsx/dist/xlsx.full.min.js?build=#{Build.BuildNumber}#"></script>
+
+<!-- Socket.IO -->
+<script type="text/javascript" src="/node_modules/socket.io-client/dist/socket.io.js?build=#{Build.BuildNumber}#"></script>
+
+<!-- DataTables -->
+<link rel="stylesheet" type="text/css" href="/node_modules/datatables.net-dt/css/jquery.dataTables.css?build=#{Build.BuildNumber}#">
+<script type="text/javascript" charset="utf8" src="/node_modules/datatables.net/js/jquery.dataTables.js?build=#{Build.BuildNumber}#"></script>
+
+<!-- Angular 1 Engine -->
+<script src="/node_modules/angular/angular.js?build=#{Build.BuildNumber}#"></script>
+<script src="/node_modules/angular-local-storage/dist/angular-local-storage.min.js?build=#{Build.BuildNumber}#"></script>
+<script src="/node_modules/angular-momentjs/angular-momentjs.min.js?build=#{Build.BuildNumber}#"></script>
+
+<!-- Office Fabric JS -->
+<link rel="stylesheet" href="/node_modules/office-ui-fabric-js/dist/css/fabric.min.css" />
+<link rel="stylesheet" href="/node_modules/office-ui-fabric-js/dist/css/fabric.components.min.css" />
+<script src="/node_modules/office-ui-fabric-js/dist/js/fabric.min.js"></script>
+
+<!-- ngSanitize and ui-select -->
+<script src="/node_modules/angular-sanitize/angular-sanitize.js?build=#{Build.BuildNumber}#"></script>
+<script src="/node_modules/ui-select/dist/select.js?build=#{Build.BuildNumber}#"></script>
+<link rel="stylesheet" href="/node_modules/ui-select/dist/select.css?build=#{Build.BuildNumber}#">
+
+
+<!-- Health Bot Management Portal Angular Application -->
+<script src="/resources/angularApps/admin-portal-v3/angularApp.js?build=#{Build.BuildNumber}#"></script>
+
+<script src="/resources/angularApps/admin-portal-v3/controllers/controllers.module.js?build=#{Build.BuildNumber}#"></script>
+<script src="/resources/angularApps/admin-portal-v3/controllers/main.controller.js?build=#{Build.BuildNumber}#"></script>
+<script src="/resources/angularApps/_common/controllers/header.controller.js?build=#{Build.BuildNumber}#"></script>
+<script src="/resources/angularApps/_common/controllers/session-manager.controller.js?build=#{Build.BuildNumber}#"></script>
+
+<script src="/resources/angularApps/admin-portal-v3/services/services.module.js?build=#{Build.BuildNumber}#"></script>
+
+<script src="/resources/angularApps/admin-portal-v3/directives/directives.module.js?build=#{Build.BuildNumber}#"></script>
+<script src="/resources/angularApps/admin-portal-v3/directives/portal/hb-page-header.directive.js?build=#{Build.BuildNumber}#"></script>
+<script src="/resources/angularApps/admin-portal-v3/directives/portal/hb-page-off.directive.js?build=#{Build.BuildNumber}#"></script>
+<script src="/resources/angularApps/admin-portal-v3/directives/portal/hb-info-button.directive.js?build=#{Build.BuildNumber}#"></script>
+
+<script src="/resources/angularApps/admin-portal-v3/objects/objects.module.js?build=#{Build.BuildNumber}#"></script>
+<script src="/resources/angularApps/admin-portal-v3/objects/modal.object.js?build=#{Build.BuildNumber}#"></script>
+
+<script>registerHeaderController('adminPortalApp');</script>
+<script>registerSessionManager('adminPortalApp');</script>
+
+<!-- Health Bot Management Portal CSS -->
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-buttons.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-controls-panel.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-drawer.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-icons.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-info-button.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-spinner.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-modal.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-localized-string-picker.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-session-to.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-tables.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-ui-select.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/portal-structure.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/portal-header.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/portal-navbar.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/portal-navbar-minimized.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/portal-main.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/page-scenarios.css?build=#{Build.BuildNumber}#">
+<link rel="stylesheet" href="/resources/css/admin-portal-v3/page-audit-trails.css?build=#{Build.BuildNumber}#">
+
+<!-- Confirm -->
+<link rel="stylesheet" href="/node_modules/angular-confirm1/dist/angular-confirm.min.css"/>
+<script src="/node_modules/angular-confirm1/dist/angular-confirm.min.js"></script>
+
+<script src="/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js?build=#{Build.BuildNumber}#"></script>
+<!-- Health Bot Management Portal action menu-->
+<script>
+    function closeAllActionMenues() {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+    window.onclick = function(event) {
+        if (!event.target.classList.contains('dropbtn')) {
+            closeAllActionMenues();
+        }
+    }
+
+    $(document).ready(function() {
+        <% if (isDeletionStatusLimited) { %>
+        $('body')[0].setAttribute("banner", "visible")
+        <% } %>
+    });
+</script>

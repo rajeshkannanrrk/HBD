@@ -1,0 +1,114 @@
+<hb-page-header title="Medical information"
+                sub-title-line1="Configure how information about medical concepts and conditions is displayed."
+></hb-page-header>
+<div class="hb-section-details">
+
+    <h3 style="font-weight: normal">
+        MedlinePlus (US National Library of Medicine) Settings
+    </h3>
+
+    <section class="config-section" id="general-medical-information">
+        <div class="config-section-title">
+            <h4 class="section-name">General medical concepts</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">General medical concepts</h3>
+                        <div class="preview-text">End users can ask for general information about a medical concept.</div>
+                        <img alt class="preview-img"
+                             src="/resources/images/configPreviews/medical_info_general_nih.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-boolean ctrl="$configCtrl"
+                        label="Interrupting scenario"
+                        info="Allow the general medical concepts scenario to interrupt other scenarios whilst they are active"
+                        variable="$configCtrl.data.general.interrupting"></config-boolean>
+        <config-textbox ctrl="$configCtrl"
+                        label="Message to display when no medical information can be found"
+                        variable="$configCtrl.data.general.information_answer_not_found_text"></config-textbox>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-boolean ctrl="$configCtrl"
+                            label="Breaking scenario"
+                            info="Triggering symptoms dialog replaces interrupted dialog"
+                            variable="$configCtrl.data.general.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+    <section class="config-section" id="symptoms">
+        <div class="config-section-title">
+            <h4 class="section-name">Symptoms</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Symptoms</h3>
+                        <div class="preview-text">End users can ask about the symptoms of a medical condition.</div>
+                        <img alt class="preview-img"
+                             src="/resources/images/configPreviews/medical_info_symptoms_nih.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-boolean ctrl="$configCtrl"
+                        label="Interrupting scenario"
+                        info="Allow the symptoms scenario to interrupt other scenarios whilst they are active"
+                        variable="$configCtrl.data.symptoms.interrupting"></config-boolean>
+        <config-textbox ctrl="$configCtrl"
+                        label="Response title when information about symptoms is found"
+                        variable="$configCtrl.data.symptoms.symptoms_answer_title_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Response when no information about symptoms can be found"
+                        variable="$configCtrl.data.symptoms.symptoms_answer_not_found_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Response title when multiple links to information about symptoms are found"
+                        variable="$configCtrl.data.symptoms.symptoms_links_multiple_title_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Response title when a single link to information about symptoms is found"
+                        variable="$configCtrl.data.symptoms.symptoms_links_single_title_text"></config-textbox>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-boolean ctrl="$configCtrl"
+                            label="Breaking scenario"
+                            info="Triggering symptoms dialog replaces interrupted dialog"
+                            variable="$configCtrl.data.symptoms.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+    <section class="config-section" id="onlineMedicalResources">
+        <div class="config-section-title">
+            <h4 class="section-name">Online medical resources</h4>
+            <div class="preview">
+                <button title="section info" role="tooltip" class="preview-button">
+                    <div class="preview-content">
+                        <div class="preview-arrow-left"></div>
+                        <h3 class="preview-title">Online medical resources</h3>
+                        <div class="preview-text">End users can ask for online resources about a medical concept. </div>
+                        <img alt class="preview-img" src="/resources/images/configPreviews/medical_info_resources_nih.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+        <config-boolean ctrl="$configCtrl"
+                        label="Interrupting scenario"
+                        info="Allow the online medical resources scenario to interrupt other scenarios whilst they are active"
+                        variable="$configCtrl.data.onlineMedicalResources.interrupting"></config-boolean>
+        <config-textbox ctrl="$configCtrl"
+                        label="Response title when online resources have been found"
+                        variable="$configCtrl.data.onlineMedicalResources.resources_answer_title_text"></config-textbox>
+        <config-textbox ctrl="$configCtrl"
+                        label="Response when no online resources can be found"
+                        variable="$configCtrl.data.onlineMedicalResources.resources_answer_not_found_text"></config-textbox>
+        <% if (isSysAdmin) { %>
+        <section class="system-admin-field">
+            <config-boolean ctrl="$configCtrl"
+                            label="Breaking scenario"
+                            info="Triggering symptoms dialog replaces interrupted dialog"
+                            variable="$configCtrl.data.onlineMedicalResources.breaking"></config-boolean>
+        </section>
+        <% } %>
+    </section>
+</div>

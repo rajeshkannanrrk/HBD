@@ -1,0 +1,147 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-integration.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/integration.channels.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+    <section ng-controller="channelsCtrl as $channelsCtrl" ng-init="$channelsCtrl.init()">
+        <%- include('../common/body.ejs'); %>
+        <%- include('../common/portal-header.ejs'); %>
+        <%- include('../common/portal-navigation-panel.ejs'); %>
+        <input type="hidden" id="tenantName" value="<%=tenantName%>">
+        <input type="hidden" id="app_id" value="<%=app_id%>">
+
+        <div class="application-body">
+            <div class="controls-panel">
+                <button aria-label="refresh skills list" class="control-button" ng-click="$channelsCtrl.init()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                    <span class="control-button-label">Refresh</span>
+                </button>
+            </div>            
+            <div class="data-container">
+                <div class="hb-section-details" role="heading" aria-level="1">
+                    <div class="title">Channels</div>
+                    <div class="sub-title">
+                        <p style="display: inline-block">Make your Healthcare bot available on multiple channels.</p>
+                        <a href="https://aka.ms/HBSChannels" target="_blank">Learn More</a>            
+                    </div>
+                </div>                                                                
+                <table class="table table-striped table-bordered" aria-label="channels list">
+                    <tr>
+                        <th style="width: 10%;">
+                            Active
+                        </th>
+                        <th>
+                            Channel
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                </tr>                
+                    <tr ng-repeat="item in $channelsCtrl.channels track by $index">
+                        <td>
+                            <button class="hb-btn hb-btn-toggle"
+                                    role="switch"
+                                    aria-checked="{{item.active ? 'true' : 'false'}}"
+                                    aria-label="channel active state"
+                                    <% if (isSysAdmin || isAdmin) { %>ng-click="$channelsCtrl.activeToggle(item)" <% } %>>
+                                <div ng-class="item.class" hb-on="" hb-off=""></div>
+                            </button>    
+                        </td>
+                        <td>
+                            <img alt ng-src="{{item.iconUrl}}" style="width:30px">
+                            {{item.name}}
+                        </td>
+                        <td>             
+                            
+                            <button class="hb-btn hb-btn-action"
+                                    ng-show="item.active"
+                                    aria-label="view channel {{item.name}}"
+                                    title="View"
+                                    <% if (isSysAdmin || isAdmin) { %>ng-click="$channelsCtrl.showEditItemDrawer(item)"><%}else{%>disabled<%}%>
+                                <i class="hb-icons hb-icons-Edit"></i>
+                                {{item.actionName}}
+                            </button>                                
+                            <button class="hb-btn hb-btn-action"
+                                    ng-show="item.testUrl && item.active"
+                                    aria-label="test channel {{item.name}}"
+                                    title="Test"
+                                    ng-click="$channelsCtrl.testChannel(item)">
+                                <i class="hb-icons hb-icons-Play"></i>
+                                Test
+                            </button>                                
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    Other <a href="https://aka.ms/HBSBFChannels" target="_blank">Azure Bot Framework channels</a> can be enabled by submitting a support request. <a href='https://aka.ms/HealthBot/support' target="_blank">Contact support</a>
+                    <br><br>
+                </div>
+                <div id="bot-icon" class="hb-section-details" role="heading" aria-level="2">
+                    <div class="section-title"><h4 class="section-name">Bot Icon</h4></div>
+                    <div class="sub-title">
+                        <p style="display: inline-block">Bot Icon will be displayed in supported channels</p>            
+                    </div>
+                    <div class="data-item">
+                        <img alt="your icon preview" ng-show="$channelsCtrl.validIconFile" ng-src="{{$channelsCtrl.iconUrl}}" title="Upload Icon">
+                        <div style="position:relative;" class="hb-upload-button">
+                            <input type="file"
+                                   aria-label="{{$channelsCtrl.screenReaderText ||  'Bot Icon will be displayed in supported channels. Click to choose an icon '}}"
+                                   id="iconToUpload" accept="image/x-png" class='hb-file' name="file_source"
+                                   onchange='$("#upload-file-info").html($(this).val().split("\\").pop());'>
+                            <button type="button" style="display: none" ng-click="$channelsCtrl.browseFile()" >
+                                Browse
+                            </button>
+                            &nbsp;
+                            <% if (isSysAdmin || isAdmin) { %>
+                                <span style="width: 300px;" class='hb-file-label' id="upload-file-info" onclick="$('#iconToUpload').trigger('click')">Click to choose an icon</span>
+                                <button ng-disabled="$channelsCtrl.canUpload === false" style="position: relative;left: 305px;" id="uploadIconFile" aria-label="upload file" type="button" class='hb-btn hb-btn-primary' ng-click="$channelsCtrl.uploadIcon()">
+                                    Upload
+                                </button>
+                            <% } %>
+                            <div ng-show="$channelsCtrl.iconTooLarge" style="color: red;">File is too big. Should be 30K max</div>
+                            <div ng-show="!$channelsCtrl.validIconFile" style="color: red;">Icon must be a .png file</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <%- include('./channelDrawers/webChatDrawer.ejs'); %>
+        <%- include('./channelDrawers/directLineDrawer.ejs'); %>
+        <%- include('./channelDrawers/teamsDrawer.ejs'); %>
+        <%- include('./channelDrawers/omnichannelDrawer.ejs'); %>
+        <%- include('./channelDrawers/twilioDrawer.ejs'); %>
+        <%- include('./channelDrawers/facebookDrawer.ejs'); %>
+        <%- include('./channelDrawers/telegramDrawer.ejs'); %>
+        <%- include('./channelDrawers/alexaDrawer.ejs'); %>
+        <%- include('./channelDrawers/whatsappDrawer.ejs'); %>
+
+        <div class="portal-modal">
+            <div id="deleteChannel" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content" >
+                        <div class="modal-body">
+                            <div class="title">
+                                <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                                Delete Channel
+                            </div>
+                            <div class="content">
+                                <section>
+                                    This action will delete all channel configuration information. Are you sure you want to proceed?
+                                </section>
+                            </div>
+                            <div class="actions">
+                                <button id="dismissDelete" type="button" class="hb-btn hb-btn-primary" data-dismiss="modal">No, Keep it</button>
+                                <button type="button" class="hb-btn hb-btn-secondary" ng-click="$channelsCtrl.executeDelete()" data-dismiss="modal">Yes, Delete it</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>

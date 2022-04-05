@@ -1,0 +1,48 @@
+{
+  "name": "health-bot-dashboard-client",
+  "version": "1.0.0",
+  "description": "Microsoft Health Bot Dashboard Client - build# #{Build.BuildId}#",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://mshealthil.visualstudio.com/_git/HealthBOT"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oren Barnea (Microsoft)",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "1.8.2",
+    "angular-confirm1": "^1.1.0",
+    "angular-local-storage": "0.7.1",
+    "angular-momentjs": "^0.2.2",
+    "angular-sanitize": "1.8.2",
+    "angular-ui-bootstrap": "2.5.6",
+    "bootstrap": "4.6.0",
+    "bootstrap-4-vertical-tabs": "^1.0.5",
+    "bootstrap-confirmation2": "^4.2.1",
+    "chart.js": "^2.9.3",
+    "chartjs-plugin-datalabels": "^0.7.0",
+    "datatables.net": "^1.10.16",
+    "datatables.net-dt": "^1.10.16",
+    "daterangepicker": "^3.0.5",
+    "font-awesome": "4.7.0",
+    "jquery": "3.5.1",
+    "jquery-migrate": "^3.3.1",
+    "jquery-scrollto": "1.4.6",
+    "jquery-ui-dist": "1.12.1",
+    "jsonformatter": "0.6.0",
+    "moment": "^2.27.0",
+    "monaco-editor": "^0.10.1",
+    "office-ui-fabric-js": "^1.5.0",
+    "popper.js": "^1.16.1",
+    "powerbi-client": "^2.3.1",
+    "socket.io-client": "^4.1.2",
+    "toastr": "2.1.4",
+    "ui-contextmenu": "1.18.1",
+    "ui-select": "0.19.8",
+    "underscore": "^1.8.3",
+    "xlsx": "0.17.0"
+  }
+}

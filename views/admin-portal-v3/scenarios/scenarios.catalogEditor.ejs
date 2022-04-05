@@ -1,0 +1,223 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/page-scenarios.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/admin-portal-v3/controllers/scenarios.catalogEditor.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/admin-portal-v3/directives/readfile.directive.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="scenariosCatalogEditorCtrl as $catalogEditorCtrl" ng-init="$catalogEditorCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+
+    <div class="application-body">
+        <div class="controls-panel">
+            <button class="control-button" ng-click="$catalogEditorCtrl.editTemplateDetails('begin')">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Add"></i></span>
+                <span class="control-button-label">New</span>
+            </button>
+            <button class="control-button" ng-click="$catalogEditorCtrl.refreshTemplates()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+        </div>
+
+        <div class="data-container">
+            <table class="scenario-table table-bordered">
+                <tr>
+                    <th style="cursor: pointer" class="scenario-table-short-text-column">
+                        Status
+                    </th>
+                    <th style="cursor: pointer" class="scenario-table-short-text-column">
+                        Category
+                    </th>
+                    <th style="cursor: pointer" class="scenario-table-short-text-column">
+                        Name
+                    </th>
+                    <th style="cursor: pointer" class="scenario-table-long-text-column">
+                        Description
+                    </th>
+                    <th style="cursor: pointer" class="scenario-table-short-text-column">
+                        Last Modified
+                    </th>
+                    <th style="cursor: pointer" class="scenario-table-short-text-column">
+                        Date Published
+                    </th>
+                    <th class="scenario-table-action-column"></th>
+                </tr>
+
+                <tr ng-repeat="template in $catalogEditorCtrl.templates track by $index">
+                    <td>
+                        <div class="scenario-table-short-text-cell">
+                            {{template.Status}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="scenario-table-short-text-cell">
+                            {{template.Category}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="scenario-table-short-text-cell">
+                            {{template.Name}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="scenario-table-long-text-cell">
+                            {{template.Description}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="scenario-table-short-text-cell">
+                            {{template.TimestampMoment}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="scenario-table-short-text-cell">
+                            {{template.PublishedMoment}}
+                        </div>
+                    </td>
+                    <td class="text-right" style="min-width: 60px; font-size: 12px;">
+                        <button class="hb-btn hb-btn-action"
+                                ng-click="$catalogEditorCtrl.editTemplateDetails('begin', template)">
+                            <i class="hb-icons hb-icons-Edit"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Health Bot Portal Add Edit Template Drawer -->
+    <div class="drawer" id="editTemplateDrawer">
+        <div class="drawer-container">
+            <button aria-label="close" class="hb-btn hb-btn-drawer-close" ng-click="$catalogEditorCtrl.editTemplateDetails('cancel')">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h3>{{ $catalogEditorCtrl.isNew ? 'New Catalog Template' : 'Edit Catalog Template' }}</h3>
+            <div class="drawer-main-body">
+                <div class="data-item">
+                    <label class="required">Name</label>
+                    <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="A unique internal name for your template"></i>
+                    <input type="text" class="form-control" id="name" name="name" ng-model="$catalogEditorCtrl.currentTemplate.name" ng-style="{'border-color': ($catalogEditorCtrl.validation.name) ? 'red' : ''}">
+                    <span ng-if="$catalogEditorCtrl.validation.name" class="form-err-message">{{$catalogEditorCtrl.validation.name}}</span>
+                </div>
+                <div class="data-item">
+                    <label>Category</label>
+                    <input type="text" class="form-control" id="category" name="category" ng-model="$catalogEditorCtrl.currentTemplate.category" list="categories">
+                    <datalist id="categories">
+                        <option ng-repeat="cat in $catalogEditorCtrl.templatesCategories" value="{{cat}}">
+                        </option>
+                    </datalist>
+                </div>
+                <div class="data-item">
+                    <label>Published At</label>
+                    <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="This will be presented on the tile"></i>
+                    <input type="text" class="form-control" id="publishedAt" name="publishedAt" ng-model="$catalogEditorCtrl.currentTemplate.publishedAt">
+                </div>
+                <div class="data-item">
+                    <label>Description</label>
+                    <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="A short description for your template"></i>
+                    <input type="text" class="form-control" id="description" name="description" ng-model="$catalogEditorCtrl.currentTemplate.description" rows="2"></textarea>
+                    <span ng-if="$catalogEditorCtrl.validation.description" class="form-err-message">{{$catalogEditorCtrl.validation.description}}</span>
+                </div>
+                <div class="data-item">
+                    <label>More information</label>
+                    <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="A long description for your template"></i>
+                    <input type="text" class="form-control" id="more_information" name="more_information" ng-model="$catalogEditorCtrl.currentTemplate.more_information" rows="2"></textarea>
+                </div>
+                <div class="data-item">
+                    <label>Extra Data</label>
+                    <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="Additional information added to the template description"></i>
+                    <input type="text" class="form-control" id="extra_data" name="extra_data" ng-model="$catalogEditorCtrl.currentTemplate.extra_data" rows="2"></textarea>
+                </div>
+                <div class="data-item">
+                    <label>Custom Fields</label>
+                    <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="Custom fields to be added to the template"></i>
+                    <button class="hb-btn hb-btn-primary drawer-button" ng-click="$catalogEditorCtrl.addCustomField($catalogEditorCtrl.currentTemplate.custom_fields)">Add</button>
+                    <div class="data-item custom-field" ng-repeat="field in $catalogEditorCtrl.currentTemplate.custom_fields">
+                        <input type="text" class="form-control custom-field" id="{{field.name}}" ng-model="field.name" placeholder="Name">
+                        <!-- only relevant for 'QnA maker subscription key' field name -->
+                        <input type="text" ng-if="field.name === 'QnAMaker Subscription Key'" class="form-control custom-field" id="{{field.fileName}}" ng-model="field.fileName" placeholder="KB File Name">
+                        <!-- only relevant for 'LUIS Prediction Key' field name -->
+                        <input type="text" ng-if="field.name === 'LUIS Prediction Key'" class="form-control custom-field" id="{{field.applicationId}}" ng-model="field.applicationId" placeholder="LUIS Application Id">
+                        <input type="text" class="form-control custom-field" id="{{field.description}}" ng-model="field.description" placeholder="Description">
+                        <select class="custom-field" ng-model="field.inputType" ng-init="Text" ng-options="x for x in $catalogEditorCtrl.customFieldsInputTypes"> </select>
+                        <input type="text" ng-if="field.inputType === 'Dropdown'" class="form-control custom-field" id="{{field.dropdownOptions}}" ng-model="field.dropdownOptions" placeholder="Dropdown Options">
+                        <button class="hb-btn hb-btn-primary" ng-click="$catalogEditorCtrl.removeCustomField($catalogEditorCtrl.currentTemplate.custom_fields, field)" style="margin-top: -5px;">Remove</button>
+                    </div>
+                </div>
+                <div class="data-item">
+                    <label>New</label>
+                    <i class="fa fa-info-circle data-item-info-icon" data-toggle="tooltip" data-placement="right" title="" data-original-title="New template badge"></i>
+                    <div>
+                        <button class="hb-btn hb-btn-toggle" ng-click="$catalogEditorCtrl.currentTemplate.new = !$catalogEditorCtrl.currentTemplate.new" tabindex="67">
+                            <div ng-class="$catalogEditorCtrl.currentTemplate.new ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off" class="hb-toggle"></div>
+                        </button>
+                    </div>
+                    <span ng-if="$catalogEditorCtrl.validation.status" class="form-err-message">{{$catalogEditorCtrl.validation.status}}</span>
+                </div>
+                <div class="data-item">
+                    <label>Status</label>
+                    <select ng-model="$catalogEditorCtrl.currentTemplate.status" ng-options="x for x in $catalogEditorCtrl.statusOptions"> </select>
+                </div>
+                <div class="data-item">
+                    <label ng-class="{ required: $catalogEditorCtrl.isNew }">Icon</label>
+                    <div style="position:relative;">
+                        <button class='hb-btn hb-btn-primary' href='javascript:;'>
+                            Browse
+                            <input type="file" id="iconToUpload" class='hb-file' name="icon_file" size="40"  onchange='$("#upload-icon").html($(this).val().split("\\").pop());'>
+                        </button>
+                        <span class='hb-file-label' id="upload-icon"></span>
+                    </div>
+                    <span ng-if="$catalogEditorCtrl.validation.icon" class="form-err-message">{{$catalogEditorCtrl.validation.icon}}</span>
+                </div>
+                <div class="data-item">
+                    <label ng-class="{ required: $catalogEditorCtrl.isNew }">Info Image/GIF</label>
+                    <div style="position:relative;">
+                        <button class='hb-btn hb-btn-primary' href='javascript:;'>
+                            Browse
+                            <input type="file" id="infoImgToUpload" class='hb-file' name="icon_file" size="40"  onchange='$("#upload-infoImg").html($(this).val().split("\\").pop());'>
+                        </button>
+                        <span class='hb-file-label' id="upload-infoImg"></span>
+                    </div>
+                    <span ng-if="$catalogEditorCtrl.validation.gif" class="form-err-message">{{$catalogEditorCtrl.validation.gif}}</span>
+                </div>
+                <div class="data-item">
+                    <label>Source Image</label>
+                    <div>
+                        <button class="hb-btn hb-btn-toggle" ng-click="$catalogEditorCtrl.currentTemplate.usingSourceImage = !$catalogEditorCtrl.currentTemplate.usingSourceImage" tabindex="67">
+                            <div ng-class="$catalogEditorCtrl.currentTemplate.usingSourceImage ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="On" hb-off="Off" class="hb-toggle"></div>
+                        </button>
+                    </div>
+                    <div style="position:relative;">
+                        <button class='hb-btn hb-btn-primary' href='javascript:;'>
+                            Browse
+                            <input type="file" id="sourceImgToUpload" class='hb-file' name="icon_file" size="40"  onchange='$("#upload-source-img").html($(this).val().split("\\").pop());'>
+                        </button>
+                        <span class='hb-file-label' id="upload-source-img"></span>
+                    </div>
+                </div>
+                <div class="data-item">
+                    <label ng-class="{ required: $catalogEditorCtrl.isNew }">Template</label>
+                    <div style="position:relative;">
+                        <button class='hb-btn hb-btn-primary' href='javascript:;'>
+                            Browse
+                            <input type="file" accept=".json" id="templateToUpload" class='hb-file' name="icon_file" size="40" onchange='$("#upload-template").html($(this).val().split("\\").pop());'>
+                        </button>
+                        <span class='hb-file-label' id="upload-template"></span>
+                    </div>
+                    <span ng-if="$catalogEditorCtrl.validation.template" class="form-err-message">{{$catalogEditorCtrl.validation.template}}</span>
+                </div>
+            </div>
+            <div class="drawer-buttons">
+                <button type="submit" class="hb-btn hb-btn-primary drawer-button" ng-click="$catalogEditorCtrl.editTemplateDetails('save')">{{ $catalogEditorCtrl.isNew ? 'Create' : 'Update' }}</button>
+                <button type="button" class="hb-btn hb-btn-secondary drawer-button" ng-click="$catalogEditorCtrl.editTemplateDetails('cancel')">Cancel</button>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

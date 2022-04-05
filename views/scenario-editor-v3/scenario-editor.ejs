@@ -1,0 +1,463 @@
+<html ng-app="scenarioEditorApp" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/resources/images/logo.jpg" />
+    <title>Azure Health Bot</title>
+    <!-- Dependencies -->
+    <script src="/node_modules/jquery/dist/jquery.min.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/jquery-migrate/dist/jquery-migrate.min.js?build=#{Build.BuildNumber}#"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css?build=#{Build.BuildNumber}#">
+    <script src="/node_modules/popper.js/dist/umd/popper.min.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/bootstrap-confirmation2/dist/bootstrap-confirmation.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/toastr/build/toastr.min.js?build=#{Build.BuildNumber}#"></script>
+    <link rel="stylesheet" href="/node_modules/toastr/build/toastr.min.css?build=#{Build.BuildNumber}#">
+    <script src="/node_modules/underscore/underscore.js?build=#{Build.BuildNumber}#"></script>
+    <link rel="stylesheet" href="/resources/lib/mgMiniMap-1.3.0.css?build=#{Build.BuildNumber}#">
+    <script type="text/javascript" src="/node_modules/socket.io-client/dist/socket.io.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/jquery-ui-dist/jquery-ui.js?build=#{Build.BuildNumber}#"></script>
+    <link rel="stylesheet" href="/node_modules/jquery-ui-dist/jquery-ui.css?build=#{Build.BuildNumber}#"/>
+    <script src="/node_modules/angular/angular.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/lib/mgMiniMap-1.3.0.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/lib/jsplumb.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/ui-contextmenu/jquery.ui-contextmenu.min.js?build=#{Build.BuildNumber}#"></script>
+    <script>var require = { paths: { 'vs': '/node_modules/monaco-editor/min/vs' } };</script>
+    <script src="/node_modules/monaco-editor/min/vs/loader.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/monaco-editor/min/vs/editor/editor.main.nls.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/monaco-editor/min/vs/editor/editor.main.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/angular-sanitize/angular-sanitize.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/ui-select/dist/select.js?build=#{Build.BuildNumber}#"></script>
+    <link rel="stylesheet" href="/node_modules/ui-select/dist/select.css?build=#{Build.BuildNumber}#">
+    <script src="/resources/angularApps/scenario-editor-v3/directives/directives.module.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/directives/ui-monacoeditor.directive.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/directives/dynamic-dropdown.directive.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/directives/hb-info-button.directive.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/angular-local-storage/dist/angular-local-storage.min.js?build=#{Build.BuildNumber}#"></script>
+
+    <!-- Office Fabric JS -->
+    <link rel="stylesheet" href="/node_modules/office-ui-fabric-js/dist/css/fabric.min.css" />
+    <link rel="stylesheet" href="/node_modules/office-ui-fabric-js/dist/css/fabric.components.min.css" />
+    <script src="/node_modules/office-ui-fabric-js/dist/js/fabric.min.js"></script>
+
+    <!-- momentJS -->
+    <script src="/node_modules/moment/min/moment.min.js?build=#{Build.BuildNumber}#"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/portal-header.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/scenario-editor.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/scenario-editor-steps.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-controls-panel.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-icons.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-spinner.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-modal.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-drawer.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-buttons.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-session-to.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/css/admin-portal-v3/hb-info-button.css?build=#{Build.BuildNumber}#">
+    <link rel="stylesheet" href="/resources/lib/ui-select.bootstrap4.shim.css?build=#{Build.BuildNumber}#">
+
+
+    <!-- Angular 1 Engine -->
+    <script src="/node_modules/angular/angular.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/angular-momentjs/angular-momentjs.min.js?build=#{Build.BuildNumber}#"></script>
+
+    <script src="/resources/angularApps/scenario-editor-v3/js/providers/providers.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/js/providers/assignProvider.js?build=#{Build.BuildNumber}#"></script>
+    
+    <script src="/resources/angularApps/scenario-editor-v3/js/controllers/controllers.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/js/controllers/assignController.js?build=#{Build.BuildNumber}#"></script>
+
+    <!-- Main -->
+    <script src="/resources/angularApps/scenario-editor-v3/angularApp.js?build=#{Build.BuildNumber}#"></script>
+
+    <!-- Controllers -->
+    <script src="/resources/angularApps/scenario-editor-v3/controllers/controllers.module.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/controllers/scenario-editor.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/_common/controllers/header.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/_common/controllers/session-manager.controller.js?build=#{Build.BuildNumber}#"></script>
+    <script>
+        registerSessionManager('scenarioEditorApp');
+        registerHeaderController('scenarioEditorApp');
+    </script>
+
+    <!-- Services -->
+    <script src="/resources/angularApps/scenario-editor-v3/services/services.module.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/services/autocomplete.service.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/services/guid.service.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/services/toolboxes.service.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/services/dataConnections.service.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/services/authenticationProviders.service.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/resources/angularApps/scenario-editor-v3/services/fhir.service.js?build=#{Build.BuildNumber}#"></script>
+
+    <script src="/node_modules/jquery-scrollto/out/lib/jquery-scrollto.js?build=#{Build.BuildNumber}#"></script>
+    <script src="/node_modules/jsonformatter/dist/json-formatter.js?build=#{Build.BuildNumber}#"></script>
+    <link href='/node_modules/font-awesome/css/font-awesome.min.css?build=#{Build.BuildNumber}#' rel='stylesheet'/>
+    <link href='/node_modules/jsonformatter/dist/json-formatter.css?build=#{Build.BuildNumber}#' rel='stylesheet'/>
+
+</head>
+
+<body ng-controller="MainCtrl" ng-init="init()">
+<!-- Loading spinner element -->
+<div class="spinner">
+    <div class="spinner-container">
+        <div class="spinner-icon"></div>
+        <div class="spinner-label">Loading</div>
+    </div>
+</div>
+<!-- Loading spinner code -->
+<script>
+    var SpinnerElements = document.querySelectorAll(".ms-Spinner");
+    for (var i = 0; i < SpinnerElements.length; i++) {
+        new fabric['Spinner'](SpinnerElements[i]);
+    }
+</script>
+<section ng-controller="sessionManagerCtrl as $sessionManagerCtrl" ng-init="$sessionManagerCtrl.init()"></section>
+<div class="container-fluid" style="user-select: none;">
+    <%- include('../admin-portal-v3/common/portal-header.ejs'); %>
+    <div ng-class="maxView ? 'main-editor main-editor-maximized' : 'main-editor'" id="main-editor">
+        <form id="form" style="height: 100%;">
+            <input type="hidden"  id="id" name="id" value="<%=scenarioId%>">
+            <input type="hidden"  id="resourcesUrl" name="resourcesUrl" value="<%=resourcesUrl%>">
+            <input type="hidden"  id="userName" name="userName" value="<%=user.displayName%><% if (isSysAdmin) {%> ( System Admin )<%}%>">
+            <% if (isSysAdmin) {%>
+                <input type="hidden"  id="userRole" name="userRole" value="System Admin">
+            <%} else if (isCSS) {%>
+                <input type="hidden"  id="userRole" name="userRole" value="CSS">
+            <%} else if (isAdmin) {%>
+                <input type="hidden"  id="userRole" name="userRole" value="Admin">
+            <%} else if (isEditor) {%>
+                <input type="hidden"  id="userRole" name="userRole" value="Editor">
+            <%} else if (isCSS) {%>
+                <input type="hidden"  id="userRole" name="userRole" value="Customer Services">
+            <%} else {%>
+                <input type="hidden"  id="userRole" name="userRole" value="Reader">
+            <% } %>
+            <input type="hidden"  id="tenantId" name="tenantId" value="<%=tenantId%>">
+            <input type="hidden"  id="tenantName" name="tenantName" value="<%=tenantName%>">
+            <input type="hidden"  id="active" name="active" value="false">
+            <input type="hidden"  id="oldTrigger" name="oldTrigger" value="">
+            <input type="hidden" id="name" name="name" value="">
+            <input type="hidden" id="description" name="description" value="">
+            <input type="hidden" id="trigger" name="trigger" value="">
+            <input type="hidden" id="directlineDomain" name="directlineDomain" value="<%=directlineDomain%>">
+            <div class="controls-panel">
+                <div class="control-button scenario-name">
+                    <span class="control-button-label text-center" id="titleScenarioName"></span>
+                </div>
+                <button <% if (isSysAdmin || isAdmin || isEditor) { %> class="control-button" ng-click="saveEditorContent(false)"<% } else { %> class="control-button disabled" <%} %> id="saveButton">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Save"></i></span>
+                    <span class="control-button-label">Save</span>
+                </button>
+                <button class="control-button" ng-click="runScenario()" id="runButton">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Play"></i></span>
+                    <span class="control-button-label">Run</span>
+                </button>
+                <button class="control-button" ng-click="setArguments()">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-Bug"></i></span>
+                    <span class="control-button-label">Set run arguments</span>
+                </button>
+                <button <% if (isSysAdmin || isAdmin || isEditor) { %>class="control-button" ng-click="createSnapshot()"<% } else { %> class="control-button disabled" <%} %>>
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-History"></i></span>
+                    <span class="control-button-label">Create Snapshot</span>
+                </button>
+                <i id="runspinner" ng-show="showRunSpinner" class='hb-icons hb-icons-ProgressRing6 hb-icons-spin' style="margin: 0; font-size: 20px; top: 5px; position: absolute;"></i>
+                <button class="control-button" data-target="#exitModal" data-toggle="modal" style="float: right; margin-right: 10px;">
+                    <span class="control-button-icon"><i class="hb-icons hb-icons-SignOut"></i></span>
+                    <span class="control-button-label">Exit</span>
+                </button>
+
+            </div>
+            <div class="main-editor-content">
+                <uib-tabset active="activeTab" justified="false" id="editorTabs">
+                    <uib-tab id="codeTab" index="0" heading="Code" select="codeTabSelected()">
+                        <div class="form-group">
+                            <textarea id="editorinitialcontent" style="display:none"></textarea>
+                            <div ui-monacoeditor  ui-refresh="activeTab" style="border:1px solid lightgray" ng-model="editor" id="editor" name="editor" ui-monacoeditor-opts="monacoEditorOptions"></div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab id="designerTab" index="1" heading="Designer (beta)" select="validateAndSelectDesigner()" ng-show="showDesignerTab">
+                        <div class="toolbox-button-container">
+                            <div id="prompt" class="drag toolbox-button" title="Insert Prompt">
+                                <span class="hb-icons hb-icons-Prompt" ></span>
+                                <div>Prompt</div>
+                            </div>
+                            <div id="yesnoprompt" class="drag toolbox-button" title="Insert Yes/No Prompt">
+                                <span class="hb-icons hb-icons-LikeDislike" ></span>
+                                <div>Yes/No</div>
+                            </div>
+                            <div id="statement" class="drag toolbox-button" title="Insert Statement">
+                                <span class="hb-icons hb-icons-ContactArt112" ></span>
+                                <div>Statement</div>
+                            </div>
+                            <div class="toolbox-button-separator"></div>
+                            <div id="branch" class="drag toolbox-button" title="Insert Decision">
+                                <span class="hb-icons hb-icons-StatusCircleQuestionMark" ></span>
+                                <div>Branch</div>
+                            </div>
+                            <div id="switch" class="drag toolbox-button" title="Insert Switch">
+                                <span class="hb-icons hb-icons-FunctionalManagerDashboard" ></span>
+                                <div>Switch</div>
+                            </div>
+                            <div id="beginScenario" class="drag toolbox-button" title="Insert Begin Scenario">
+                                <span class="hb-icons hb-icons-Play" ></span>
+                                <div>Begin</div>
+                            </div>
+                            <div id="replaceScenario" class="drag toolbox-button" title="Insert Replace Scenario">
+                                <span class="hb-icons hb-icons-Reshare" ></span>
+                                <div>Replace</div>
+                            </div>
+                            <div id="endwithresult" class="drag toolbox-button" title="End Scenario With Result">
+                                <span class="hb-icons hb-icons-Cancel" ></span>
+                                <div>End</div>
+                            </div>
+                            <div class="toolbox-button-separator"></div>
+                            <div id="datasource" class="drag toolbox-button" title="Insert Data Connection call">
+                                <span class="hb-icons hb-icons-SearchData" ></span>
+                                <div>Data Conn.</div>
+                            </div>
+                            <div id="invokeSkill" class="drag toolbox-button" title="Skill">
+                                <span class="hb-icons hb-icons-Skill" ></span>
+                                <div>Skill</div>
+                            </div>
+                            <div id="globalContext" class="drag toolbox-button" title="Use Global Context">
+                                <span class="hb-icons hb-icons-Globe2" ></span>
+                                <div>Global</div>
+                            </div>
+                            <div id="assignVariable" class="drag toolbox-button" title="Assign Variable">
+                                <span class="hb-icons hb-icons-Variable" ></span>
+                                <div>Assign</div>
+                            </div>
+                            <div id="action" class="drag toolbox-button" title="Insert Action">
+                                <span class="hb-icons hb-icons-LightningBolt" ></span>
+                                <div>Action</div>
+                            </div>
+                            <div id="wait" class="drag toolbox-button" title="Insert Wait">
+                                <span class="hb-icons hb-icons-Timer" ></span>
+                                <div>Wait</div>
+                            </div>
+                            <div id="luis" class="drag toolbox-button" title="Insert LU">
+                                <span class="hb-icons hb-icons-Comment" ></span>
+                                <div>LU</div>
+                            </div>
+                            <div class="right-buttons">
+                                <div id="minimap" title="Toggle Minimap" ng-click="toggleMinimap()" ng-class="toolboxes.minimap ? 'toolbox-button active' : 'toolbox-button'" style="cursor: pointer">
+                                    <span class="hb-icons hb-icons-DownloadMap"></span>
+                                    <div>Minimap</div>
+                                </div>
+                                <div class="drag toolbox-button toolbox-button-long" title="Search string in scenario">
+                                    <input type="text" id="searchbox" class="form-control" placeholder="Search"
+                                           ng-model="searchedElement" typeahead-on-select="onSearchSelected($item, $model, $label)"
+                                           uib-typeahead="e for e in allSearchables  | filter:$viewValue  | limitTo:8">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="designer" ng-mousedown="canvasMouseDown($event)" ng-mouseup="canvasMouseUp($event)" ng-mousemove="canvasMouseMove($event)">
+                            <div id="canvas">
+                            </div>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </form>
+        <div class="view-bottom-panel">
+            <div class="last-modified" style="display: none" id="lastModified"></div>
+            <div id="codeTabSelector" ng-class="activeTab === 0 ? 'bottom-panel-button selected' : 'bottom-panel-button'" ng-click="selectTab('codeTab')">Code</div>
+            <div id="designerTabSelector" ng-class="activeTab === 1 ? 'bottom-panel-button selected' : 'bottom-panel-button'" ng-click="selectTab('designerTab')">Designer</div>
+            <span ng-class="maxView ? 'state-button hb-icons hb-icons-ResizeTouchSmaller' : 'state-button hb-icons hb-icons-ResizeTouchLarger'" ng-click="toggleMaxView()"></span>
+            <div ng-if="activeTab === 1" class="zoom">
+                <div id="zoomout" class="zoom-button zoom-in" data-toggle="tooltip" data-placement="top" title="Zoom Out" ng-click="zoomout()" style="cursor:pointer;">
+                    <i class="hb-icons hb-icons-Remove"></i>
+                </div>
+                <div id="currentZoom" class="zoom-button">
+                    <span style="cursor: context-menu">{{currentZoom}}%</span>
+                </div>
+                <div id="zoomin" class="zoom-button zoom-out" data-toggle="tooltip" data-placement="top" title="Zoom In" ng-click="zoomin()" style="cursor:pointer;">
+                    <i class="hb-icons hb-icons-Add"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-class="maxView ? 'right-pane right-pane-minimized' : 'right-pane'" id="right-pane">
+        <div class="right-pane-container">
+            <div id="previewBox" class="test-panel-preview-box">
+                <div class="previewBox-background-title">
+                    <span>Web Chat v4 </span>
+                    <label style="display: none" id="webchat-locale">webchat language, current locale is</label>
+                    <select aria-labelledby="webchat-locale" class="webchat-locale-picker form-control"
+                            ng-if = "webchat_locales.length > 0"
+                            ng-model="webchat_locale.selected"
+                            ng-change="changeWebChatLocale()">
+                        <option ng-repeat="locale in webchat_locales track by $index">{{locale}}</option>
+                    </select>
+                </div>
+                <iframe aria-label="bot chat window" ng-if="webchatUrl" id="previewBoxFrame" ng-src="{{ webchatUrl }}" style="width: 100%;height: calc(100% - 30px);margin-top: 30px;border: none;"></iframe>
+            </div>
+            <div id="traceBox" class="test-panel-debug-box">
+                <uib-tabset justified="false" ng-click="showEvalBox()">
+                    <uib-tab id="infoTab" index=0 heading="Info" deselect="logActivity()">
+                        <div id="infoBox" style="-webkit-user-select: text;">
+                            <div class="info-item">
+                                <div class="info-field-name">Name</div>
+                                <div class="info-field-data" id="infoName"></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-field-name">Scenario ID</div>
+                                <div class="info-field-data" id="infoTrigger"></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-field-name">Description</div>
+                                <div class="info-field-data" id="infoDescription"></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-field-name">Returning Message</div>
+                                <div class="info-field-data" id="infoReturningMessage"></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-field-name">Interrupting</div>
+                                <div class="info-field-data" id="infoInterrupting"></div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-field-name">Breaking</div>
+                                <div class="info-field-data" id="infoBreaking" ></div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab id="watchTab" index=1 heading="Watch" deselect="logActivity()">
+                        <div id="watchBox" style="-webkit-user-select: text;">
+                            <json-formatter json="debugcontext" open="1"></json-formatter>
+                        </div>
+                    </uib-tab>
+                    <uib-tab id="evalTab" index=2 heading="Immediate" deselect="logActivity()">
+                        <div id="evalBox">
+                            <div class="controls-panel">
+                                <button class="control-button" style="float: right; margin-right: 10px;" ng-click="evaluateExpression(evalExpression)" title="Evaluate Expression">
+                                    <span class="control-button-icon"><i class="hb-icons hb-icons-Play"></i></span>
+                                    <span class="control-button-label">Evaluate (F9)</span>
+                                </button>
+                            </div>
+                            <div class="evalEditor" ui-monacoeditor ng-model="evalExpression" autocomplete="variablesOnly" ui-monacoeditor-opts="evalEditorOptions"></div>
+                            <div ng-style="" class="evalResults" ui-monacoeditor ng-model="evalResults" ui-monacoeditor-opts="evalEditorResultsOptions"></div>
+                            <i class='evalSpinner hb-icons hb-icons-ProgressRing6 hb-icons-spin' ng-show="showEvalSpinner"></i>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+    <div ng-class="maxView ? 'trace-window trace-window-minimized' : 'trace-window'" id="trace-window">
+        <div class="trace-window-container">
+            <div id="emptyTrace" class="btn btn-secondary navbar-btn" title="Clear Trace" ng-click="clearDebugMessages()">
+                <span class="hb-icons hb-icons-Delete" ></span>
+            </div>
+            <div class="messagesBox">
+                <table class="table table-bordered" class="trace-table">
+                    <thead style="font-size:12px;">
+                    <tr>
+                        <th style="width: 200px">Timestamp</th>
+                        <th>Message</th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="trace-messages-rows">
+                    <table class="table table-bordered" class="trace-table">
+                        <tbody class="messages-body">
+                        <tr ng-repeat="m in debugMessages" class="{{m.levelClass}}">
+                            <td style="width: 200px;user-select: text;">{{m.timestamp}}</td>
+                            <td style="white-space: nowrap; user-select: text;">{{m.message}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="globalDeleteButton" ng-click="globalDeleteButton()">
+</div>
+<div id="minimap-title" style="display: none">
+    <span>Minimap</span>
+</div>
+
+<script>
+    window.onscroll = function () { if(window.outerWidth >= 1200) {window.scrollTo(0, document.body.scrollTop);}};
+    window.onresize = function(event) {
+        $('#designer').mgMiniMap('update');
+        if ($('.right-pane').css('visibility') === 'hidden') {
+            $('.mgNavigator').css('right', '30px');
+        }
+        else {
+            $('.mgNavigator').css('right', $('.right-pane').width() + 30 + 'px');
+        }
+        $('.mgNavigator').css('left', '');
+        $('.mgNavigator').css('top', $('.right-pane').position().top + 110 + 'px');
+    };
+    $(function () {
+        $('#save').on("click", function () {
+            $('#spinner').show();
+            return true;
+        })
+
+        $('#exit').on("click", function(){
+            $('#spinner').show();
+            return true;
+        })
+        document.getElementById('canvas').onwheel = function(e){
+            if(e.altKey == true) {
+                var origZoomFactor = $('#currentZoom').html().substring(0,$('#currentZoom').html().length - 1) / 100;
+                var div1 = $('<div>').css({
+                    "position": 'absolute',
+                    "left": ((e.pageX - $('#canvas').position().left) / origZoomFactor) + 'px',
+                    "top": ((e.pageY - $('#canvas').position().top) / origZoomFactor) + 'px',
+                    "width": '10px',
+                    "height": '10px',
+                    "background-color": 'red'
+                }).appendTo($('#canvas'));
+
+                if (e.deltaY > 0) {
+                    $('#zoomout').trigger("click");
+                } else {
+                    $('#zoomin').trigger("click");
+                }
+                var newZoomFactor = $('#currentZoom').html().substring(0,$('#currentZoom').html().length - 1) / 100;
+                var div2 = $('<div>').css({
+                    "position": 'absolute',
+                    "left": ((e.pageX - $('#canvas').position().left) / newZoomFactor) + 'px',
+                    "top": ((e.pageY - $('#canvas').position().top) / newZoomFactor) + 'px',
+                    "width": '10px',
+                    "height": '10px',
+                    "background-color": 'red'
+                }).appendTo($('#canvas'));
+
+                canvas.scrollLeft += (div1.position().left - div2.position().left) / newZoomFactor;
+                canvas.scrollTop += (div1.position().top - div2.position().top) / newZoomFactor;
+                div1.remove();
+                div2.remove();
+                return false;
+            }
+        }
+    });
+</script>
+<!-- Health Bot Portal exit modal-->
+<div class="portal-modal">
+    <div id="exitModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-body">
+                    <div class="title">
+                        <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                    </div>
+                    Are you sure you want to exit the scenario editor?<br>
+                    All unsaved work will be lost.<br><br><br>
+
+                    <div class="actions">
+                        <button type="button" class="hb-btn hb-btn-secondary" ng-click="exitEditor()" data-dismiss="modal">Exit</button>
+                        <button type="button" class="hb-btn hb-btn-primary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

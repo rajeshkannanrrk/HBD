@@ -1,0 +1,19 @@
+<div class="config-item" ng-class="variable._changed ? 'not-saved' :  ''">
+    <div ng-if="label !== undefined" class="config-item-name">
+        {{label}}
+        <button aria-label="{{label}} - {{info}}"
+                ng-if="info !== undefined" class="info-button">
+            <div class="hb-hover-info">{{info}}
+                <span ng-if="learnMore !== undefined">
+                    <br>
+                    <a href="{{learnMore}}" target="_blank" class="clickable-text">Learn more</a>
+                </span>
+            </div>
+        </button>
+    </div>
+    <!--not LocalizedString-->
+    <input aria-label="{{label}}"
+           type="number"
+           ng-model="variable._tenant"
+           ng-change="ctrl.changeHandler(variable)">
+</div>

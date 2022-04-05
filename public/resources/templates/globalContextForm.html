@@ -1,0 +1,36 @@
+<form ng-submit="ok()" novalidate name="elementForm">
+    <div class="modal-header">
+        <input ng-if="!uibCtrl._labledTitle_" value="Global Context" name="label" type="text" class="form-control label-editor-field label-editor-field-disabled">
+        <span   ng-if="!uibCtrl._labledTitle_" class="fa fa-pencil label-editor-field-icon" ng-click="uibCtrl._activateLabeledTitle(element, 'globalContext')"></span>
+
+        <input ng-if="uibCtrl._labledTitle_" ng-model="element.label" name="label" id="label-input-box" type="text" class="form-control label-editor-field">
+        <span  ng-if="uibCtrl._labledTitle_" class="fa fa-eraser  label-editor-field-icon" ng-click="uibCtrl._disableLabeledTitle(element, 'globalContext')"></span>
+    </div>
+    <div class="modal-body">
+        <!-- Text input-->
+        <div class="form-group">
+            <label for="operation">Select Operation:</label>
+            <select ng-options="operation as operation for operation in operations" ng-model="element.operation" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <label for="contextName">Context Name:</label>
+            <input id="contextName" ng-model="element.contextName" required name="contextName" type="text" class="form-control">
+        </div>
+        <div class="form-group" ng-show="element.operation == 'Set'">
+            <label for="contextValue">Context Value:</label>
+            <div class="MonacoEditor-Large" ui-monacoeditor ui-monacoeditor-opts="monacoEditorOptions" ui-refresh="element.operation" autocomplete="variables" ng-model="element.contextValue" id="contextValue" name="contextValue"></div>
+        </div>
+        <div class="form-group" ng-show="element.operation == 'Get'">
+            <label for="variable">Local Variable Name:</label>
+            <input id="variable" ng-model="element.variable" name="variable" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="error">Error Variable Name:</label>
+            <input id="error" ng-model="element.error" name="error" type="text" class="form-control">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="hb-btn hb-btn-primary" ng-disabled="elementForm.$invalid">OK</button>
+        <button type="button" class="hb-btn hb-btn-secondary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

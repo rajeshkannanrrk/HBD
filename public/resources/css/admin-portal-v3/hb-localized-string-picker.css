@@ -1,0 +1,84 @@
+.dropdown-menu {
+    border-radius: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 60vw;
+    max-width: 100%;
+    background-color: black;
+    border: 1px solid black;
+}
+
+.dropdown-menu li {
+    background-color: white;
+    position: relative;
+    cursor: pointer;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+    border-top: 1px solid #eaeaea;
+}
+
+.dropdown-menu .string,
+.dropdown-menu .stringId {
+    line-height: 25px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0 0 0 0;
+    padding: 2px 5px;
+
+}
+
+.dropdown-menu .string {
+    width: 90%;
+    max-width: calc(100% - 100px);
+    font-size: 14px;
+}
+
+.dropdown-menu .stringId {
+    width: calc(10% - 5px);
+    min-width: 95px;
+    font-size: 10px;
+    color: #9b9b9b
+}
+
+.dropdown-menu .new-string {
+    width: 100%;
+    font-size: 12px;
+    padding: 4px;
+    text-align: center;
+    font-weight: 400;
+    color: black;
+    background-color: #eaeaea;
+}
+
+.dropdown-menu li.active {
+    background-color: #0071c6;
+}
+
+.dropdown-menu li.active .string {
+    background-color: #0071c6;
+    color: white;
+}
+
+.dropdown-menu li.active .stringId {
+    background-color: #0071c6;
+    color: #eaeaea;
+}
+
+.dropdown-menu li.active .new-string {
+    background-color: #0071c6;
+    color: #eaeaea;
+}
+
+.dropdown-menu .string strong {
+    background-color: #ffd798;
+    display: inline-block;
+    color: black;
+    padding: 0 2px;
+    border-radius: 5px;
+    line-height: 20px;
+}

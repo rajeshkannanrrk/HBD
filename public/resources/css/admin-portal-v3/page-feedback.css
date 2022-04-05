@@ -1,0 +1,18 @@
+.feedbacks button.accordion {
+    background-color: #eaeaea;
+    width: 100%;
+    text-align: left;
+}
+
+.feedbacks .loading {
+    height: 0;
+    overflow: hidden;
+
+}
+
+.feedbacks .loaded {
+    padding: 10px 15px 0 15px;
+    font-size: 11px;
+    color: #888
+
+}

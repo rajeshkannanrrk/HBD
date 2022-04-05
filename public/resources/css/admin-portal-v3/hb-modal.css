@@ -1,0 +1,55 @@
+.portal-modal .modal-content{
+    border-radius: 0;
+    padding: 20px;
+}
+
+.portal-modal .modal-body .title{
+    font-size: 22px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.portal-modal .modal-body .content{
+    margin-bottom: 20px;
+}
+
+.portal-modal .modal-body .content .warning{
+    color: #e81123;
+    font-weight: bold;
+}
+
+.portal-modal .modal-body .actions button{
+    width: 120px;
+    padding: 2px;
+}
+
+.portal-modal .close-button {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.info-structure {
+    width: 560px;
+}
+
+.info-structure .info-field-name {
+    width: 140px;
+
+    font-weight: bold;
+    height: 20px;
+    float: left;
+}
+
+.info-structure .info-field-data {
+    width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    height: 20px;
+    float: left;
+
+}

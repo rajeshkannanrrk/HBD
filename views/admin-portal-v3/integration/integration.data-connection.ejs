@@ -1,0 +1,271 @@
+<html lang="en">
+<head>
+    <%- include('../common/head.ejs'); %>
+    <script src="/resources/angularApps/admin-portal-v3/controllers/integration.data-connections.controller.js?build=#{Build.BuildNumber}#"></script>
+</head>
+
+<body ng-app="adminPortalApp" ng-controller="dashboardCtrl as $app" ng-init="$app.init()">
+<section ng-controller="dataConnectionsCtrl as $dataConnectionsCtrl" ng-init="$dataConnectionsCtrl.init()">
+    <%- include('../common/body.ejs'); %>
+    <%- include('../common/portal-header.ejs'); %>
+    <%- include('../common/portal-navigation-panel.ejs'); %>
+    <div class="application-body">
+        <div class="controls-panel">
+            <button role="button"
+                    aria-label="add new data connection"
+                    class="control-button" <% if (!isSysAdmin && !isAdmin && !isEditor) { %> disabled <% } else { %> ng-click="$dataConnectionsCtrl.showAddNewItemDrawer()"<% } %>>
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Add"></i></span>
+                <span class="control-button-label">Add</span>
+            </button>
+            <button role="button"
+                    aria-label="refresh data connection list"
+                    class="control-button" ng-click="$dataConnectionsCtrl.readData()">
+                <span class="control-button-icon"><i class="hb-icons hb-icons-Refresh"></i></span>
+                <span class="control-button-label">Refresh</span>
+            </button>
+        </div>
+        <div class="data-container tabular-data-container">
+            <hb-page-header title="Data connections"
+                            sub-title-line1="Integrate your bot with third party REST APIs."
+                            learn-more="https://docs.microsoft.com/en-us/HealthBot/integrations/data_connections"
+                            ></hb-page-header>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <th style="width: 200px">Name</th>
+                    <th style="width: 300px">Base URL</th>
+                    <th style="width: 100px">Type</th>
+                    <th>Description</th>
+                    <th style="width: 160px">Actions</th>
+                </thead>
+                <tr ng-repeat="item in $dataConnectionsCtrl.items track by $index">
+                    <td>
+                        {{item.name}}
+                    </td>
+                    <td>
+                        {{item.base_url}}
+                    </td>
+                    <td>
+                        <span style="width: 300px" ng-if="item.type === 'custom'">Custom API</span>
+                        <span style="width: 300px" ng-if="item.type === 'fhir_3'">FHIR</span>
+                    </td>
+                    <td>
+                        {{item.description}}
+                    </td>
+                    <td class="text-right" style="width: 240px;font-size: 12px;">
+                        <button class="hb-btn hb-btn-action"
+                                aria-label="edit data connection {{item.name}}"
+                                title="Edit"
+                                ng-click="$dataConnectionsCtrl.showEditItemDrawer(item)">
+                            <i class="hb-icons hb-icons-Edit"></i> Edit
+                        </button>
+                        <button class="hb-btn hb-btn-action"
+                                aria-label="delete data connection {{item.name}}"
+                                title="delete"
+                        <% if (isSysAdmin || isAdmin || isEditor) { %>
+                                data-toggle="modal" data-target="#deleteItem" data-backdrop="static"
+                                ng-click="$dataConnectionsCtrl.itemToDelete = item"
+                        <% } else { %>
+                                disabled
+                        <% }%>
+                                ><i class="hb-icons hb-icons-Delete"></i> Delete
+
+                        </button>
+
+                    </td>
+                </tr>
+            </table>
+            <div class="text-center" style="padding: 150px" ng-if="$dataConnectionsCtrl.items.length === 0">No data connections defined. <% if (isSysAdmin || isAdmin || isEditor) { %><button class="hb-btn hb-btn-link" style="padding: 0" ng-click="$dataConnectionsCtrl.showAddNewItemDrawer()">Add a new connection</button><% } %></div>
+        </div>
+        <% if (isSysAdmin || isAdmin || isEditor) { %>
+        <div class="portal-modal">
+            <div id="deleteItem" class="modal fade" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content" >
+                        <div class="modal-body">
+                            <div class="title">
+                                <button class="hb-btn hb-btn-close-modal" aria-label="close modal" data-dismiss="modal"><i class="hb-icons hb-icons-Cancel"></i></button>
+                                Delete data connection
+                            </div>
+                            <div class="content">
+                                <span>The connection <b>"{{$dataConnectionsCtrl.itemToDelete.name}}"</b> will be deleted.</span><br>
+                                <span class="warning">Scenarios that are currently using this data connection will break.</span><br>
+                                <br>
+                                Are you sure you would like to delete this data connection?
+                            </div>
+                            <div class="actions">
+                                <button type="button" class="hb-btn hb-btn-primary" ng-click="$dataConnectionsCtrl.deleteItem()" data-dismiss="modal">Delete</button>
+                                <button id="dismissDelete" type="button" class="hb-btn hb-btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+
+    <!-- Health Bot Portal Data Connection Drawer -->
+    <div class="drawer" id="dataConnectionDrawer">
+        <div class="drawer-container">
+            <button aria-label="close drawer" class="hb-btn hb-btn-drawer-close" ng-click="$dataConnectionsCtrl.cancelAddAndEdit()">
+                <i class="hb-icons hb-icons-Cancel"></i>
+            </button>
+            <h3>{{$dataConnectionsCtrl.drawer_title}}</h3>
+            <div class="drawer-main-body">
+                <div class="drawer-form-flow-part">
+                    <div class="flow-part-title">
+                        <div class="drawer-form-flow-part-number">1</div>
+                        <div class="drawer-form-flow-part-title">Provide connection details</div>
+                    </div>
+                    <div class="data-item">
+                        <label for="dc-name" class="required">Name</label>
+                        <hb-info-button label="A unique internal name for your data connection"></hb-info-button>
+                        <input type="text"
+                               aria-label="name"
+                               aria-required="true"
+                               class="form-control"
+                               id="dc-name"
+                               name="dc-name"
+                               ng-model="$dataConnectionsCtrl.current.name"
+                               ng-style="{'border-color': ($dataConnectionsCtrl.validation.name) ? 'red' : ''}">
+                        <span ng-if="$dataConnectionsCtrl.validation.name"
+                              role="alert"
+                              class="form-err-message">{{$dataConnectionsCtrl.validation.name}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="dc-description">Description</label>
+                        <hb-info-button label="An internal description for the data connection."></hb-info-button>
+                        <input type="text"
+                               aria-label="description"
+                               aria-required="false"
+                               class="form-control"
+                               id="dc-description"
+                               name="dc-description"
+                               ng-model="$dataConnectionsCtrl.current.description">
+                    </div>
+                    <div class="data-item">
+                        <label for="dc-fhir">FHIR Support</label>
+                        <hb-info-button label="Easily connect to FHIR enabled systems such as EMRs."></hb-info-button>
+                        <div>
+                            <button id="dc-fhir"
+                                    name="dc-fhir"
+                                    role="switch"
+                                    aria-label="fire support"
+                                    aria-checked="{{$dataConnectionsCtrl.current.isFhir ? 'true' : 'false'"
+                                    class="hb-btn hb-btn-toggle"
+                                    ng-click="$dataConnectionsCtrl.toggleisFhir($dataConnectionsCtrl.current)">
+                                <div ng-class="$dataConnectionsCtrl.current.isFhir ? 'hb-toggle hb-toggle-checked' : 'hb-toggle'" hb-on="" hb-off=""></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <label for="dc-base_url" class="required">Base URL</label>
+                        <hb-info-button label="Include the HTTPS protocol and use environment variables to set URL dynamically."></hb-info-button>
+                        <a href="https://docs.microsoft.com/en-us/HealthBot/integrations/data_connections" target="_blank" class="learn-more" style="float:  right; line-height: 20px;">Learn more</a>
+                        <input type="text"
+                               aria-label="base URL"
+                               class="form-control"
+                               id="dc-base_url"
+                               name="dc-base_url"
+                               ng-model="$dataConnectionsCtrl.current.base_url"
+                               ng-style="{'border-color': ($dataConnectionsCtrl.validation.base_url) ? 'red' : ''}">
+                        <span ng-if="$dataConnectionsCtrl.validation.base_url"
+                              role="alert"
+                              class="form-err-message">{{$dataConnectionsCtrl.validation.base_url}}</span>
+                    </div>
+                    <div class="data-item">
+                        <label for="auth_provider">Authentication Provider</label>
+                        <hb-info-button label="Select a provider for authenticating end users or servers before calling this data connection."></hb-info-button>
+                        <select class="form-control"
+                                aria-label="authentication provider"
+                                id="auth_provider"
+                                name="auth_provider"
+                                ng-model="$dataConnectionsCtrl.current.auth_provider" style="width: 100%">
+                            <option value="">None</option>
+                            <option ng-repeat="auth_provider in $dataConnectionsCtrl.auth_providers track by $index" value="{{auth_provider.name}}">{{auth_provider.name}} {{auth_provider.type_text}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="drawer-form-flow-part">
+                    <div class="flow-part-title">
+                        <div class="drawer-form-flow-part-number">2</div>
+                        <div class="drawer-form-flow-part-title">
+                            Add Header and URL parameters
+                            <hb-info-button label="All calls to this data connection will include the provided parameters. Can be used for server to server authentication."></hb-info-button>
+                            <a href="https://docs.microsoft.com/en-us/HealthBot/integrations/server_authentication" target="_blank" class="learn-more" style="float:  right; font-size: 14px; line-height: 21px;">Learn more</a>
+                        </div>
+
+                    </div>
+                    <div class="data-item">
+                        <table class="static-parameters-table" aria-label="static parameters">
+                            <tr ng-repeat="param in $dataConnectionsCtrl.current.static_parameters track by $index" class="static-param">
+                                <td width="110px">
+                                    <select aria-label="type" ng-model="param.type" id="dc-type_{{$index}}" name="dc-type_{{$index}}" class="form-control" style="width: 100%">
+                                        <option value="header">Header</option>
+                                        <option value="url">Query string</option>
+                                    </select>
+                                </td>
+                                <td width="120px">
+                                    <input aria-label="name" aria-required="true" type="text" placeholder="key" ng-model="param.key" id="dc-key_{{$index}}" name="dc-key_{{$index}}" class="form-control">
+                                </td>
+                                <td>
+                                    <input aria-label="value" aria-required="true" type="text" placeholder="value" ng-model="param.value" id="dc-value_{{$index}}" name="dc-value_{{$index}}" class="form-control">
+                                </td>
+                                <td width="80px">
+                                    <button class="hb-btn hb-btn-link" ng-click="$dataConnectionsCtrl.removeStaticParam($index)">Remove</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <span ng-if="$dataConnectionsCtrl.validation.static_parameters"
+                              role="alert"
+                              class="form-err-message"><br>{{$dataConnectionsCtrl.validation.static_parameters}}</span>
+                        <button class="hb-btn hb-btn-link" id="dc-add-new-item" ng-click="$dataConnectionsCtrl.addStaticParam()">+ Add new item</button>
+                    </div>
+                </div>
+
+                <div class="drawer-form-flow-part" ng-if="$dataConnectionsCtrl.current.isFhir">
+                    <div class="flow-part-title">
+                        <div class="drawer-form-flow-part-number">3</div>
+                        <div class="drawer-form-flow-part-title">Fetch capabilities</div>
+                    </div>
+                    <div class="fhir-fetch-span">
+                        <button class="hb-btn hb-btn-link" ng-if="!$dataConnectionsCtrl.fetched && !$dataConnectionsCtrl.fetching" ng-click="$dataConnectionsCtrl.fetchFhirCapabilities()">Fetch</button>
+                        <span ng-if="$dataConnectionsCtrl.fetching"><i class="hb-icons hb-icons-spin hb-icons-ProgressRing6"></i> Fetching capabilities, please wait</span>
+                        <span role="alert"
+                              class="form-err-message"
+                              ng-if="$dataConnectionsCtrl.fetched && $dataConnectionsCtrl.fetchError">{{$dataConnectionsCtrl.fetchError}}</span>
+                        <button class="hb-btn hb-btn-link" ng-if="$dataConnectionsCtrl.fetched && !$dataConnectionsCtrl.fetching" ng-click="$dataConnectionsCtrl.fetchFhirCapabilities()">Try again</button>
+                    </div>
+                    <table width="100%" ng-if="$dataConnectionsCtrl.fetched && !$dataConnectionsCtrl.fetchError">
+                        <tr>
+                            <th style="width: 120px;">
+                                Resources
+                            </th>
+                            <th>
+                                Methods
+                            </th>
+                        </tr>
+                        <tr ng-repeat="item in $dataConnectionsCtrl.fetchedResources track by $index">
+                            <td>
+                                {{item.name}}
+                            </td>
+                            <td>
+                                <div class="fhir-capabilities-methods" data-toggle="tooltip" data-placement="top" title="{{item.methods}}">
+                                    {{item.methods}}
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="drawer-buttons">
+                <button class="hb-btn hb-btn-primary drawer-button" <% if (isSysAdmin || isAdmin || isEditor) { %> ng-click="$dataConnectionsCtrl.validateForm()" <% } else { %> disabled <% } %>>{{($dataConnectionsCtrl.drawer_edit_mode) ? 'Update' : 'Create'}}</button>
+                <button class="hb-btn hb-btn-secondary drawer-button" ng-click="$dataConnectionsCtrl.cancelAddAndEdit()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

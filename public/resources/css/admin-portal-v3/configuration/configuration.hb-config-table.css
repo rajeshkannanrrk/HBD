@@ -1,0 +1,92 @@
+.hb-config-table {
+    font-family: Segoe UI;
+    width: 900px;
+}
+
+.hb-config-table .hb-config-table-header > div{
+    font-size: 12px;
+}
+.hb-config-table .hb-config-table-header > span{
+    font-size: 12px;
+    background-color: lightblue;
+}
+
+.hb-config-table-header{
+    display: flex;
+    position: relative;
+    padding: 2px 0;
+    font-weight: 700;
+}
+.hb-config-table .hb-config-table-row{
+    display: flex;
+    position: relative;
+    height: 30px;
+    padding: 2px 0;
+}
+
+.hb-config-table .hb-cell-1,
+.hb-config-table .hb-cell-2,
+.hb-config-table .hb-cell-3,
+.hb-config-table .hb-cell-4,
+.hb-config-table .hb-cell-5,
+.hb-config-table .hb-cell-6,
+.hb-config-table .hb-cell-7,
+.hb-config-table .hb-cell-8,
+.hb-config-table .hb-cell-9,
+.hb-config-table .hb-cell-10 {
+    display: table-cell;
+    padding: 0 5px;
+    overflow: hidden;
+    font-size: 14px;
+
+}
+
+#intent-mapping .hb-config-table .hb-cell-1,
+#intent-mapping .hb-config-table .hb-cell-2,
+#intent-mapping .hb-config-table .hb-cell-3,
+#intent-mapping .hb-config-table .hb-cell-4,
+#intent-mapping .hb-config-table .hb-cell-5,
+#intent-mapping .hb-config-table .hb-cell-6,
+#intent-mapping .hb-config-table .hb-cell-7,
+#intent-mapping .hb-config-table .hb-cell-8,
+#intent-mapping .hb-config-table .hb-cell-9,
+#intent-mapping .hb-config-table .hb-cell-10 {
+    overflow: inherit;
+
+}
+
+.hb-config-table .hb-toggle, .hb-config-table .hb-toggle:after {
+    transition-duration: .0s;
+}
+
+.hb-config-table select {
+    width: 100%;
+}
+.hb-config-table .hb-config-table-row input {
+    height: 26px;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 0 5px;
+    width: calc(100% - 10px);
+    border: 1px solid #9b9b9b;
+    outline: none;
+    box-shadow: none;
+}
+
+.hb-config-table .hb-config-table-row input:focus {
+    box-shadow: none;
+    border: 1px solid #0071c6;
+    outline: none;
+}
+
+
+.hb-config-table .hb-cell-1 { width: 10%; }
+.hb-config-table .hb-cell-2 { width: 20% }
+.hb-config-table .hb-cell-3 { width: 30% }
+.hb-config-table .hb-cell-4 { width: 40% }
+.hb-config-table .hb-cell-5 { width: 50% }
+.hb-config-table .hb-cell-6 { width: 60% }
+.hb-config-table .hb-cell-7 { width: 70% }
+.hb-config-table .hb-cell-8 { width: 80% }
+.hb-config-table .hb-cell-9 { width: 90% }
+.hb-config-table .hb-cell-10 { width: 100% }

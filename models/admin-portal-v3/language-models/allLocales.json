@@ -1,0 +1,878 @@
+{
+  "af-za":{
+    "List_Name":"Afrikaans (South Africa)",
+    "Column_Name":"Afrikaans - South Africa (af-ZA)"
+  },
+  "sq-al":{
+    "List_Name":"Albanian (Albania)",
+    "Column_Name":"Albanian - Albania (sq-AL)"
+  },
+  "gsw-fr":{
+    "List_Name":"Alsatian (France)",
+    "Column_Name":"Alsatian - France (gsw-FR)"
+  },
+  "am-et":{
+    "List_Name":"Amharic (Ethiopia)",
+    "Column_Name":"Amharic - Ethiopia (am-ET)"
+  },
+  "ar-dz":{
+    "List_Name":"Arabic (Algeria)",
+    "Column_Name":"Arabic - Algeria (ar-DZ)"
+  },
+  "ar-bh":{
+    "List_Name":"Arabic (Bahrain)",
+    "Column_Name":"Arabic - Bahrain (ar-BH)"
+  },
+  "ar-eg":{
+    "List_Name":"Arabic (Egypt)",
+    "Column_Name":"Arabic - Egypt (ar-EG)"
+  },
+  "ar-iq":{
+    "List_Name":"Arabic (Iraq)",
+    "Column_Name":"Arabic - Iraq (ar-IQ)"
+  },
+  "ar-jo":{
+    "List_Name":"Arabic (Jordan)",
+    "Column_Name":"Arabic - Jordan (ar-JO)"
+  },
+  "ar-kw":{
+    "List_Name":"Arabic (Kuwait)",
+    "Column_Name":"Arabic - Kuwait (ar-KW)"
+  },
+  "ar-lb":{
+    "List_Name":"Arabic (Lebanon)",
+    "Column_Name":"Arabic - Lebanon (ar-LB)"
+  },
+  "ar-ly":{
+    "List_Name":"Arabic (Libya)",
+    "Column_Name":"Arabic - Libya (ar-LY)"
+  },
+  "ar-ma":{
+    "List_Name":"Arabic (Morocco)",
+    "Column_Name":"Arabic - Morocco (ar-MA)"
+  },
+  "ar-om":{
+    "List_Name":"Arabic (Oman)",
+    "Column_Name":"Arabic - Oman (ar-OM)"
+  },
+  "ar-qa":{
+    "List_Name":"Arabic (Qatar)",
+    "Column_Name":"Arabic - Qatar (ar-QA)"
+  },
+  "ar-sa":{
+    "List_Name":"Arabic (Saudi Arabia)",
+    "Column_Name":"Arabic - Saudi Arabia (ar-SA)"
+  },
+  "ar-sy":{
+    "List_Name":"Arabic (Syria)",
+    "Column_Name":"Arabic - Syria (ar-SY)"
+  },
+  "ar-tn":{
+    "List_Name":"Arabic (Tunisia)",
+    "Column_Name":"Arabic - Tunisia (ar-TN)"
+  },
+  "ar-ae":{
+    "List_Name":"Arabic (U.A.E.)",
+    "Column_Name":"Arabic - U.A.E. (ar-AE)"
+  },
+  "ar-ye":{
+    "List_Name":"Arabic (Yemen)",
+    "Column_Name":"Arabic - Yemen (ar-YE)"
+  },
+  "hy-am":{
+    "List_Name":"Armenian (Armenia)",
+    "Column_Name":"Armenian - Armenia (hy-AM)"
+  },
+  "as-in":{
+    "List_Name":"Assamese (India)",
+    "Column_Name":"Assamese - India (as-IN)"
+  },
+  "az-cyrillic":{
+    "List_Name":"Azerbaijani (Azerbaijan)",
+    "Column_Name":"Azerbaijani - Azerbaijan (az-Cyrillic)"
+  },
+  "az-latin":{
+    "List_Name":"Azerbaijani (Azerbaijan)",
+    "Column_Name":"Azerbaijani - Azerbaijan (az-Latin)"
+  },
+  "bn-":{
+    "List_Name":"Bangla (Bangladesh)",
+    "Column_Name":"Bangla - Bangladesh (bn-)"
+  },
+  "bn-in":{
+    "List_Name":"Bangla (India)",
+    "Column_Name":"Bangla - India (bn-IN)"
+  },
+  "ba-ru":{
+    "List_Name":"Bashkir (Russia)",
+    "Column_Name":"Bashkir - Russia (ba-RU)"
+  },
+  "basque-basque":{
+    "List_Name":"Basque (Basque)",
+    "Column_Name":"Basque - Basque (Basque-Basque)"
+  },
+  "be-by":{
+    "List_Name":"Belarusian (Belarus)",
+    "Column_Name":"Belarusian - Belarus (be-BY)"
+  },
+  "bs":{
+    "List_Name":"Bosnian",
+    "Column_Name":"Bosnian (bs)"
+  },
+  "bs-cyrillic":{
+    "List_Name":"Bosnian (Bosnia and Herzegovina)",
+    "Column_Name":"Bosnian - Bosnia and Herzegovina (bs-Cyrillic)"
+  },
+  "bs-latin":{
+    "List_Name":"Bosnian (Bosnia and Herzegovina)",
+    "Column_Name":"Bosnian - Bosnia and Herzegovina (bs-Latin)"
+  },
+  "br-fr":{
+    "List_Name":"Breton (France)",
+    "Column_Name":"Breton - France (br-FR)"
+  },
+  "bg-bg":{
+    "List_Name":"Bulgarian (Bulgaria)",
+    "Column_Name":"Bulgarian - Bulgaria (bg-BG)"
+  },
+  "ku-iq":{
+    "List_Name":"Central Kurdish (Iraq)",
+    "Column_Name":"Central Kurdish - Iraq (ku-IQ)"
+  },
+  "chr-cher":{
+    "List_Name":"Cherokee (Cherokee)",
+    "Column_Name":"Cherokee - Cherokee (chr-Cher)"
+  },
+  "ca-es":{
+    "List_Name":"Catalan",
+    "Column_Name":"Catalan(ca-ES)"
+  },
+  "zh-prc":{
+    "List_Name":"Chinese (Hong Kong SAR)",
+    "Column_Name":"Chinese - Hong Kong SAR (zh-PRC)"
+  },
+  "zh-mo":{
+    "List_Name":"Chinese (Macao SAR)",
+    "Column_Name":"Chinese - Macao SAR (zh-MO)"
+  },
+  "zh-sg":{
+    "List_Name":"Chinese (Singapore)",
+    "Column_Name":"Chinese - Singapore (zh-SG)"
+  },
+  "zh-cn":{
+    "List_Name":"Chinese (Simplified)",
+    "Column_Name":"Chinese - Simplified (zh-Hans)"
+  },
+  "zh-hant":{
+    "List_Name":"Chinese (Traditional)",
+    "Column_Name":"Chinese - Traditional (zh-Hant)"
+  },
+  "co-fr":{
+    "List_Name":"Corsican (France)",
+    "Column_Name":"Corsican - France (co-FR)"
+  },
+  "hr":{
+    "List_Name":"Croatian",
+    "Column_Name":"Croatian (hr)"
+  },
+  "hr-latin":{
+    "List_Name":"Croatian (Bosnia and Herzegovina)",
+    "Column_Name":"Croatian - Bosnia and Herzegovina (hr-Latin)"
+  },
+  "hr-hr":{
+    "List_Name":"Croatian (Croatia)",
+    "Column_Name":"Croatian - Croatia (hr-HR)"
+  },
+  "cs-cz":{
+    "List_Name":"Czech (Czech Republic)",
+    "Column_Name":"Czech - Czech Republic (cs-CZ)"
+  },
+  "da-dk":{
+    "List_Name":"Danish (Denmark)",
+    "Column_Name":"Danish - Denmark (da-DK)"
+  },
+  "prs-af":{
+    "List_Name":"Dari (Afghanistan)",
+    "Column_Name":"Dari - Afghanistan (prs-AF)"
+  },
+  "dv-mv":{
+    "List_Name":"Divehi (Maldives)",
+    "Column_Name":"Divehi - Maldives (dv-MV)"
+  },
+  "nl-be":{
+    "List_Name":"Dutch (Belgium)",
+    "Column_Name":"Dutch - Belgium (nl-BE)"
+  },
+  "nl-nl":{
+    "List_Name":"Dutch (Netherlands)",
+    "Column_Name":"Dutch - Netherlands (nl-NL)"
+  },
+  "en-au":{
+    "List_Name":"English (Australia)",
+    "Column_Name":"English - Australia (en-AU)"
+  },
+  "en-bz":{
+    "List_Name":"English (Belize)",
+    "Column_Name":"English - Belize (en-BZ)"
+  },
+  "en-ca":{
+    "List_Name":"English (Canada)",
+    "Column_Name":"English - Canada (en-CA)"
+  },
+  "en-29":{
+    "List_Name":"English (Caribbean)",
+    "Column_Name":"English - Caribbean (en-29)"
+  },
+  "en-in":{
+    "List_Name":"English (India)",
+    "Column_Name":"English - India (en-IN)"
+  },
+  "en-ie":{
+    "List_Name":"English (Ireland)",
+    "Column_Name":"English - Ireland (en-IE)"
+  },
+  "en-jm":{
+    "List_Name":"English (Jamaica)",
+    "Column_Name":"English - Jamaica (en-JM)"
+  },
+  "en-my":{
+    "List_Name":"English (Malaysia)",
+    "Column_Name":"English - Malaysia (en-MY)"
+  },
+  "en-nz":{
+    "List_Name":"English (New Zealand)",
+    "Column_Name":"English - New Zealand (en-NZ)"
+  },
+  "en-ph":{
+    "List_Name":"English (Philippines)",
+    "Column_Name":"English - Philippines (en-PH)"
+  },
+  "en-sg":{
+    "List_Name":"English (Singapore)",
+    "Column_Name":"English - Singapore (en-SG)"
+  },
+  "en-za":{
+    "List_Name":"English (South Africa)",
+    "Column_Name":"English - South Africa (en-ZA)"
+  },
+  "en-tt":{
+    "List_Name":"English (Trinidad and Tobago)",
+    "Column_Name":"English - Trinidad and Tobago (en-TT)"
+  },
+  "en-gb":{
+    "List_Name":"English (United Kingdom)",
+    "Column_Name":"English - United Kingdom (en-GB)"
+  },
+  "en-us":{
+    "List_Name":"English (United States)",
+    "Column_Name":"English - United States (en-US)"
+  },
+  "en-zw":{
+    "List_Name":"English (Zimbabwe)",
+    "Column_Name":"English - Zimbabwe (en-ZW)"
+  },
+  "et-ee":{
+    "List_Name":"Estonian (Estonia)",
+    "Column_Name":"Estonian - Estonia (et-EE)"
+  },
+  "fo-fo":{
+    "List_Name":"Faroese (Faroe Islands)",
+    "Column_Name":"Faroese - Faroe Islands (fo-FO)"
+  },
+  "fil-ph":{
+    "List_Name":"Filipino (Philippines)",
+    "Column_Name":"Filipino - Philippines (fil-PH)"
+  },
+  "fi-fi":{
+    "List_Name":"Finnish (Finland)",
+    "Column_Name":"Finnish - Finland (fi-FI)"
+  },
+  "fr-be":{
+    "List_Name":"French (Belgium)",
+    "Column_Name":"French - Belgium (fr-BE)"
+  },
+  "fr-ca":{
+    "List_Name":"French (Canada)",
+    "Column_Name":"French - Canada (fr-CA)"
+  },
+  "fr-fr":{
+    "List_Name":"French (France)",
+    "Column_Name":"French - France (fr-FR)"
+  },
+  "fr-lu":{
+    "List_Name":"French (Luxembourg)",
+    "Column_Name":"French - Luxembourg (fr-LU)"
+  },
+  "fr-mc":{
+    "List_Name":"French (Monaco)",
+    "Column_Name":"French - Monaco (fr-MC)"
+  },
+  "fr-ch":{
+    "List_Name":"French (Switzerland)",
+    "Column_Name":"French - Switzerland (fr-CH)"
+  },
+  "fy-nl":{
+    "List_Name":"Frisian (Netherlands)",
+    "Column_Name":"Frisian - Netherlands (fy-NL)"
+  },
+  "gl-es":{
+    "List_Name":"Galician",
+    "Column_Name":"Galician (gl-ES)"
+  },
+  "ka-ge":{
+    "List_Name":"Georgian (Georgia)",
+    "Column_Name":"Georgian - Georgia (ka-GE)"
+  },
+  "de-at":{
+    "List_Name":"German (Austria)",
+    "Column_Name":"German - Austria (de-AT)"
+  },
+  "de-de":{
+    "List_Name":"German (Germany)",
+    "Column_Name":"German - Germany (de-DE)"
+  },
+  "de-li":{
+    "List_Name":"German (Liechtenstein)",
+    "Column_Name":"German - Liechtenstein (de-LI)"
+  },
+  "de-lu":{
+    "List_Name":"German (Luxembourg)",
+    "Column_Name":"German - Luxembourg (de-LU)"
+  },
+  "de-ch":{
+    "List_Name":"German (Switzerland)",
+    "Column_Name":"German - Switzerland (de-CH)"
+  },
+  "el-gr":{
+    "List_Name":"Greek (Greece)",
+    "Column_Name":"Greek - Greece (el-GR)"
+  },
+  "kl-gl":{
+    "List_Name":"Greenlandic (Greenland)",
+    "Column_Name":"Greenlandic - Greenland (kl-GL)"
+  },
+  "gu-in":{
+    "List_Name":"Gujarati (India)",
+    "Column_Name":"Gujarati - India (gu-IN)"
+  },
+  "ha-ng":{
+    "List_Name":"Hausa (Nigeria)",
+    "Column_Name":"Hausa - Nigeria (ha-NG)"
+  },
+  "haw-us":{
+    "List_Name":"Hawiian (United States)",
+    "Column_Name":"Hawiian - United States (haw-US)"
+  },
+  "he-il":{
+    "List_Name":"Hebrew (Israel)",
+    "Column_Name":"Hebrew - Israel (he-IL)"
+  },
+  "hi-in":{
+    "List_Name":"Hindi (India)",
+    "Column_Name":"Hindi - India (hi-IN)"
+  },
+  "hu-hu":{
+    "List_Name":"Hungarian (Hungary)",
+    "Column_Name":"Hungarian - Hungary (hu-HU)"
+  },
+  "is-is":{
+    "List_Name":"Icelandic (Iceland)",
+    "Column_Name":"Icelandic - Iceland (is-IS)"
+  },
+  "ig-ng":{
+    "List_Name":"Igbo (Nigeria)",
+    "Column_Name":"Igbo - Nigeria (ig-NG)"
+  },
+  "id-id":{
+    "List_Name":"Indonesian (Indonesia)",
+    "Column_Name":"Indonesian - Indonesia (id-ID)"
+  },
+  "iu-ca":{
+    "List_Name":"Inuktitut (Canada)",
+    "Column_Name":"Inuktitut - Canada (iu-CA)"
+  },
+  "ga-ie":{
+    "List_Name":"Irish (Ireland)",
+    "Column_Name":"Irish - Ireland (ga-IE)"
+  },
+  "xh-za":{
+    "List_Name":"isiXhosa (South Africa)",
+    "Column_Name":"isiXhosa - South Africa (xh-ZA)"
+  },
+  "zu-za":{
+    "List_Name":"isiZulu (South Africa)",
+    "Column_Name":"isiZulu - South Africa (zu-ZA)"
+  },
+  "it-it":{
+    "List_Name":"Italian (Italy)",
+    "Column_Name":"Italian - Italy (it-IT)"
+  },
+  "it-ch":{
+    "List_Name":"Italian (Switzerland)",
+    "Column_Name":"Italian - Switzerland (it-CH)"
+  },
+  "ja-jp":{
+    "List_Name":"Japanese (Japan)",
+    "Column_Name":"Japanese - Japan (ja-JP)"
+  },
+  "kn-in":{
+    "List_Name":"Kannada (India)",
+    "Column_Name":"Kannada - India (kn-IN)"
+  },
+  "kk-kz":{
+    "List_Name":"Kazakh (Kazakhstan)",
+    "Column_Name":"Kazakh - Kazakhstan (kk-KZ)"
+  },
+  "kh-kh":{
+    "List_Name":"Khmer (Cambodia)",
+    "Column_Name":"Khmer - Cambodia (kh-KH)"
+  },
+  "qut-gt":{
+    "List_Name":"K'iche (Guatemala)",
+    "Column_Name":"K'iche - Guatemala (qut-GT)"
+  },
+  "rw-rw":{
+    "List_Name":"Kinyarwanda (Rwanda)",
+    "Column_Name":"Kinyarwanda - Rwanda (rw-RW)"
+  },
+  "kok-in":{
+    "List_Name":"Konkani (India)",
+    "Column_Name":"Konkani - India (kok-IN)"
+  },
+  "ko-kr":{
+    "List_Name":"Korean (Korea)",
+    "Column_Name":"Korean - Korea (ko-KR)"
+  },
+  "ky-kg":{
+    "List_Name":"Kyrgyz (Kyrgyzstan)",
+    "Column_Name":"Kyrgyz - Kyrgyzstan (ky-KG)"
+  },
+  "lo-la":{
+    "List_Name":"Lao (Lao PDR)",
+    "Column_Name":"Lao - Lao PDR (lo-LA)"
+  },
+  "lv-lv":{
+    "List_Name":"Latvian (Latvia)",
+    "Column_Name":"Latvian - Latvia (lv-LV)"
+  },
+  "lt-lv":{
+    "List_Name":"Lithuanian (Lithuanian)",
+    "Column_Name":"Lithuanian - Lithuanian (lt-LV)"
+  },
+  "dsb-de":{
+    "List_Name":"Lower Sorbian (Germany)",
+    "Column_Name":"Lower Sorbian - Germany (dsb-DE)"
+  },
+  "lb-lu":{
+    "List_Name":"Luxembourgish (Luxembourg)",
+    "Column_Name":"Luxembourgish - Luxembourg (lb-LU)"
+  },
+  "mk-fyrom":{
+    "List_Name":"Macedonian",
+    "Column_Name":"Macedonian (mk-FYROM)"
+  },
+  "ms-bn":{
+    "List_Name":"Malay (Brunei Darassalam)",
+    "Column_Name":"Malay - Brunei Darassalam (ms-BN)"
+  },
+  "ms-my":{
+    "List_Name":"Malay (Malaysia)",
+    "Column_Name":"Malay - Malaysia (ms-MY)"
+  },
+  "ml-in":{
+    "List_Name":"Malayalam (India)",
+    "Column_Name":"Malayalam - India (ml-IN)"
+  },
+  "mt-mt":{
+    "List_Name":"Maltese (Malta)",
+    "Column_Name":"Maltese - Malta (mt-MT)"
+  },
+  "mi-nz":{
+    "List_Name":"Maori (New Zealand)",
+    "Column_Name":"Maori - New Zealand (mi-NZ)"
+  },
+  "arn-cl":{
+    "List_Name":"Mapudungun (Chile)",
+    "Column_Name":"Mapudungun - Chile (arn-CL)"
+  },
+  "mr-in":{
+    "List_Name":"Marathi (India)",
+    "Column_Name":"Marathi - India (mr-IN)"
+  },
+  "moh-ca":{
+    "List_Name":"Mohawk (Canada)",
+    "Column_Name":"Mohawk - Canada (moh-CA)"
+  },
+  "mn-cyrillic":{
+    "List_Name":"Mongolian (Mongolia)",
+    "Column_Name":"Mongolian - Mongolia (mn-Cyrillic)"
+  },
+  "mn-mong":{
+    "List_Name":"Mongolian (Mongolia)",
+    "Column_Name":"Mongolian - Mongolia (mn-Mong)"
+  },
+  "ne-np":{
+    "List_Name":"Nepali (Nepal)",
+    "Column_Name":"Nepali - Nepal (ne-NP)"
+  },
+  "ne-in":{
+    "List_Name":"Nepali (India)",
+    "Column_Name":"Nepali - India (ne-IN)"
+  },
+  "no-norway":{
+    "List_Name":"Norwegian (Nynorsk)",
+    "Column_Name":"Norwegian - Nynorsk (no-Norway)"
+  },
+  "oc-fr":{
+    "List_Name":"Occitan (France)",
+    "Column_Name":"Occitan - France (oc-FR)"
+  },
+  "or-in":{
+    "List_Name":"Odia (India)",
+    "Column_Name":"Odia - India (or-IN)"
+  },
+  "ps-af":{
+    "List_Name":"Pashto (Afghanistan)",
+    "Column_Name":"Pashto - Afghanistan (ps-AF)"
+  },
+  "fa-ir":{
+    "List_Name":"Persian (Iran)",
+    "Column_Name":"Persian - Iran (fa-IR)"
+  },
+  "pl-pl":{
+    "List_Name":"Polish (Poland)",
+    "Column_Name":"Polish - Poland (pl-PL)"
+  },
+  "pt-br":{
+    "List_Name":"Portuguese (Brazil)",
+    "Column_Name":"Portuguese - Brazil (pt-BR)"
+  },
+  "pt-pt":{
+    "List_Name":"Portuguese (Portugal)",
+    "Column_Name":"Portuguese - Portugal (pt-PT)"
+  },
+  "ff-sn":{
+    "List_Name":"Pular (Senegal)",
+    "Column_Name":"Pular - Senegal (ff-SN)"
+  },
+  "pa-gurmukhi_script":{
+    "List_Name":"Punjabi (India)",
+    "Column_Name":"Punjabi - India (pa-Gurmukhi script)"
+  },
+  "pa-arabic_script":{
+    "List_Name":"Punjabi (Pakistan)",
+    "Column_Name":"Punjabi - Pakistan (pa-Arabic script)"
+  },
+  "quz-bo":{
+    "List_Name":"Quechua (Bolivia)",
+    "Column_Name":"Quechua - Bolivia (quz-BO)"
+  },
+  "quz-ec":{
+    "List_Name":"Quechua (Ecuador)",
+    "Column_Name":"Quechua - Ecuador (quz-EC)"
+  },
+  "quz-pe":{
+    "List_Name":"Quechua (Peru)",
+    "Column_Name":"Quechua - Peru (quz-PE)"
+  },
+  "ro-ro":{
+    "List_Name":"Romanian (Romania)",
+    "Column_Name":"Romanian - Romania (ro-RO)"
+  },
+  "rm-ch":{
+    "List_Name":"Romansh (Switzerland)",
+    "Column_Name":"Romansh - Switzerland (rm-CH)"
+  },
+  "ru-ru":{
+    "List_Name":"Russian (Russia)",
+    "Column_Name":"Russian - Russia (ru-RU)"
+  },
+  "sah-ru":{
+    "List_Name":"Sakha (Russia)",
+    "Column_Name":"Sakha - Russia (sah-RU)"
+  },
+  "smn-finland":{
+    "List_Name":"Sami (Inari)",
+    "Column_Name":"Sami - Inari (smn-Finland)"
+  },
+  "smj-norway":{
+    "List_Name":"Sami (Lule)",
+    "Column_Name":"Sami - Lule (smj-Norway)"
+  },
+  "smj-sweden":{
+    "List_Name":"Sami (Lule)",
+    "Column_Name":"Sami - Lule (smj-Sweden)"
+  },
+  "se-finland":{
+    "List_Name":"Sami (Northern)",
+    "Column_Name":"Sami - Northern (se-Finland)"
+  },
+  "se-norway":{
+    "List_Name":"Sami (Northern)",
+    "Column_Name":"Sami - Northern (se-Norway)"
+  },
+  "se-sweden":{
+    "List_Name":"Sami (Northern)",
+    "Column_Name":"Sami - Northern (se-Sweden)"
+  },
+  "sms-finland":{
+    "List_Name":"Sami (Skolt)",
+    "Column_Name":"Sami - Skolt (sms-Finland)"
+  },
+  "sma-norway":{
+    "List_Name":"Sami (Southern)",
+    "Column_Name":"Sami - Southern (sma-Norway)"
+  },
+  "sma-sweden":{
+    "List_Name":"Sami (Southern)",
+    "Column_Name":"Sami - Southern (sma-Sweden)"
+  },
+  "sa-in":{
+    "List_Name":"Sanskrit (India)",
+    "Column_Name":"Sanskrit - India (sa-IN)"
+  },
+  "sr":{
+    "List_Name":"Serbian",
+    "Column_Name":"Serbian (sr)"
+  },
+  "sr-cyrillic":{
+    "List_Name":"Serbian (Bosnia and Herzegovina)",
+    "Column_Name":"Serbian - Bosnia and Herzegovina (sr-Cyrillic)"
+  },
+  "sr-latin":{
+    "List_Name":"Serbian (Bosnia and Herzegovina)",
+    "Column_Name":"Serbian - Bosnia and Herzegovina (sr-Latin)"
+  },
+  "sr-hr":{
+    "List_Name":"Serbian (Croatia)",
+    "Column_Name":"Serbian - Croatia (sr-HR)"
+  },
+  "nso-za":{
+    "List_Name":"Sesotho sa Leboa (South Africa)",
+    "Column_Name":"Sesotho sa Leboa - South Africa (nso-ZA)"
+  },
+  "tn-bw":{
+    "List_Name":"Setswana / Tswana (Botswana)",
+    "Column_Name":"Setswana / Tswana - Botswana (tn-BW)"
+  },
+  "tn-za":{
+    "List_Name":"Setswana / Tswana (South Africa)",
+    "Column_Name":"Setswana / Tswana - South Africa (tn-ZA)"
+  },
+  "sd-pk":{
+    "List_Name":"Sindhi (Pakistan)",
+    "Column_Name":"Sindhi - Pakistan (sd-PK)"
+  },
+  "si-lk":{
+    "List_Name":"Sinhala (Sri Lanka)",
+    "Column_Name":"Sinhala - Sri Lanka (si-LK)"
+  },
+  "sk-sk":{
+    "List_Name":"Slovak (Slovakia)",
+    "Column_Name":"Slovak - Slovakia (sk-SK)"
+  },
+  "sl-si":{
+    "List_Name":"Slovenian (Slovenia)",
+    "Column_Name":"Slovenian - Slovenia (sl-SI)"
+  },
+  "so-so":{
+    "List_Name":"Somali (Somalia)",
+    "Column_Name":"Somali - Somalia (so-SO)"
+  },
+  "es-ar":{
+    "List_Name":"Spanish (Argentina)",
+    "Column_Name":"Spanish - Argentina (es-AR)"
+  },
+  "es-bo":{
+    "List_Name":"Spanish (Bolivia)",
+    "Column_Name":"Spanish - Bolivia (es-BO)"
+  },
+  "es-cl":{
+    "List_Name":"Spanish (Chile)",
+    "Column_Name":"Spanish - Chile (es-CL)"
+  },
+  "es-co":{
+    "List_Name":"Spanish (Colombia)",
+    "Column_Name":"Spanish - Colombia (es-CO)"
+  },
+  "es-cr":{
+    "List_Name":"Spanish (Costa Rica)",
+    "Column_Name":"Spanish - Costa Rica (es-CR)"
+  },
+  "es-do":{
+    "List_Name":"Spanish (Dominican Republic)",
+    "Column_Name":"Spanish - Dominican Republic (es-DO)"
+  },
+  "es-ec":{
+    "List_Name":"Spanish (Ecuador)",
+    "Column_Name":"Spanish - Ecuador (es-EC)"
+  },
+  "es-sv":{
+    "List_Name":"Spanish (El Salvador)",
+    "Column_Name":"Spanish - El Salvador (es-SV)"
+  },
+  "es-gt":{
+    "List_Name":"Spanish (Guatemala)",
+    "Column_Name":"Spanish - Guatemala (es-GT)"
+  },
+  "es-hn":{
+    "List_Name":"Spanish (Honduras)",
+    "Column_Name":"Spanish - Honduras (es-HN)"
+  },
+  "es-mx":{
+    "List_Name":"Spanish (Mexico)",
+    "Column_Name":"Spanish - Mexico (es-MX)"
+  },
+  "es-ni":{
+    "List_Name":"Spanish (Nicaragua)",
+    "Column_Name":"Spanish - Nicaragua (es-NI)"
+  },
+  "es-pa":{
+    "List_Name":"Spanish (Panama)",
+    "Column_Name":"Spanish - Panama (es-PA)"
+  },
+  "es-py":{
+    "List_Name":"Spanish (Paraguay)",
+    "Column_Name":"Spanish - Paraguay (es-PY)"
+  },
+  "es-pe":{
+    "List_Name":"Spanish (Peru)",
+    "Column_Name":"Spanish - Peru (es-PE)"
+  },
+  "es-pr":{
+    "List_Name":"Spanish (Puerto Rico)",
+    "Column_Name":"Spanish - Puerto Rico (es-PR)"
+  },
+  "es-es":{
+    "List_Name":"Spanish (Spain)",
+    "Column_Name":"Spanish - Spain (es-es)"
+  },
+  "es-traditional sort":{
+    "List_Name":"Spanish (Traditional)",
+    "Column_Name":"Spanish - Spain (es-Traditional Sort)"
+  },
+  "es-us":{
+    "List_Name":"Spanish (United States)",
+    "Column_Name":"Spanish - United States (es-US)"
+  },
+  "es-uy":{
+    "List_Name":"Spanish (Uruguay)",
+    "Column_Name":"Spanish - Uruguay (es-UY)"
+  },
+  "es-ve":{
+    "List_Name":"Spanish (Venezuela)",
+    "Column_Name":"Spanish - Venezuela (es-VE)"
+  },
+  "sw-ke":{
+    "List_Name":"Swahili (Kenya)",
+    "Column_Name":"Swahili - Kenya (sw-KE)"
+  },
+  "sv-fi":{
+    "List_Name":"Swedish (Finland)",
+    "Column_Name":"Swedish - Finland (sv-FI)"
+  },
+  "sv-se":{
+    "List_Name":"Swedish (Sweden)",
+    "Column_Name":"Swedish - Sweden (sv-SE)"
+  },
+  "syr-sy":{
+    "List_Name":"Syriac (Syria)",
+    "Column_Name":"Syriac - Syria (syr-SY)"
+  },
+  "tl-ph":{
+    "List_Name":"Tagalog (Philippines)",
+    "Column_Name":"Tagalog - Philippines (tl-PH)"
+  },
+  "tg-cyrillic":{
+    "List_Name":"Tajik (Tajikistan)",
+    "Column_Name":"Tajik - Tajikistan (tg-Cyrillic)"
+  },
+  "tzm-latin":{
+    "List_Name":"Tamazight (Algeria)",
+    "Column_Name":"Tamazight - Algeria (tzm-Latin)"
+  },
+  "ta-in":{
+    "List_Name":"Tamil (India)",
+    "Column_Name":"Tamil - India (ta-IN)"
+  },
+  "ta-lk":{
+    "List_Name":"Tamil (Sri Lanka)",
+    "Column_Name":"Tamil - Sri Lanka (ta-LK)"
+  },
+  "tt-ru":{
+    "List_Name":"Tatar (Russia)",
+    "Column_Name":"Tatar - Russia (tt-RU)"
+  },
+  "te-in":{
+    "List_Name":"Telugu (India)",
+    "Column_Name":"Telugu - India (te-IN)"
+  },
+  "th-th":{
+    "List_Name":"Thai (Thailand)",
+    "Column_Name":"Thai - Thailand (th-TH)"
+  },
+  "bo-cn":{
+    "List_Name":"Tibetan (PRC)",
+    "Column_Name":"Tibetan - PRC (bo-CN)"
+  },
+  "ti-er":{
+    "List_Name":"Tigrinya (Eritrea)",
+    "Column_Name":"Tigrinya - Eritrea (ti-ER)"
+  },
+  "ti-et":{
+    "List_Name":"Tigrinya (Ethiopia)",
+    "Column_Name":"Tigrinya - Ethiopia (ti-ET)"
+  },
+  "tr-tr":{
+    "List_Name":"Turkish (Turkey)",
+    "Column_Name":"Turkish - Turkey (tr-TR)"
+  },
+  "tk-tm":{
+    "List_Name":"Turkmen (Turkmenistan)",
+    "Column_Name":"Turkmen - Turkmenistan (tk-TM)"
+  },
+  "uk-ua":{
+    "List_Name":"Ukrainian (Ukraine)",
+    "Column_Name":"Ukrainian - Ukraine (uk-UA)"
+  },
+  "hsb-de":{
+    "List_Name":"Upper Sorbian (Germany)",
+    "Column_Name":"Upper Sorbian - Germany (hsb-DE)"
+  },
+  "ur-pk":{
+    "List_Name":"Urdu (Pakistan)",
+    "Column_Name":"Urdu - Pakistan (ur-PK)"
+  },
+  "ug-cn":{
+    "List_Name":"Uyghur (PRC)",
+    "Column_Name":"Uyghur - PRC (ug-CN)"
+  },
+  "uz-cyrillic":{
+    "List_Name":"Uzbek (Uzbekistan)",
+    "Column_Name":"Uzbek - Uzbekistan (uz-Cyrillic)"
+  },
+  "uz-latin":{
+    "List_Name":"Uzbek (Uzbekistan)",
+    "Column_Name":"Uzbek - Uzbekistan (uz-Latin)"
+  },
+  "vi-vn":{
+    "List_Name":"Vietnamese (Vietnam)",
+    "Column_Name":"Vietnamese - Vietnam (vi-VN)"
+  },
+  "cy-gb":{
+    "List_Name":"Welsh (United Kingdom)",
+    "Column_Name":"Welsh - United Kingdom (cy-GB)"
+  },
+  "wo-sn":{
+    "List_Name":"Wolof (Senegal)",
+    "Column_Name":"Wolof - Senegal (wo-SN)"
+  },
+  "ii-cn":{
+    "List_Name":"Yi (PRC)",
+    "Column_Name":"Yi - PRC (ii-CN)"
+  },
+  "yo-ng":{
+    "List_Name":"Yoruba (Nigeria)",
+    "Column_Name":"Yoruba - Nigeria (yo-NG)"
+  }
+}
